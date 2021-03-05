@@ -22,8 +22,12 @@
   },
   "dependencies": {
     "@nestjs/common": "^7.6.13",
+    "@nestjs/config": "^0.6.3",
     "@nestjs/core": "^7.6.13",
-    "@nestjs/platform-express": "^7.6.13",
+    "@nestjs/platform-fastify": "^7.6.13",
+    "fastify-multipart": "^4.0.0",
+    "microsoft-cognitiveservices-speech-sdk": "^1.15.1",
+    "node-fetch": "^2.6.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.6"
@@ -34,7 +38,9 @@
     "@nestjs/testing": "^7.6.13",
     "@types/express": "^4.17.11",
     "@types/jest": "^26.0.20",
+    "@types/multer": "^1.4.5",
     "@types/node": "^14.14.31",
+    "@types/node-fetch": "^2.5.8",
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "@typescript-eslint/parser": "^4.15.2",
