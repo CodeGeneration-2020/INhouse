@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 
 import {
@@ -16,6 +17,8 @@ const run = async () => {
     new FastifyAdapter(),
   );
 
+  const configService = app.get(ConfigService);
+
   app.enableCors();
 
   app.enableShutdownHooks();
@@ -24,7 +27,10 @@ const run = async () => {
 
   app.useGlobalPipes(new ValidationPipe());
 
-  await app.listen(3000);
+  const port = configService.get<string>('PORT');
+  const address = configService.get<string>('ADDRESS');
+
+  await app.listen(port, address);
 };
 
 run().catch((error) => {
