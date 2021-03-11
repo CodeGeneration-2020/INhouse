@@ -16,6 +16,8 @@ const run = async () => {
     new FastifyAdapter(),
   );
 
+  app.enableCors();
+
   app.register(fastifyMulipart);
 
   app.useGlobalPipes(new ValidationPipe());
