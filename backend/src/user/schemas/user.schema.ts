@@ -9,12 +9,14 @@ import { Document } from 'mongoose';
 export class User {
   @Prop({
     type: String,
+    index: true,
     default: v4,
   })
   id: string;
 
   @Prop({
     type: String,
+    index: true,
     unique: true,
     required: true,
   })
