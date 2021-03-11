@@ -18,6 +18,8 @@ const run = async () => {
 
   app.enableCors();
 
+  app.enableShutdownHooks();
+
   app.register(fastifyMulipart);
 
   app.useGlobalPipes(new ValidationPipe());
