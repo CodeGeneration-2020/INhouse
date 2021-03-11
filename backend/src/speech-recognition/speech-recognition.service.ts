@@ -7,9 +7,9 @@ import {
 
 @Injectable()
 export class SpeechRecognitionService {
-  constructor(private recognitionModule: SpeechRecognition) {}
+  constructor(private speechRecognition: SpeechRecognition) {}
 
   recognize(input: RecognizeInput) {
-    return this.recognitionModule.recognize(input);
+    return this.speechRecognition.recognize(input);
   }
 }
