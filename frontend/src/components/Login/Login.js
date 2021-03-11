@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import './Login.css'
 import { Button, TextField } from '@material-ui/core';
 import axios from 'axios';
+import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [formValue, setFormValue] = useState({ username: '', password: '' })
+  const history = useHistory()
 
   const usernameInputHandler = e => {
     setFormValue({ ...formValue, username: e.target.value })
@@ -17,18 +20,23 @@ const Login = () => {
   const loginHandler = e => {
     e.preventDefault();
     if (!formValue.username || !formValue.password) return;
-    const authUrl = 'http://localhost:3000/auth/login'
+    const authUrl = 'http://localhost:3000/user/login'
+    const userAuthInfo = {
+      "username": formValue.username,
+      "password": formValue.password
+    }
     axios
-      .post(authUrl, {
-        "username": formValue.username,
-        "password": formValue.password
+      .post(authUrl, userAuthInfo)
+      .then(res => {
+        localStorage.setItem('token', res.data.access_token)
       })
-      .then(res => console.log(res))
     setFormValue({ username: '', password: '' });
+    history.push('/')
   };
 
   return (
     <form className="login">
+      <h1>Loggin in</h1>
       <TextField
         size="medium"
         className="textfield"
@@ -53,6 +61,7 @@ const Login = () => {
       >
         Log In
       </Button>
+      <Link className='login_link' to='/register'>Not registered yet? Register</Link>
     </form>
   )
 }
