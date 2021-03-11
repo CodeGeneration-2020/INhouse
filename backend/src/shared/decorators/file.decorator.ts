@@ -1,12 +1,12 @@
 import { ExecutionContext, createParamDecorator } from '@nestjs/common';
 
-import { FastifyRequest } from 'fastify';
+import { kFiles } from '../constants';
 
-import { kFiles } from '../interceptors/files.interceptor';
+import { Request } from '../types';
 
 export const File = createParamDecorator(
   (field: string, ctx: ExecutionContext) => {
-    const request = ctx.switchToHttp().getRequest<FastifyRequest>();
+    const request = ctx.switchToHttp().getRequest<Request>();
 
     const files = request[kFiles];
 
