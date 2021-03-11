@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 
 import {
   FastifyAdapter,
@@ -9,7 +10,7 @@ import fastifyMulipart from 'fastify-multipart';
 
 import { AppModule } from './app.module';
 
-async function bootstrap() {
+const run = async () => {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
@@ -17,7 +18,13 @@ async function bootstrap() {
 
   app.register(fastifyMulipart);
 
-  await app.listen(3000);
-}
+  app.useGlobalPipes(new ValidationPipe());
 
-bootstrap();
+  await app.listen(3000);
+};
+
+run().catch((error) => {
+  console.error(error);
+
+  process.exit(-1);
+});
