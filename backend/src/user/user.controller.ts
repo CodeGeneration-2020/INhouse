@@ -9,11 +9,10 @@ import {
 } from '@nestjs/common';
 
 import { UserService } from './user.service';
+import { UserDocument } from './schemas/user.schema';
 
 import { LoginUserDto } from './dto/login-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-
-import { UserBody } from '../shared/types';
 
 import { User } from '../shared/decorators/user.decorator';
 import { JwtAuthGuard } from '../shared/guards/jwt-auth.guard';
@@ -39,7 +38,7 @@ export class UserController {
   @Get('profile')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  profile(@User() user: UserBody) {
+  profile(@User() user: UserDocument) {
     return this.userService.profile(user.username);
   }
 }

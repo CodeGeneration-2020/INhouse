@@ -18,9 +18,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException();
     }
 
-    return {
-      id: user.id,
-      username: user.username,
-    };
+    return user;
   }
 }
