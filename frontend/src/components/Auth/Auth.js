@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { Button, TextField } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom'
-import './Register.css'
+import './Auth.css'
 
-const Register = () => {
+const Auth = ({ auth }) => {
   const [formValue, setFormValue] = useState({ username: '', password: '' })
   const history = useHistory()
 
@@ -16,23 +16,26 @@ const Register = () => {
     setFormValue({ ...formValue, password: e.target.value })
   }
 
-  const loginHandler = async e => {
+  const authHandler = async e => {
     e.preventDefault();
     if (!formValue.username || !formValue.password) return;
-    const authUrl = 'http://localhost:3000/user/register'
+    const authUrl = `http://localhost:3000/user/${auth}`
     const userAuthInfo = {
       "username": formValue.username,
       "password": formValue.password
     }
-    await axios.post(authUrl, userAuthInfo)
+    const res = await axios.post(authUrl, userAuthInfo)
+    if (auth === 'login') {
+      localStorage.setItem('token', res.data.access_token);
+    }
     setFormValue({ username: '', password: '' });
-    history.push('/login')
+    history.push(`${auth === 'register' ? '/login' : '/'}`)
   };
 
   return (
     <>
       <form className="login">
-        <h1>Registeration</h1>
+        <h1>{auth === 'register' ? 'Registeration' : 'Loggin In'}</h1>
         <TextField
           size="medium"
           className="textfield"
@@ -53,14 +56,18 @@ const Register = () => {
           variant="contained"
           color="primary"
           type="submit"
-          onClick={loginHandler}
+          onClick={authHandler}
         >
-          Register
-      </Button>
-        <Link className="login_link" to="user/login">Already registered? Log in</Link>
+          {auth === 'register' ? 'Register' : 'Log In'}
+        </Button>
+        <Link
+          className="login_link"
+          to={`${auth === 'register' ? '/login' : '/register'}`}>
+          Already registered? Log in
+        </Link>
       </form>
     </>
   )
 }
 
-export default Register
+export default Auth

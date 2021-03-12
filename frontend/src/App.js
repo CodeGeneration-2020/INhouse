@@ -1,7 +1,6 @@
 import './App.css';
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
-import Login from './components/Login/Login';
-import Register from './components/Register/Register';
+import Auth from './components/Auth/Auth';
 import UserInfo from './components/UserInfo/UserInfo';
 
 function App() {
@@ -10,13 +9,13 @@ function App() {
       <BrowserRouter>
         <Route exact path="/" render={() => (
           localStorage.getItem('token') ?
-            (<Redirect to="/info" />) 
+            (<Redirect to="/info" />)
             :
             (<Redirect to="/login" />)
         )} />
         <Route exact path="/info" component={UserInfo} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={() => <Auth auth={'register'} />} />
+        <Route exact path="/login" component={() => <Auth auth={'login'} />} />
       </BrowserRouter>
     </div>
   );
