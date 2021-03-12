@@ -20,11 +20,7 @@ const Auth = ({ auth }) => {
     e.preventDefault();
     if (!formValue.username || !formValue.password) return;
     const authUrl = `http://localhost:3000/user/${auth}`
-    const userAuthInfo = {
-      "username": formValue.username,
-      "password": formValue.password
-    }
-    const res = await axios.post(authUrl, userAuthInfo)
+    const res = await axios.post(authUrl, formValue)
     if (auth === 'login') {
       localStorage.setItem('token', res.data.access_token);
     }
