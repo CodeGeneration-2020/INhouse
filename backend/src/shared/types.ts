@@ -1,15 +1,12 @@
 import { FastifyRequest } from 'fastify';
 import { MultipartFields } from 'fastify-multipart';
 
-import { kFiles } from './constants';
+import { UserDocument } from '../user/schemas/user.schema';
 
-export interface UserBody {
-  id: string;
-  username: string;
-}
+import { kFiles } from './constants';
 
 export interface Request extends FastifyRequest {
   [kFiles]: MultipartFields;
 
-  user: UserBody;
+  user: UserDocument;
 }
