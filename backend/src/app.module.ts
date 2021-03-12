@@ -12,7 +12,7 @@ import { SpeechRecognitionModule } from './speech-recognition/speech-recognition
       isGlobal: true,
     }),
     MongooseModule.forRootAsync({
-      imports: [ConfigModule],
+      inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const databaseUri = configService.get<string>('DATABASE_URI');
 
@@ -23,7 +23,6 @@ import { SpeechRecognitionModule } from './speech-recognition/speech-recognition
           useUnifiedTopology: true,
         };
       },
-      inject: [ConfigService],
     }),
     AuthModule,
     UserModule,

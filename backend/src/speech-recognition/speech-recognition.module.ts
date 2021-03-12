@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 
-import { SpeechRecognitionController } from './speech-recognition.controller';
 import { SpeechRecognitionService } from './speech-recognition.service';
+import { SpeechRecognitionController } from './speech-recognition.controller';
 
 import {
   SpeechRecognition,
@@ -10,7 +9,6 @@ import {
 } from '../shared/services/speech-recognition';
 
 @Module({
-  imports: [ConfigModule],
   controllers: [SpeechRecognitionController],
   providers: [
     SpeechRecognitionService,
