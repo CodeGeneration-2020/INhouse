@@ -1,30 +1,22 @@
-import React, { useState } from 'react'
+import React from 'react'
 import axios from 'axios';
 import { Button, TextField } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom'
-import './Auth.css'
+import './Auth.scss'
+import { useForm } from '../../helpers/Hooks/UseForm';
 
 const Auth = ({ auth }) => {
-  const [formValue, setFormValue] = useState({ username: '', password: '' })
+  const [formValues, setField] = useForm({ username: '', password: '' })
   const history = useHistory()
-
-  const usernameInputHandler = e => {
-    setFormValue({ ...formValue, username: e.target.value })
-  }
-
-  const pwdInputHandler = e => {
-    setFormValue({ ...formValue, password: e.target.value })
-  }
 
   const authHandler = async e => {
     e.preventDefault();
-    if (!formValue.username || !formValue.password) return;
+    if (!formValues.username || !formValues.password) return;
     const authUrl = `http://localhost:3000/user/${auth}`
-    const res = await axios.post(authUrl, formValue)
+    const res = await axios.post(authUrl, formValues)
     if (auth === 'login') {
       localStorage.setItem('token', res.data.access_token);
     }
-    setFormValue({ username: '', password: '' });
     history.push(`${auth === 'register' ? '/login' : '/'}`)
   };
 
@@ -37,16 +29,18 @@ const Auth = ({ auth }) => {
           className="textfield"
           variant="standard"
           label="Username"
-          value={formValue.username}
-          onChange={usernameInputHandler}
+          value={formValues.username}
+          name="username"
+          onChange={setField}
         />
         <TextField
           size="medium"
           className="textfield"
           variant="standard"
           label="Password"
-          value={formValue.password}
-          onChange={pwdInputHandler}
+          value={formValues.password}
+          name="password"
+          onChange={setField}
         />
         <Button
           variant="contained"
@@ -59,7 +53,7 @@ const Auth = ({ auth }) => {
         <Link
           className="login_link"
           to={`${auth === 'register' ? '/login' : '/register'}`}>
-          Already registered? Log in
+          {auth === 'register' ? 'Already registered? Log in' : 'Not registered yet? Register'}
         </Link>
       </form>
     </>
