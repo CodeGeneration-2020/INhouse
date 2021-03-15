@@ -1,6 +1,8 @@
+$bgcolor: #f2f2f2;
+
 .App {
   display: flex;
   align-items: center;
-  background-color: #f2f2f2;
+  background-color: $bgcolor;
   height: 100vh;
 }
