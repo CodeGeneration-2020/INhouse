@@ -1,4 +1,11 @@
-import { Post, UseGuards, Controller, UseInterceptors } from '@nestjs/common';
+import {
+  Post,
+  HttpCode,
+  UseGuards,
+  Controller,
+  HttpStatus,
+  UseInterceptors,
+} from '@nestjs/common';
 
 import { Multipart } from 'fastify-multipart';
 
@@ -8,13 +15,14 @@ import { File } from '../shared/decorators/file.decorator';
 import { MultipartGuard } from '../shared/guards/multipart.guard';
 import { FilesInterceptor } from '../shared/interceptors/files.interceptor';
 
-@Controller()
+@Controller('speech-recognition')
 export class SpeechRecognitionController {
   constructor(
     private readonly speechRecognitionService: SpeechRecognitionService,
   ) {}
 
-  @Post('/speech-recognition/recognize')
+  @Post('recognize')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(MultipartGuard)
   @UseInterceptors(FilesInterceptor)
   async recognize(@File('input') input: Multipart) {

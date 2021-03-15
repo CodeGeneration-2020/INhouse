@@ -6,14 +6,14 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 
-import { FastifyRequest } from 'fastify';
+import { kFiles } from '../constants';
 
-export const kFiles = Symbol('files');
+import { Request } from '../types';
 
 @Injectable()
 export class FilesInterceptor implements NestInterceptor {
   async intercept(context: ExecutionContext, next: CallHandler) {
-    const request = context.switchToHttp().getRequest<FastifyRequest>();
+    const request = context.switchToHttp().getRequest<Request>();
 
     const file = await request.file();
 
