@@ -1,21 +1,21 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { v4 } from 'uuid';
-import { Document } from 'mongoose';
+import { Document, SchemaTypes } from 'mongoose';
 
 @Schema({
   versionKey: false,
 })
 export class User {
   @Prop({
-    type: String,
+    type: SchemaTypes.String,
     index: true,
     default: v4,
   })
   id: string;
 
   @Prop({
-    type: String,
+    type: SchemaTypes.String,
     index: true,
     unique: true,
     required: true,
@@ -23,7 +23,7 @@ export class User {
   username: string;
 
   @Prop({
-    type: String,
+    type: SchemaTypes.String,
     required: true,
   })
   password: string;

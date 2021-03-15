@@ -1,8 +1,8 @@
 import { InjectModel } from '@nestjs/mongoose';
 
 import {
-  Injectable,
   Inject,
+  Injectable,
   forwardRef,
   ConflictException,
 } from '@nestjs/common';

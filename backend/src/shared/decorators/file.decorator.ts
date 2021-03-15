@@ -5,8 +5,8 @@ import { kFiles } from '../constants';
 import { Request } from '../types';
 
 export const File = createParamDecorator(
-  (field: string, ctx: ExecutionContext) => {
-    const request = ctx.switchToHttp().getRequest<Request>();
+  (field: string, context: ExecutionContext) => {
+    const request = context.switchToHttp().getRequest<Request>();
 
     const files = request[kFiles];
 
