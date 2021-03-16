@@ -1,4 +1,3 @@
-import axios from 'axios';
 import httpService from '../../services/httpService';
 
 export const createRecognition = blob => {
