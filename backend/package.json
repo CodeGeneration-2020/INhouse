@@ -21,6 +21,7 @@
     "@nestjs/mongoose": "^7.2.4",
     "@nestjs/passport": "^7.1.5",
     "@nestjs/platform-fastify": "^7.6.13",
+    "algoliasearch": "^4.8.6",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "fastify-multipart": "^4.0.1",
