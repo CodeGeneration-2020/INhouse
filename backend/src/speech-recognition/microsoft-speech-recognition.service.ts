@@ -8,17 +8,20 @@ import {
   SpeechRecognizer,
 } from 'microsoft-cognitiveservices-speech-sdk';
 
-import { RecognizeInput, SpeechRecognition } from './speech-recognition';
+import { RecognizeInput } from './types';
+
+import { SpeechRecognitionService } from './speech-recognition.service';
 
 import {
   formatToWav,
-  nodeStreamToPushStream,
-} from './microsoft-cognitive.helpers';
+  recognizeOnceAsync,
+  convertToPushStream,
+} from './microsoft-speech-recognition.helpers';
 
 Recognizer.enableTelemetry(false);
 
 @Injectable()
-export class MicrosoftCognitiveSpeechRecognition extends SpeechRecognition {
+export class MicrosoftSpeechRecognitionService extends SpeechRecognitionService {
   constructor(private configService: ConfigService) {
     super();
   }
@@ -34,18 +37,14 @@ export class MicrosoftCognitiveSpeechRecognition extends SpeechRecognition {
 
     speechConfig.speechRecognitionLanguage = 'en-US';
 
-    const pushStream = nodeStreamToPushStream(formatToWav(input));
+    const pushStream = convertToPushStream(formatToWav(input));
 
     const audioConfig = AudioConfig.fromStreamInput(pushStream);
 
     const recognizer = new SpeechRecognizer(speechConfig, audioConfig);
 
-    return new Promise<string>((resolve) => {
-      recognizer.recognizeOnceAsync((response) => {
-        resolve(response.text);
+    const { text } = await recognizeOnceAsync(recognizer);
 
-        recognizer.close();
-      });
-    });
+    return text;
   }
 }

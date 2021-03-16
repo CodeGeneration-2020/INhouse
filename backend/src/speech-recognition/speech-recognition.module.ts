@@ -1,20 +1,16 @@
 import { Module } from '@nestjs/common';
 
-import { SpeechRecognitionService } from './speech-recognition.service';
 import { SpeechRecognitionController } from './speech-recognition.controller';
 
-import {
-  SpeechRecognition,
-  MicrosoftCognitiveSpeechRecognition,
-} from '../shared/services/speech-recognition';
+import { SpeechRecognitionService } from './speech-recognition.service';
+import { MicrosoftSpeechRecognitionService } from './microsoft-speech-recognition.service';
 
 @Module({
   controllers: [SpeechRecognitionController],
   providers: [
-    SpeechRecognitionService,
     {
-      provide: SpeechRecognition,
-      useClass: MicrosoftCognitiveSpeechRecognition,
+      provide: SpeechRecognitionService,
+      useClass: MicrosoftSpeechRecognitionService,
     },
   ],
 })
