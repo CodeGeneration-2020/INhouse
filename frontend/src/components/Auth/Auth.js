@@ -4,6 +4,7 @@ import { Button, TextField } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom'
 import classes from './Auth.module.scss'
 import { useForm } from '../../helpers/Hooks/UseForm';
+import { BUTTONS, TEXTS } from '../../helpers/constants/constants';
 
 const Auth = ({ auth }) => {
   const [formValues, setField] = useForm({ username: '', password: '' })
@@ -22,7 +23,7 @@ const Auth = ({ auth }) => {
 
   return (
     <form className={classes.login}>
-      <h1>{auth === 'register' ? 'Registeration' : 'Loggin In'}</h1>
+      <h1>{auth === 'register' ? `${TEXTS.registeration}` : `${TEXTS.login}` }</h1>
       <TextField
         size="medium"
         className="textfield"
@@ -42,17 +43,18 @@ const Auth = ({ auth }) => {
         onChange={setField}
       />
       <Button
+        className={classes.authBtn}
         variant="contained"
         color="primary"
         type="submit"
         onClick={authHandler}
       >
-        {auth === 'register' ? 'Register' : 'Log In'}
+        {auth === 'register' ? `${BUTTONS.register}` : `${BUTTONS.login}`}
       </Button>
       <Link
         className="login_link"
         to={`${auth === 'register' ? '/login' : '/register'}`}>
-        {auth === 'register' ? 'Already registered? Log in' : 'Not registered yet? Register'}
+        {auth === 'register' ? `${TEXTS.questionRegister}` : `${TEXTS.questionLogin}`}
       </Link>
     </form>
   )
