@@ -1,10 +1,8 @@
 import axios from 'axios';
-import config from '../../../config';
 
 class HttpService {
-  constructor(httpModule, baseUrl = config.API_URL) {
+  constructor(httpModule) {
     this.httpModule = httpModule;
-    this.baseUrl = baseUrl;
   }
   async get(url) {
     const response = await this.httpModule.get(url);

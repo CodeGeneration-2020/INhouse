@@ -12,7 +12,7 @@ const Recognition = () => {
   const [record, setRecord] = useState(false)
   const [blob, setBlob] = useState(new Blob([' '], { type: 'text/plain' }))
   const mutation = useMutation(createRecognition, {
-    onSuccess: res => setRecognizedText(res.data.text)
+    onSuccess: res => setRecognizedText(res.text)
   })
 
   const startRecording = () => setRecord(true)

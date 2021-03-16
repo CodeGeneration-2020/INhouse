@@ -1,4 +1,5 @@
 import axios from 'axios';
+import httpService from '../../services/httpService';
 
 export const createRecognition = blob => {
   const url = 'http://localhost:3000/speech-recognition/recognize'
@@ -6,5 +7,5 @@ export const createRecognition = blob => {
   const form = new FormData()
   form.append('input', blob)
 
-  return axios.post(url, form)
+  return httpService.post(url, form)
 }
