@@ -1,7 +1,7 @@
 export const BUTTONS = {
   start: 'Start',
   stop: 'Stop',
-  sendAudio: 'Send audio',
+  send: 'Send',
   register: 'Register',
   login: 'Log in',
 }

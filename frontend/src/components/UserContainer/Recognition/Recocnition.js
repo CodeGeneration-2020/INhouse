@@ -39,7 +39,7 @@ const Recognition = () => {
       <div className={classes.sendAudio}>
         <audio controls src={URL.createObjectURL(blob)} />
         <Button variant="contained" color="primary" onClick={recognizeHandler}>
-          {BUTTONS.sendAudio}
+          {BUTTONS.send}
         </Button>
       </div>
       { recognizedText &&
