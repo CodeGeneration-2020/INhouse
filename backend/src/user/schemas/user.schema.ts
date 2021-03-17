@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-import { v4 } from 'uuid';
 import { Document, SchemaTypes } from 'mongoose';
 
 @Schema({
@@ -10,17 +9,25 @@ export class User {
   @Prop({
     type: SchemaTypes.String,
     index: true,
-    default: v4,
-  })
-  id: string;
-
-  @Prop({
-    type: SchemaTypes.String,
-    index: true,
     unique: true,
     required: true,
   })
   username: string;
+
+  @Prop({
+    type: SchemaTypes.String,
+  })
+  customerName: string;
+
+  @Prop({
+    type: SchemaTypes.String,
+  })
+  contactName: string;
+
+  @Prop({
+    type: SchemaTypes.String,
+  })
+  email: string;
 
   @Prop({
     type: SchemaTypes.String,
