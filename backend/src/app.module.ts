@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { DialogModule } from './dialog/dialog.module';
 import { HumanticAiModule } from './humantic-ai/humantic-ai.module';
 import { SpeechRecognitionModule } from './speech-recognition/speech-recognition.module';
 
@@ -27,6 +28,7 @@ import { SpeechRecognitionModule } from './speech-recognition/speech-recognition
     }),
     AuthModule,
     UserModule,
+    DialogModule,
     HumanticAiModule,
     SpeechRecognitionModule,
   ],
