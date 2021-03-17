@@ -1,5 +1,7 @@
 import { Readable } from 'stream';
 
+import { Deferred } from './deferred';
+
 export const cloneReadableStream = (
   source: NodeJS.ReadableStream,
 ): NodeJS.ReadableStream => {
@@ -22,3 +24,5 @@ export const cloneReadableStream = (
 
   return out;
 };
+
+export const createDeferred = <T = any>() => new Deferred<T>();
