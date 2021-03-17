@@ -1,5 +1,4 @@
 import {
-  Get,
   Body,
   Post,
   HttpCode,
@@ -11,8 +10,11 @@ import {
 import { UserService } from './user.service';
 import { UserDocument } from './schemas/user.schema';
 
+import { GetUserDto } from './dto/get-user.dto';
+import { EditUserDto } from './dto/edit-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { DeleteUserDto } from './dto/delete-user.dto';
 
 import { User } from '../shared/decorators/user.decorator';
 import { JwtAuthGuard } from '../shared/guards/jwt-auth.guard';
@@ -35,10 +37,26 @@ export class UserController {
     return this.userService.login(loginUserDto);
   }
 
-  @Get('profile')
+  @Post('get')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  profile(@User() user: UserDocument) {
-    return this.userService.profile(user.username);
+  get(@Body() getUserDto: GetUserDto, @User() user: UserDocument) {
+    const userId = getUserDto?.id ?? user.id;
+
+    return this.userService.get({ id: userId });
+  }
+
+  @Post('edit')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  edit(@Body() editUserDto: EditUserDto) {
+    return this.userService.edit(editUserDto);
+  }
+
+  @Post('delete')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  delete(@Body() deleteUserDto: DeleteUserDto) {
+    return this.userService.delete(deleteUserDto);
   }
 }
