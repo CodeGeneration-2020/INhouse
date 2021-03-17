@@ -8,8 +8,8 @@ class HttpService {
     const response = await this.httpModule.get(url);
     return response.data;
   }
-  async post(url, body) {
-    const response = await this.httpModule.post(url, body);
+  async post(url, body, headers) {
+    const response = await this.httpModule.post(url, body, headers);
     return response.data;
   }
   async put(url, body) {

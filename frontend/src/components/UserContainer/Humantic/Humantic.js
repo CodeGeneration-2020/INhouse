@@ -8,19 +8,19 @@ import { createHumantic } from './../../../helpers/Api/createHumantic'
 import { BUTTONS } from '../../../helpers/constants/constants';
 
 const Humantic = () => {
-  const [inputValue, setField] = useForm({ linkedinUrl: '' })
+  const [inputValue, setField] = useForm({ linkedInUrl: '' })
   const mutationHumantic = useMutation(createHumantic, {
-    onSuccess: res => console.log(res.data)
+    onSuccess: res => console.log(res)
   })
 
-  const sendLinkedin = () => mutationHumantic.mutate(inputValue.linkedinUrl)
+  const sendLinkedin = () => mutationHumantic.mutate(inputValue.linkedInUrl)
 
   return (
     <div className={classes.humantic}>
       <Input
         placeholder='linkedIn URL'
-        name="linkedinUrl"
-        value={inputValue.linkedinUrl}
+        name="linkedInUrl"
+        value={inputValue.linkedInUrl}
         onChange={setField} />
       <Button variant="contained" color="primary" onClick={sendLinkedin}>
         {BUTTONS.send}
