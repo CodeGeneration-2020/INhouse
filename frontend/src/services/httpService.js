@@ -1,25 +1,28 @@
-import axios from 'axios';
+import { getHeaders } from "./headers";
 
-class HttpService {
+const address = process.env.REACT_APP_ADDRESS
+
+export class HttpService {
   constructor(httpModule) {
     this.httpModule = httpModule;
   }
-  async get(url) {
-    const response = await this.httpModule.get(url);
+  async get(route) {
+    const response = await this.httpModule.get(`${address}${route}`);
     return response.data;
   }
-  async post(url, body, headers) {
-    const response = await this.httpModule.post(url, body, headers);
+  async post(route, body) {
+    const headers = await getHeaders()
+    const response = await this.httpModule.post(`${address}${route}`, body, headers);
     return response.data;
   }
-  async put(url, body) {
-    const response = await this.httpModule.put(url, body);
+  async put(route, body) {
+    const headers = await getHeaders()
+    const response = await this.httpModule.put(`${address}${route}`, body, headers);
     return response.data;
   }
-  async delete(url) {
-    const response = await this.httpModule.delete(url);
+  async delete(route) {
+    const headers = await getHeaders()
+    const response = await this.httpModule.delete(`${address}${route}`, headers);
     return response.data;
   }
 }
-
-export default new HttpService(axios);

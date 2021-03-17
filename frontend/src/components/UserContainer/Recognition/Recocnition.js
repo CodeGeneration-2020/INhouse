@@ -3,15 +3,15 @@ import { useState } from 'react';
 import { ReactMic } from 'react-mic';
 import classes from './Recognition.module.scss';
 import { useMutation } from 'react-query';
-import { createRecognition } from '../../../helpers/Api/createRecognition';
 import { BUTTONS } from '../../../helpers/constants/constants';
 import { RECOGNITION } from '../constants/constants';
+import userService from '../../../services/userService';
 
 const Recognition = () => {
   const [recognizedText, setRecognizedText] = useState('')
   const [record, setRecord] = useState(false)
   const [blob, setBlob] = useState(new Blob([' '], { type: 'text/plain' }))
-  const mutation = useMutation(createRecognition, {
+  const mutation = useMutation(() => userService.createRecognition(blob), {
     onSuccess: res => setRecognizedText(res.text)
   })
 
@@ -19,7 +19,7 @@ const Recognition = () => {
   const stopRecording = () => setRecord(false)
   const onStop = recordedBlob => setBlob(recordedBlob.blob)
 
-  const recognizeHandler = () => mutation.mutate(blob)
+  const recognizeHandler = () => mutation.mutate()
 
   return (
     <div className={classes.record}>
