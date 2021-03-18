@@ -8,7 +8,7 @@ import {
 
 import { kFiles } from '../constants';
 
-import { Request } from '../types';
+import { Request, MultipartFiles } from '../types';
 
 @Injectable()
 export class FilesInterceptor implements NestInterceptor {
@@ -21,7 +21,7 @@ export class FilesInterceptor implements NestInterceptor {
       throw new BadRequestException('files expected');
     }
 
-    request[kFiles] = file.fields;
+    request[kFiles] = file.fields as MultipartFiles;
 
     return next.handle();
   }

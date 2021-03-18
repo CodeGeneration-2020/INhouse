@@ -26,3 +26,11 @@ export const cloneReadableStream = (
 };
 
 export const createDeferred = <T = any>() => new Deferred<T>();
+
+export const cloneBuffer = (source: Buffer): Buffer => {
+  const clone = Buffer.alloc(source.length);
+
+  source.copy(clone);
+
+  return clone;
+};
