@@ -4,6 +4,9 @@ import { Injectable, HttpService } from '@nestjs/common';
 
 import { Model } from 'mongoose';
 
+import { ApiService } from '../metric/types';
+import { MetricService } from '../metric/metric.service';
+
 import {
   ProfileAnalysis,
   ProfileAnalysisDocument,
@@ -22,6 +25,7 @@ export class HumanticAiService {
   constructor(
     private httpService: HttpService,
     private configService: ConfigService,
+    private metricService: MetricService,
 
     @InjectModel(ProfileAnalysis.name)
     private profileAnalysis: Model<ProfileAnalysisDocument>,
@@ -41,6 +45,11 @@ export class HumanticAiService {
       })
       .toPromise();
 
+    this.metricService.trackApiCall({
+      service: ApiService.HUMANTIC,
+      method: 'create-analysis',
+    });
+
     return data;
   }
 
@@ -58,6 +67,11 @@ export class HumanticAiService {
         },
       })
       .toPromise();
+
+    this.metricService.trackApiCall({
+      service: ApiService.HUMANTIC,
+      method: 'fetch-analysis',
+    });
 
     return data;
   }
