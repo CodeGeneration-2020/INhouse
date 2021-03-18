@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 
+import { MetricModule } from '../metric/metric.module';
+
 import { DialogController } from './dialog.controller';
 
 import { DialogService } from './dialog/dialog.service';
@@ -9,6 +11,7 @@ import { TextAnalyzerService } from './text-analyzer/text-analyzer.service';
 import { AITextAnalyzerService } from './text-analyzer/ai-text-analyzer.service';
 
 @Module({
+  imports: [MetricModule],
   controllers: [DialogController],
   providers: [
     {
