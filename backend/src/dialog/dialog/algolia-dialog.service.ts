@@ -3,11 +3,10 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 
 import algoliasearch, { SearchClient } from 'algoliasearch';
 
-import { AnswersIndex } from './types';
+import { Dialog } from '../types';
 
 import { DialogService } from './dialog.service';
-
-import { GetAnswerDto } from './dto/get-answer.dto';
+import { GetAnswerOptions, UploadDialogsOptions } from './dialog.service.types';
 
 @Injectable()
 export class AlgoliaDialogService
@@ -25,7 +24,7 @@ export class AlgoliaDialogService
   }
 
   async onModuleInit() {
-    const index = this.client.initIndex('answers');
+    const index = this.client.initIndex('dialogs');
 
     const settings = {
       searchableAttributes: ['question'],
@@ -34,13 +33,27 @@ export class AlgoliaDialogService
     await index.setSettings(settings).wait();
   }
 
-  async getAnswer(getAnswerDto: GetAnswerDto) {
-    const index = this.client.initIndex('answers');
+  async getAnswer({ question }: GetAnswerOptions) {
+    const index = this.client.initIndex('dialogs');
 
-    const { hits } = await index.search<AnswersIndex>(getAnswerDto.question, {
+    const { hits } = await index.search<Dialog>(question, {
       hitsPerPage: 1,
     });
 
-    return hits[0].answer;
+    const dialog = hits[0];
+
+    return {
+      context: dialog.context,
+      question: dialog.question,
+      answer: dialog.answer,
+    };
+  }
+
+  async uploadDialogs({ dialogs }: UploadDialogsOptions) {
+    const index = this.client.initIndex('dialogs');
+
+    const options = { autoGenerateObjectIDIfNotExist: true };
+
+    await index.saveObjects(dialogs, options).wait();
   }
 }

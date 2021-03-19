@@ -1,8 +1,8 @@
 import { ExecutionContext, createParamDecorator } from '@nestjs/common';
 
-import { kFiles } from '../constants';
-
 import { Request } from '../types';
+
+import { kFiles } from '../constants';
 
 export const File = createParamDecorator(
   (field: string, context: ExecutionContext) => {

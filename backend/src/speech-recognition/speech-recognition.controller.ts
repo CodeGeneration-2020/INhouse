@@ -7,11 +7,10 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { Multipart } from 'fastify-multipart';
-
 import { SpeechRecognitionService } from './speech-recognition.service';
 
 import { File } from '../shared/decorators/file.decorator';
+import { MultipartFile } from '../shared/types';
 import { MultipartGuard } from '../shared/guards/multipart.guard';
 import { FilesInterceptor } from '../shared/interceptors/files.interceptor';
 
@@ -25,7 +24,7 @@ export class SpeechRecognitionController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(MultipartGuard)
   @UseInterceptors(FilesInterceptor)
-  async recognize(@File('input') input: Multipart) {
+  async recognize(@File('input') input: MultipartFile) {
     const text = await this.speechRecognitionService.recognize(input.file);
 
     return { text };
