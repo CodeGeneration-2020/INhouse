@@ -49,7 +49,7 @@ export const parseArticles = async (input: Buffer): Promise<Article[]> => {
       return;
     }
 
-    const text = data?.text.trim();
+    const text = data.text?.trim();
 
     if (text === undefined || text.length === 0) {
       return;
