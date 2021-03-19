@@ -2,22 +2,25 @@ import { Button } from '@material-ui/core';
 import { useState } from 'react';
 import { ReactMic } from 'react-mic';
 import classes from './Recognition.module.scss';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation } from 'react-query';
 import { BUTTONS } from '../../../helpers/constants/constants';
-import { RECOGNITION } from '../constants/constants';
 import userService from '../../../services/userService';
 
 const Recognition = () => {
-  const [recognizedText, setRecognizedText] = useState('')
+  const [answer, setAnswer] = useState('')
+  const [question, setQuestion] = useState('')
   const [record, setRecord] = useState(false)
   const [blob, setBlob] = useState(new Blob([' '], { type: 'text/plain' }))
 
-  const answerMutation = useMutation(() => userService.getAnswer('What is the end?'), {
-    onSuccess: res => console.log('hello')
+  const answerMutation = useMutation(() => userService.getAnswer(question), {
+    onSuccess: res => setAnswer(res.answer)
   })
 
   const questionMutation = useMutation(() => userService.questionRecognition(blob), {
-    onSuccess: res => answerMutation.mutate(res.text)
+    onSuccess: res => {
+      setQuestion(res.text)
+      answerMutation.mutate(res.text)
+    }
   })
 
   const startRecording = () => setRecord(true)
@@ -47,13 +50,16 @@ const Recognition = () => {
           {BUTTONS.send}
         </Button>
       </div>
-      { recognizedText &&
+      { question &&
         <>
-          <h1>{RECOGNITION.recognizedText}</h1>
+          <h1>Question</h1>
           <div className={classes.recognizedText}>
-            {recognizedText}
+            {question}
           </div>
-          <h1>answer</h1>
+          <h1>Answer</h1>
+          <div className={classes.recognizedText}>
+            {answer}
+          </div>
         </>
       }
     </div>
