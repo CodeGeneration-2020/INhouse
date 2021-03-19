@@ -106,7 +106,7 @@ export class HumanticAiService {
     return profileAnalysis.analysis;
   }
 
-  getAnalysisCount() {
+  getCountAnalysis() {
     return this.profileAnalysisModel.countDocuments();
   }
 }

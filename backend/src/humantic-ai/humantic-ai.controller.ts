@@ -24,10 +24,10 @@ export class HumanticAiController {
     return this.humanticAiService.getAnalysis(getAnalysisDto);
   }
 
-  @Post('get-analysis-count')
+  @Post('get-count-analysis')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   getAnalysisCount() {
-    return this.humanticAiService.getAnalysisCount();
+    return this.humanticAiService.getCountAnalysis();
   }
 }
