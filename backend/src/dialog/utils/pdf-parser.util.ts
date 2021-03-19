@@ -12,6 +12,9 @@ export interface Article {
   content: string;
 }
 
+const SKIP_HEADER_Y = 1.577;
+const SKIP_FOOTER_Y = 34.688;
+
 export const parseArticles = async (input: Buffer): Promise<Article[]> => {
   const lines: Line[] = [];
 
@@ -32,9 +35,23 @@ export const parseArticles = async (input: Buffer): Promise<Article[]> => {
       return;
     }
 
-    const { text } = data;
+    const { y } = data;
 
-    if (text === undefined) {
+    if (y === undefined) {
+      return;
+    }
+
+    if (y <= SKIP_HEADER_Y) {
+      return;
+    }
+
+    if (y >= SKIP_FOOTER_Y) {
+      return;
+    }
+
+    const text = data.text?.trim();
+
+    if (text === undefined || text.length === 0) {
       return;
     }
 
@@ -60,14 +77,23 @@ export const parseArticles = async (input: Buffer): Promise<Article[]> => {
 
   const articles: Article[] = [];
 
-  for (const line of lines) {
-    if (article === undefined) {
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i];
+    const previousLine = lines[i - 1];
+
+    if (previousLine === undefined) {
       titleFontSize = line.fontSize;
     }
 
-    if (line.fontSize >= titleFontSize) {
+    if (line.fontSize === titleFontSize) {
+      if (previousLine?.fontSize === line.fontSize) {
+        article.title += ` ${line.text}`;
+
+        continue;
+      }
+
       article = {
-        title: line.text.trim(),
+        title: line.text,
         content: '',
       };
 
@@ -76,7 +102,11 @@ export const parseArticles = async (input: Buffer): Promise<Article[]> => {
       continue;
     }
 
-    article.content += line.text.trimLeft();
+    if (article.content.length > 0) {
+      article.content += ' ';
+    }
+
+    article.content += line.text;
   }
 
   return articles;
