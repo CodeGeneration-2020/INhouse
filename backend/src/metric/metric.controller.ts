@@ -21,6 +21,6 @@ export class MetricController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   getCountApiCalls(@Body() getCountApiCallsDto: GetCountApiCallsDto) {
-    return this.metricService.getCountApiCall(getCountApiCallsDto);
+    return this.metricService.getCountApiCalls(getCountApiCallsDto);
   }
 }

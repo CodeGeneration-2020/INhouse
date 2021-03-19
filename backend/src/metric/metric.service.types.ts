@@ -5,7 +5,7 @@ export interface TrackOptions {
   method: string;
 }
 
-export interface GetApiCallOptions {
+export interface GetCountApiCallsOptions {
   service: ApiService;
   method?: string;
 }

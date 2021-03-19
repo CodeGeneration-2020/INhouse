@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 
 import { Model, FilterQuery } from 'mongoose';
 
-import { TrackOptions, GetApiCallOptions } from './metric.service.types';
+import { TrackOptions, GetCountApiCallsOptions } from './metric.service.types';
 
 import {
   ApiCallMetric,
@@ -21,7 +21,7 @@ export class MetricService {
     return this.apiCallMetricModel.create({ service, method });
   }
 
-  async getCountApiCall({ service, method }: GetApiCallOptions) {
+  async getCountApiCalls({ service, method }: GetCountApiCallsOptions) {
     const filter: FilterQuery<ApiCallMetricDocument> = { service };
 
     if (method !== undefined) {
