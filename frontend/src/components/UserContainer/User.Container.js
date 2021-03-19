@@ -2,7 +2,6 @@ import { Card } from '@material-ui/core';
 import Feedback from './Feedback/Feedback';
 import Humantic from './Humantic/Humantic';
 import Recognition from './Recognition/Recocnition'
-// import classes from './User.module.scss';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({

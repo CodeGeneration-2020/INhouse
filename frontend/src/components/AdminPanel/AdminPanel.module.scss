@@ -1,0 +1,30 @@
+$white: white;
+
+.admin_panel {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px 50px 0px 50px;
+  margin: 0 auto;
+  margin-bottom: auto;
+  width: 800px;
+  height: 100vh;
+  background-color: $white;
+  border-radius: 20px;
+}
+
+.user {
+  font-size: 20px;
+}
+
+.user_title {
+  width: 400px;
+  display: flex;
+  margin-left: 44%;
+  button {
+    margin-left: auto;
+    font-size: 20px;
+    height: 40px;
+    margin-top: 15px;
+  }
+}
