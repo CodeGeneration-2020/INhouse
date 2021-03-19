@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, HttpModule } from '@nestjs/common';
 
 import { DialogController } from './dialog.controller';
 
@@ -9,6 +9,7 @@ import { TextAnalyzerService } from './text-analyzer/text-analyzer.service';
 import { AITextAnalyzerService } from './text-analyzer/ai-text-analyzer.service';
 
 @Module({
+  imports: [HttpModule],
   controllers: [DialogController],
   providers: [
     {
