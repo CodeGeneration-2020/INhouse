@@ -4,6 +4,9 @@ import { Injectable, HttpService } from '@nestjs/common';
 
 import { Model } from 'mongoose';
 
+import { ApiService } from '../metric/types';
+import { MetricService } from '../metric/metric.service';
+
 import {
   ProfileAnalysis,
   ProfileAnalysisDocument,
@@ -22,9 +25,10 @@ export class HumanticAiService {
   constructor(
     private httpService: HttpService,
     private configService: ConfigService,
+    private metricService: MetricService,
 
     @InjectModel(ProfileAnalysis.name)
-    private profileAnalysis: Model<ProfileAnalysisDocument>,
+    private profileAnalysisModel: Model<ProfileAnalysisDocument>,
   ) {}
 
   private async createAnalysis(params: CreateAnalysisParams) {
@@ -40,6 +44,11 @@ export class HumanticAiService {
         },
       })
       .toPromise();
+
+    this.metricService.trackApiCall({
+      service: ApiService.HUMANTIC,
+      method: 'create-analysis',
+    });
 
     return data;
   }
@@ -59,13 +68,18 @@ export class HumanticAiService {
       })
       .toPromise();
 
+    this.metricService.trackApiCall({
+      service: ApiService.HUMANTIC,
+      method: 'fetch-analysis',
+    });
+
     return data;
   }
 
   async getAnalysis(getAnalysisDto: GetAnalysisDto) {
     const linkedInUrl = cleanLinkedInUrl(getAnalysisDto.linkedInUrl);
 
-    let profileAnalysis = await this.profileAnalysis.findOne({
+    let profileAnalysis = await this.profileAnalysisModel.findOne({
       linkedInUrl,
     });
 
@@ -82,7 +96,7 @@ export class HumanticAiService {
         });
       } while (response.metadata.analysis_status === 'NOT_COMPLETE');
 
-      profileAnalysis = await this.profileAnalysis.create({
+      profileAnalysis = await this.profileAnalysisModel.create({
         linkedInUrl,
 
         analysis: response.results,
@@ -90,5 +104,9 @@ export class HumanticAiService {
     }
 
     return profileAnalysis.analysis;
+  }
+
+  getCountAnalysis() {
+    return this.profileAnalysisModel.countDocuments();
   }
 }

@@ -10,6 +10,7 @@ import {
 import { SpeechRecognitionService } from './speech-recognition.service';
 
 import { File } from '../shared/decorators/file.decorator';
+import { JwtAuthGuard } from '../shared/guards/jwt-auth.guard';
 import { MultipartFile } from '../shared/types';
 import { MultipartGuard } from '../shared/guards/multipart.guard';
 import { FilesInterceptor } from '../shared/interceptors/files.interceptor';
@@ -22,6 +23,7 @@ export class SpeechRecognitionController {
 
   @Post('recognize')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
   @UseGuards(MultipartGuard)
   @UseInterceptors(FilesInterceptor)
   async recognize(@File('input') input: MultipartFile) {
