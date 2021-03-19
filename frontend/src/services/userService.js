@@ -8,20 +8,21 @@ class UserService extends HttpService {
   }
 
   createHumantic(linkedInUrl) {
-    const body = { linkedInUrl }
     const route = routes[this.createHumantic.name];
-
-    return this.post(route, body)
+    return this.post(route, { linkedInUrl })
   }
 
-  createRecognition(blob) {
-    const route = routes[this.createRecognition.name];
+  questionRecognition(blob) {
+    const route = routes[this.questionRecognition.name];
     const form = new FormData()
     form.append('input', blob)
-    
     return this.post(route, form)
   }
 
+  getAnswer(question) {
+    const route = routes[this.getAnswer.name]
+    return this.post(route, { question })
+  }
 }
 
 export default new UserService(axios);

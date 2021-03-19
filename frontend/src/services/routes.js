@@ -1,4 +1,5 @@
 export const routes = {
   createHumantic: '/humantic-ai/get-analysis',
-  createRecognition: '/speech-recognition/recognize',
+  questionRecognition: '/speech-recognition/recognize',
+  getAnswer: '/dialog/get-answer'
 }
