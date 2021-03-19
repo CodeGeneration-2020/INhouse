@@ -15,6 +15,7 @@ import { EditUserDto } from './dto/edit-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { DeleteUserDto } from './dto/delete-user.dto';
+import { GetAllUsersDto } from './dto/get-all-users.dto';
 
 import { User } from '../shared/decorators/user.decorator';
 import { JwtAuthGuard } from '../shared/guards/jwt-auth.guard';
@@ -41,9 +42,16 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   get(@Body() getUserDto: GetUserDto, @User() user: UserDocument) {
-    const userId = getUserDto?.id ?? user.id;
+    return this.userService.get({
+      id: getUserDto?.id ?? user.id,
+    });
+  }
 
-    return this.userService.get({ id: userId });
+  @Post('get-all')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  getAll(@Body() getAllUsersDto: GetAllUsersDto) {
+    return this.userService.getAll(getAllUsersDto);
   }
 
   @Post('edit')
