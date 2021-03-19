@@ -11,7 +11,7 @@ import { TextAnalyzerService } from './text-analyzer/text-analyzer.service';
 import { AITextAnalyzerService } from './text-analyzer/ai-text-analyzer.service';
 
 @Module({
-  imports: [HttpModule],
+  imports: [HttpModule, MetricModule],
   controllers: [DialogController],
   providers: [
     {
