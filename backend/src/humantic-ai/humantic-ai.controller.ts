@@ -20,7 +20,14 @@ export class HumanticAiController {
   @Post('get-analysis')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  async getAnalysis(@Body() getAnalysisDto: GetAnalysisDto) {
+  getAnalysis(@Body() getAnalysisDto: GetAnalysisDto) {
     return this.humanticAiService.getAnalysis(getAnalysisDto);
+  }
+
+  @Post('get-analysis-count')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  getAnalysisCount() {
+    return this.humanticAiService.getAnalysisCount();
   }
 }

@@ -28,7 +28,7 @@ export class HumanticAiService {
     private metricService: MetricService,
 
     @InjectModel(ProfileAnalysis.name)
-    private profileAnalysis: Model<ProfileAnalysisDocument>,
+    private profileAnalysisModel: Model<ProfileAnalysisDocument>,
   ) {}
 
   private async createAnalysis(params: CreateAnalysisParams) {
@@ -79,7 +79,7 @@ export class HumanticAiService {
   async getAnalysis(getAnalysisDto: GetAnalysisDto) {
     const linkedInUrl = cleanLinkedInUrl(getAnalysisDto.linkedInUrl);
 
-    let profileAnalysis = await this.profileAnalysis.findOne({
+    let profileAnalysis = await this.profileAnalysisModel.findOne({
       linkedInUrl,
     });
 
@@ -96,7 +96,7 @@ export class HumanticAiService {
         });
       } while (response.metadata.analysis_status === 'NOT_COMPLETE');
 
-      profileAnalysis = await this.profileAnalysis.create({
+      profileAnalysis = await this.profileAnalysisModel.create({
         linkedInUrl,
 
         analysis: response.results,
@@ -104,5 +104,9 @@ export class HumanticAiService {
     }
 
     return profileAnalysis.analysis;
+  }
+
+  getAnalysisCount() {
+    return this.profileAnalysisModel.countDocuments();
   }
 }
