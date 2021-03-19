@@ -1,5 +1,7 @@
 import { Module, HttpModule } from '@nestjs/common';
 
+import { MetricModule } from '../metric/metric.module';
+
 import { DialogController } from './dialog.controller';
 
 import { DialogService } from './dialog/dialog.service';

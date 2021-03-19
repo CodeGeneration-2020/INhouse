@@ -3,6 +3,9 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 
 import algoliasearch, { SearchClient } from 'algoliasearch';
 
+import { ApiService } from '../../metric/types';
+import { MetricService } from '../../metric/metric.service';
+
 import { Dialog } from '../types';
 
 import { DialogService } from './dialog.service';
@@ -14,13 +17,17 @@ export class AlgoliaDialogService
   implements OnModuleInit {
   private client: SearchClient;
 
-  constructor(configService: ConfigService) {
+  private metricService: MetricService;
+
+  constructor(configService: ConfigService, metricService: MetricService) {
     super();
 
     const appId = configService.get<string>('ALGOLIA_APP_ID');
     const apiKey = configService.get<string>('ALGOLIA_API_KEY');
 
     this.client = algoliasearch(appId, apiKey);
+
+    this.metricService = metricService;
   }
 
   async onModuleInit() {
@@ -40,6 +47,11 @@ export class AlgoliaDialogService
       hitsPerPage: 1,
     });
 
+    this.metricService.trackApiCall({
+      service: ApiService.ALGOLIA,
+      method: 'search',
+    });
+
     const dialog = hits[0];
 
     return {
@@ -55,5 +67,10 @@ export class AlgoliaDialogService
     const options = { autoGenerateObjectIDIfNotExist: true };
 
     await index.saveObjects(dialogs, options).wait();
+
+    this.metricService.trackApiCall({
+      service: ApiService.ALGOLIA,
+      method: 'save-objects',
+    });
   }
 }
