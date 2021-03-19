@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { MetricService } from './metric.service';
+import { MetricController } from './metric.controller';
 
 import {
   ApiCallMetric,
@@ -17,6 +18,7 @@ import {
       },
     ]),
   ],
+  controllers: [MetricController],
   providers: [MetricService],
   exports: [MetricService],
 })

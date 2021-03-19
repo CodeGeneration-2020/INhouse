@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Model } from 'mongoose';
+import { Model, FilterQuery } from 'mongoose';
 
-import { TrackOptions } from './metric.service.types';
+import { TrackOptions, GetApiCallOptions } from './metric.service.types';
 
 import {
   ApiCallMetric,
@@ -17,10 +17,17 @@ export class MetricService {
     private apiCallMetricModel: Model<ApiCallMetricDocument>,
   ) {}
 
-  trackApiCall(options: TrackOptions) {
-    return this.apiCallMetricModel.create({
-      service: options.service,
-      method: options.method,
-    });
+  trackApiCall({ service, method }: TrackOptions) {
+    return this.apiCallMetricModel.create({ service, method });
+  }
+
+  async getCountApiCall({ service, method }: GetApiCallOptions) {
+    const filter: FilterQuery<ApiCallMetricDocument> = { service };
+
+    if (method !== undefined) {
+      filter.method = method;
+    }
+
+    return this.apiCallMetricModel.countDocuments(filter);
   }
 }
