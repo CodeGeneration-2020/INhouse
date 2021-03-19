@@ -12,6 +12,8 @@ import { Model, FilterQuery } from 'mongoose';
 
 import { AuthService } from '../auth/auth.service';
 
+import { GetAllOptions } from './user.service.types';
+
 import { User, UserDocument } from './schemas/user.schema';
 
 import { GetUserDto } from './dto/get-user.dto';
@@ -23,11 +25,11 @@ import { DeleteUserDto } from './dto/delete-user.dto';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel(User.name)
-    private userModel: Model<UserDocument>,
-
     @Inject(forwardRef(() => AuthService))
     private authService: AuthService,
+
+    @InjectModel(User.name)
+    private userModel: Model<UserDocument>,
   ) {}
 
   async findOne(filter: FilterQuery<UserDocument>) {
@@ -79,6 +81,19 @@ export class UserService {
       contactName: user.contactName,
       email: user.email,
     };
+  }
+
+  async getAll({ limit = 10, offset = 0 }: GetAllOptions) {
+    const users = await this.userModel.find().limit(limit).skip(offset);
+
+    // TODO: use serializer for public user fields
+    return users.map((user) => ({
+      id: user.id,
+      username: user.username,
+      customerName: user.customerName,
+      contactName: user.contactName,
+      email: user.email,
+    }));
   }
 
   async edit(editUserDto: EditUserDto) {
