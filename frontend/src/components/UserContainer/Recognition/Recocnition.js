@@ -4,7 +4,7 @@ import { ReactMic } from 'react-mic';
 import classes from './Recognition.module.scss';
 import { useMutation } from 'react-query';
 import { BUTTONS } from '../../../helpers/constants/constants';
-import userService from '../../../services/userService';
+import userService from '../../../services/userService/userService';
 
 const Recognition = () => {
   const [answer, setAnswer] = useState('')

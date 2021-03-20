@@ -1,5 +1,5 @@
 import axios from "axios";
-import { HttpService } from "./httpService";
+import { HttpService } from "../rootService/httpService";
 import { routes } from "./adminRoutes";
 
 class UserService extends HttpService {
@@ -15,6 +15,11 @@ class UserService extends HttpService {
   getLinkedinCount() {
     const route = routes[this.getLinkedinCount.name]
     return this.post(route)
+  }
+
+  getUsers() {
+    const route = routes[this.getUsers.name]
+    return this.post(route, { limit: 1 })
   }
 }
 

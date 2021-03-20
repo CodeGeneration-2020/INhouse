@@ -1,5 +1,5 @@
 import axios from "axios";
-import { HttpService } from "./httpService";
+import { HttpService } from "../rootService/httpService";
 import { routes } from "./userRoutes";
 
 class UserService extends HttpService {

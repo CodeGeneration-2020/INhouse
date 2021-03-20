@@ -4,7 +4,7 @@ import { useMutation } from 'react-query';
 import { useForm } from '../../../helpers/Hooks/UseForm';
 import classes from './Humantic.module.scss';
 import { BUTTONS } from '../../../helpers/constants/constants';
-import userService from '../../../services/userService';
+import userService from '../../../services/userService/userService';
 
 const Humantic = () => {
   const [linkedinInfo, setLinkedinInfo] = useState()
