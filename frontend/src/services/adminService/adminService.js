@@ -19,7 +19,12 @@ class UserService extends HttpService {
 
   getUsers() {
     const route = routes[this.getUsers.name]
-    return this.post(route, { limit: 1 })
+    return this.post(route, { limit: 10000 })
+  }
+
+  deleteUser(id) {
+    const route = routes[this.deleteUser.name]
+    return this.post(route, { id })
   }
 }
 

@@ -16,6 +16,12 @@ const AdminPanel = () => {
     return { algoliaMetrics, humanticMetrics, linkedinCount, users }
   })
 
+  const deleteUserMutation = useMutation(id => adminService.deleteUser(id), {
+    onSuccess: () => mutate()
+  })
+
+  const deleteUserBtn = id => deleteUserMutation.mutate(id)
+
   useEffect(() => {
     mutate()
   }, [mutate])
@@ -23,7 +29,6 @@ const AdminPanel = () => {
   return (
     <div className={classes.admin_panel}>
       <h1>Admin panel</h1>
-
       {data &&
         <>
           <TableBody>
@@ -31,12 +36,17 @@ const AdminPanel = () => {
               <h2>Users</h2>
               <Button variant="contained" color="primary" onClick={() => history.push('/add_user')}>
                 Add user
-            </Button>
+              </Button>
             </div>
             {data.users.map(user =>
-              <ListItem className={classes.user} button key={user.id}>
-                {user.username}
-              </ListItem>
+              <div key={user.id} className={classes.user}>
+                <ListItem className={classes.username} button>
+                  {user.username}
+                </ListItem>
+                <button onClick={() => deleteUserBtn(user.id)}>
+                  Remove
+                </button>
+              </div>
             )}
           </TableBody>
           <h2 className={classes.metrics}>

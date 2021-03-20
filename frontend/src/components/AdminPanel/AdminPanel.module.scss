@@ -13,9 +13,21 @@ $white: white;
   border-radius: 20px;
 }
 
-.user {
+.username {
   font-size: 25px;
-  color: red;
+}
+
+.user {
+  display: flex;
+  button {
+    margin-left: auto;
+    outline: none;
+    background: none;
+    border: none;
+  }
+  button:hover {
+    text-decoration: underline;
+  }
 }
 
 .user_title {
