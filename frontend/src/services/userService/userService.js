@@ -25,4 +25,4 @@ class UserService extends HttpService {
   }
 }
 
-export default new UserService(axios);
+export default new UserService();

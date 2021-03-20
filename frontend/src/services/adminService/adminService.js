@@ -2,7 +2,7 @@ import axios from "axios";
 import { HttpService } from "../rootService/httpService";
 import { routes } from "./adminRoutes";
 
-class UserService extends HttpService {
+class AdminService extends HttpService {
   constructor() {
     super(axios)
   }
@@ -28,4 +28,4 @@ class UserService extends HttpService {
   }
 }
 
-export default new UserService(axios);
+export default new AdminService(axios);

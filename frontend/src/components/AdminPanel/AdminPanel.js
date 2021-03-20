@@ -1,4 +1,4 @@
-import { Button, ListItem, TableBody } from '@material-ui/core'
+import { Button, ListItem, Modal, TableBody } from '@material-ui/core'
 import React, { useEffect } from 'react'
 import { useMutation } from 'react-query'
 import { useHistory } from 'react-router'
@@ -7,6 +7,7 @@ import classes from './AdminPanel.module.scss'
 
 const AdminPanel = () => {
   const history = useHistory()
+  const [open, setOpen] = React.useState(false);
 
   const { data, mutate } = useMutation(async () => {
     const algoliaMetrics = await adminService.getMetrics({ service: 'algolia' })
@@ -20,7 +21,11 @@ const AdminPanel = () => {
     onSuccess: () => mutate()
   })
 
-  const deleteUserBtn = id => deleteUserMutation.mutate(id)
+  const deleteUserHandler = id => deleteUserMutation.mutate(id)
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
   useEffect(() => {
     mutate()
@@ -40,10 +45,10 @@ const AdminPanel = () => {
             </div>
             {data.users.map(user =>
               <div key={user.id} className={classes.user}>
-                <ListItem className={classes.username} button>
+                <ListItem className={classes.username} button onClick={handleOpen}>
                   {user.username}
                 </ListItem>
-                <button onClick={() => deleteUserBtn(user.id)}>
+                <button onClick={() => deleteUserHandler(user.id)}>
                   Remove
                 </button>
               </div>
@@ -57,6 +62,14 @@ const AdminPanel = () => {
           </h2>
         </>
       }
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <div>123</div>
+      </Modal>
     </div>
   )
 }
