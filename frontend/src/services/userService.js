@@ -1,6 +1,6 @@
 import axios from "axios";
 import { HttpService } from "./httpService";
-import { routes } from "./routes";
+import { routes } from "./userRoutes";
 
 class UserService extends HttpService {
   constructor() {

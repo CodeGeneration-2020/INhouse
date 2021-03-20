@@ -11,10 +11,7 @@ const Humantic = () => {
 
   const [inputValue, setField] = useForm({ linkedInUrl: '' })
   const mutationHumantic = useMutation(() => userService.createHumantic(inputValue.linkedInUrl), {
-    onSuccess: res => {
-      setLinkedinInfo(res)
-      console.log(res);
-    }
+    onSuccess: res => setLinkedinInfo(res)
   })
 
   const sendLinkedin = () => mutationHumantic.mutate()
@@ -34,13 +31,13 @@ const Humantic = () => {
       {linkedinInfo &&
         <div className={classes.linkedinInfo}>
           <h3>{linkedinInfo.display_name}</h3>
-          <p style={{color: 'blue'}}>
+          <p style={{ color: 'blue' }}>
             <b>Adjectives:</b> {linkedinInfo.persona.hiring.communication_advice.adjectives.join(', ')}.
           </p>
           <p>
             <b>Description:</b> {linkedinInfo.persona.hiring.communication_advice.description.join(' ')}
           </p>
-          <p style={{color: 'red'}}>
+          <p style={{ color: 'red' }}>
             <b>What to avoid:</b> {linkedinInfo.persona.hiring.communication_advice.what_to_avoid.join('. ')}
           </p>
           <p>
