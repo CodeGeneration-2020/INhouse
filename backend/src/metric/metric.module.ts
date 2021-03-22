@@ -9,12 +9,21 @@ import {
   ApiCallMetricSchema,
 } from './schemas/api-call-metric.schema';
 
+import {
+  HumanticRequestMetric,
+  HumanticRequestMetricSchema,
+} from './schemas/humantic-request-metric.schema';
+
 @Module({
   imports: [
     MongooseModule.forFeature([
       {
         name: ApiCallMetric.name,
         schema: ApiCallMetricSchema,
+      },
+      {
+        name: HumanticRequestMetric.name,
+        schema: HumanticRequestMetricSchema,
       },
     ]),
   ],
