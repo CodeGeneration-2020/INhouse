@@ -25,4 +25,4 @@ class UserService extends HttpService {
   }
 }
 
-export default new UserService();
+export default UserService;

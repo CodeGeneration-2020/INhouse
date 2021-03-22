@@ -4,8 +4,8 @@ import { useMutation } from 'react-query';
 import { useForm } from '../../../helpers/Hooks/UseForm';
 import classes from './Humantic.module.scss';
 import { BUTTONS } from '../../../helpers/constants/constants';
-import userService from '../../../services/userService/userService';
 import HumanticResponse from './HumanticResponse/HumanticResponse';
+import userService from '../../../services/userService';
 
 const Humantic = () => {
   const [linkedinInfo, setLinkedinInfo] = useState()
@@ -14,7 +14,7 @@ const Humantic = () => {
   const mutationHumantic = useMutation(() => userService.createHumantic(inputValue.linkedInUrl), {
     onSuccess: res => setLinkedinInfo(res)
   })
-
+  
   const sendLinkedin = () => mutationHumantic.mutate()
 
   return (

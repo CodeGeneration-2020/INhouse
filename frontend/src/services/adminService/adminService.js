@@ -28,4 +28,4 @@ class AdminService extends HttpService {
   }
 }
 
-export default new AdminService(axios);
+export default AdminService;
