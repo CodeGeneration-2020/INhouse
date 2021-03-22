@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useHistory } from 'react-router'
 import adminService from '../../services/adminService'
-import userService from '../../services/userService'
 import HumanticResponse from '../UserContainer/Humantic/HumanticResponse/HumanticResponse'
 import classes from './AdminPanel.module.scss'
 
@@ -14,7 +13,8 @@ const AdminPanel = () => {
 
   const linkedinCount = useQuery('linkedin-count', () => adminService.getLinkedinCount())
   const users = useQuery('users', () => adminService.getUsers())
-  
+  const analysis = useMutation('analysis', userId => adminService.getUserRequestedAnalysis(userId))
+
   const metrics = useQuery('metrics', async () => {
     const algolia = await adminService.getMetrics({ service: 'algolia' })
     const humantic = await adminService.getMetrics({ service: 'humantic' })
@@ -26,12 +26,13 @@ const AdminPanel = () => {
   })
 
   const deleteUserHandler = id => deleteUserMutation.mutate(id)
-  const mutationHumantic = useMutation(() => userService.createHumantic('https://www.linkedin.com/in/oleksii-samoilenko-a54940167'))
 
-  const handleOpen = () => {
-    mutationHumantic.mutate()
+  const handleOpen = userId => {
+    analysis.mutate(userId)
     setOpen(true);
-  };
+  }
+
+  if (analysis.data) console.log(analysis.data);
 
   return (
     <div className={classes.admin_panel}>
@@ -50,7 +51,7 @@ const AdminPanel = () => {
           {users.data && users.data.map(user =>
             <TableRow className={classes.user} key={user.id}>
               <TableCell>
-                <ListItem className={classes.username} button onClick={handleOpen}>
+                <ListItem className={classes.username} button onClick={() => handleOpen(user.id)}>
                   {user.username}
                 </ListItem>
               </TableCell>
@@ -71,11 +72,10 @@ const AdminPanel = () => {
       <h2>
         {linkedinCount.data && `Amount of LinkedIn Profiles: ${linkedinCount.data}`}
       </h2>
-      {mutationHumantic.data &&
+      {analysis.data &&
         <Modal open={open} onClose={() => setOpen(false)} className={classes.modal}>
           <div className={classes.modal_container}>
-            <HumanticResponse linkedinInfo={mutationHumantic.data} />
-            <HumanticResponse linkedinInfo={mutationHumantic.data} />
+            {analysis.data.map(analys => <HumanticResponse linkedinInfo={analys.analysis} />)}
           </div>
         </Modal>
       }
