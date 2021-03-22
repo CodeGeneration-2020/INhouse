@@ -4,11 +4,13 @@ export const BUTTONS = {
   send: 'Send',
   register: 'Register',
   login: 'Log in',
+  add: 'Add'
 }
 
 export const TEXTS = {
   questionRegister: 'Already registered? Log in',
   questionLogin: 'Not registered yet? Register',
-  registeration: 'Registeration',
-  login: 'Loggin In',
+  registerHeader: 'Registeration',
+  loginHeader: 'Loggin In',
+  addHeader: 'Add User'
 }

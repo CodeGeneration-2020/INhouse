@@ -1,0 +1,64 @@
+$white: white;
+
+.admin_panel {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px 50px 0px 50px;
+  margin: 0 auto;
+  margin-bottom: auto;
+  width: 800px;
+  height: 100vh;
+  background-color: $white;
+  border-radius: 20px;
+}
+
+.username {
+  font-size: 25px;
+}
+
+.head {
+  th {
+    padding-left: 25px;
+  }
+}
+
+.user {
+  button {
+    outline: none;
+    background: none;
+    border: none;
+  }
+  button:hover {
+    text-decoration: underline;
+  }
+}
+
+.metrics {
+  margin-top: 100px;
+}
+
+.modal {
+  display: flex;
+  align-items: center;
+  border: none;
+  outline: none;
+  &_container {
+    margin: 0 auto;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    width: 600px;
+    height: 350px;
+    overflow-y: auto;
+    background-color: white;
+    padding: 20px;
+  }
+}
+
+.add_user {
+  margin-left: auto !important;
+  font-size: 20px !important;
+  height: 40px !important;
+  margin-top: 15px !important;
+}

@@ -4,26 +4,28 @@ import { Button, TextField } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom'
 import classes from './Auth.module.scss'
 import { useForm } from '../../helpers/Hooks/UseForm';
-import { BUTTONS, TEXTS } from '../../helpers/constants/constants';
+import { strategy } from './strategy';
+
 
 const Auth = ({ auth }) => {
   const [formValues, setField] = useForm({ username: '', password: '' })
   const history = useHistory()
-
+  const text = strategy[auth]
+  
   const authHandler = async e => {
     e.preventDefault();
     if (!formValues.username || !formValues.password) return;
-    const authUrl = `http://localhost:3000/user/${auth}`
+    const authUrl = `http://localhost:3000/user/${text.endpoint}`
     const res = await axios.post(authUrl, formValues)
     if (auth === 'login') {
       localStorage.setItem('token', res.data.access_token);
     }
-    history.push(`${auth === 'register' ? '/login' : '/'}`)
+    history.push(`${text.link}`)
   };
 
   return (
     <form className={classes.login}>
-      <h1>{auth === 'register' ? `${TEXTS.registeration}` : `${TEXTS.login}` }</h1>
+      <h1>{text.header}</h1>
       <TextField
         size="medium"
         className="textfield"
@@ -49,12 +51,10 @@ const Auth = ({ auth }) => {
         type="submit"
         onClick={authHandler}
       >
-        {auth === 'register' ? `${BUTTONS.register}` : `${BUTTONS.login}`}
+        {text.button}
       </Button>
-      <Link
-        className="login_link"
-        to={`${auth === 'register' ? '/login' : '/register'}`}>
-        {auth === 'register' ? `${TEXTS.questionRegister}` : `${TEXTS.questionLogin}`}
+      <Link className="login_link" to={`${text.questionLink}`}>
+        {text.question}
       </Link>
     </form>
   )

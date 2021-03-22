@@ -4,22 +4,23 @@ import { ReactMic } from 'react-mic';
 import classes from './Recognition.module.scss';
 import { useMutation } from 'react-query';
 import { BUTTONS } from '../../../helpers/constants/constants';
-import { RECOGNITION } from '../constants/constants';
 import userService from '../../../services/userService';
 
 const Recognition = () => {
-  const [recognizedText, setRecognizedText] = useState('')
   const [record, setRecord] = useState(false)
   const [blob, setBlob] = useState(new Blob([' '], { type: 'text/plain' }))
-  const mutation = useMutation(() => userService.createRecognition(blob), {
-    onSuccess: res => setRecognizedText(res.text)
+
+  const questionMutation = useMutation(() => userService.questionRecognition(blob), {
+    onSuccess: res => answerMutation.mutate(res.text)
   })
+
+  const answerMutation = useMutation(question => userService.getAnswer(question))
 
   const startRecording = () => setRecord(true)
   const stopRecording = () => setRecord(false)
   const onStop = recordedBlob => setBlob(recordedBlob.blob)
 
-  const recognizeHandler = () => mutation.mutate()
+  const recognizeHandler = () => questionMutation.mutate()
 
   return (
     <div className={classes.record}>
@@ -42,11 +43,15 @@ const Recognition = () => {
           {BUTTONS.send}
         </Button>
       </div>
-      { recognizedText &&
+      { questionMutation.data &&
         <>
-          <h1>{RECOGNITION.recognizedText}</h1>
+          <h1>Question</h1>
           <div className={classes.recognizedText}>
-            {recognizedText}
+            {questionMutation.data.text}
+          </div>
+          <h1>Answer</h1>
+          <div className={classes.recognizedText}>
+            {answerMutation.data && answerMutation.data.answer}
           </div>
         </>
       }
