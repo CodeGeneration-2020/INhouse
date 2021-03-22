@@ -12,9 +12,12 @@ import {
   ProfileAnalysisDocument,
 } from './schemas/profile-analysis.schema';
 
-import { GetAnalysisDto } from './dto/get-analysis.dto';
-
-import { FetchAnalysisParams, CreateAnalysisParams } from './types';
+import {
+  CreateAnalysisOptions,
+  FetchAnalysisOptions,
+  GetAnalysisOptions,
+  GetRequestHistoryOptions,
+} from './types';
 
 import { cleanLinkedInUrl } from './helpers';
 
@@ -31,7 +34,7 @@ export class HumanticAiService {
     private profileAnalysisModel: Model<ProfileAnalysisDocument>,
   ) {}
 
-  private async createAnalysis(params: CreateAnalysisParams) {
+  private async createAnalysis({ userId }: CreateAnalysisOptions) {
     const url = `${baseUrl}/user-profile/create`;
 
     const apiKey = this.configService.get<string>('HUMANTIC_AI_API_KEY');
@@ -40,7 +43,7 @@ export class HumanticAiService {
       .get(url, {
         params: {
           apikey: apiKey,
-          userid: params.userId,
+          userid: userId,
         },
       })
       .toPromise();
@@ -53,7 +56,7 @@ export class HumanticAiService {
     return data;
   }
 
-  private async fetchAnalysis(params: FetchAnalysisParams) {
+  private async fetchAnalysis({ userId, persona }: FetchAnalysisOptions) {
     const url = `${baseUrl}/user-profile`;
 
     const apiKey = this.configService.get<string>('HUMANTIC_AI_API_KEY');
@@ -62,8 +65,8 @@ export class HumanticAiService {
       .get(url, {
         params: {
           apikey: apiKey,
-          userid: params.userId,
-          persona: params.persona,
+          userid: userId,
+          persona,
         },
       })
       .toPromise();
@@ -76,8 +79,8 @@ export class HumanticAiService {
     return data;
   }
 
-  async getAnalysis(getAnalysisDto: GetAnalysisDto) {
-    const linkedInUrl = cleanLinkedInUrl(getAnalysisDto.linkedInUrl);
+  async getAnalysis({ linkedInUrl }: GetAnalysisOptions) {
+    linkedInUrl = cleanLinkedInUrl(linkedInUrl);
 
     let profileAnalysis = await this.profileAnalysisModel.findOne({
       linkedInUrl,
@@ -103,10 +106,24 @@ export class HumanticAiService {
       });
     }
 
+    this.metricService.trackHumanticRequest({
+      profileAnalysisId: profileAnalysis.id,
+    });
+
     return profileAnalysis.analysis;
   }
 
   getCountAnalysis() {
     return this.profileAnalysisModel.countDocuments();
+  }
+
+  async getRequestHistory({ userId }: GetRequestHistoryOptions) {
+    const requests = await this.metricService.getHumanticRequests({ userId });
+
+    return this.profileAnalysisModel.find({
+      _id: {
+        $in: requests.map(({ profileAnalysisId }) => profileAnalysisId),
+      },
+    });
   }
 }
