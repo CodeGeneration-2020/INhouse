@@ -1,0 +1,11 @@
+.recognizedText {
+  font-size: 30px;
+  max-width: 300px;
+  max-height: 300px;
+  word-wrap: break-word;
+}
+
+.question_answer {
+  display: flex;
+  justify-content: space-around;
+}
