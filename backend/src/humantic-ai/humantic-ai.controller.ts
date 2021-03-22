@@ -12,7 +12,7 @@ import { HumanticAiService } from './humantic-ai.service';
 import { JwtAuthGuard } from '../shared/guards/jwt-auth.guard';
 
 import { GetAnalysisDto } from './dto/get-analysis.dto';
-import { GetRequestHistoryDto } from './dto/get-request-history.dto';
+import { GetAnalysisRequestedByUserDto } from './dto/get-analysis-requested-by-user.dto';
 
 @Controller('humantic-ai')
 export class HumanticAiController {
@@ -32,10 +32,10 @@ export class HumanticAiController {
     return this.humanticAiService.getCountAnalysis();
   }
 
-  @Post('get-request-history')
+  @Post('get-analysis-requested-by-user')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  getRequestHistory(@Body() getRequestHistoryDto: GetRequestHistoryDto) {
-    return this.humanticAiService.getRequestHistory(getRequestHistoryDto);
+  getAnalysisRequestedByUser(@Body() params: GetAnalysisRequestedByUserDto) {
+    return this.humanticAiService.getAnalysisRequestedByUser(params);
   }
 }

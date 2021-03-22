@@ -13,10 +13,10 @@ import {
 } from './schemas/profile-analysis.schema';
 
 import {
-  CreateAnalysisOptions,
-  FetchAnalysisOptions,
   GetAnalysisOptions,
-  GetRequestHistoryOptions,
+  FetchAnalysisOptions,
+  CreateAnalysisOptions,
+  GetAnalysisRequestedByUserOptions,
 } from './types';
 
 import { cleanLinkedInUrl } from './helpers';
@@ -117,7 +117,9 @@ export class HumanticAiService {
     return this.profileAnalysisModel.countDocuments();
   }
 
-  async getRequestHistory({ userId }: GetRequestHistoryOptions) {
+  async getAnalysisRequestedByUser({
+    userId,
+  }: GetAnalysisRequestedByUserOptions) {
     const requests = await this.metricService.getHumanticRequests({ userId });
 
     return this.profileAnalysisModel.find({

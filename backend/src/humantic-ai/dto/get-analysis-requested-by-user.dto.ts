@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty } from 'class-validator';
 
-export class GetRequestHistoryDto {
+export class GetAnalysisRequestedByUserDto {
   @IsString()
   @IsNotEmpty()
   userId: string;

@@ -16,6 +16,6 @@ export interface GetAnalysisOptions {
   linkedInUrl: string;
 }
 
-export interface GetRequestHistoryOptions {
+export interface GetAnalysisRequestedByUserOptions {
   userId: string;
 }
