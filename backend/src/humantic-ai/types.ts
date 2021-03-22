@@ -3,11 +3,19 @@ export enum Persona {
   HIRING = 'hiring',
 }
 
-export interface CreateAnalysisParams {
+export interface CreateAnalysisOptions {
   userId: string;
 }
 
-export interface FetchAnalysisParams {
+export interface FetchAnalysisOptions {
   userId: string;
   persona?: Persona;
+}
+
+export interface GetAnalysisOptions {
+  linkedInUrl: string;
+}
+
+export interface GetAnalysisRequestedByUserOptions {
+  userId: string;
 }
