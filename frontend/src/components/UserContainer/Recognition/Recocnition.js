@@ -7,21 +7,14 @@ import { BUTTONS } from '../../../helpers/constants/constants';
 import userService from '../../../services/userService';
 
 const Recognition = () => {
-  const [answer, setAnswer] = useState('')
-  const [question, setQuestion] = useState('')
   const [record, setRecord] = useState(false)
   const [blob, setBlob] = useState(new Blob([' '], { type: 'text/plain' }))
 
-  const answerMutation = useMutation(() => userService.getAnswer(question), {
-    onSuccess: res => setAnswer(res.answer)
+  const questionMutation = useMutation(() => userService.questionRecognition(blob), {
+    onSuccess: res => answerMutation.mutate(res.text)
   })
 
-  const questionMutation = useMutation(() => userService.questionRecognition(blob), {
-    onSuccess: res => {
-      setQuestion(res.text)
-      answerMutation.mutate(res.text)
-    }
-  })
+  const answerMutation = useMutation(question => userService.getAnswer(question))
 
   const startRecording = () => setRecord(true)
   const stopRecording = () => setRecord(false)
@@ -50,15 +43,15 @@ const Recognition = () => {
           {BUTTONS.send}
         </Button>
       </div>
-      { question &&
+      { questionMutation.data &&
         <>
           <h1>Question</h1>
           <div className={classes.recognizedText}>
-            {question}
+            {questionMutation.data.text}
           </div>
           <h1>Answer</h1>
           <div className={classes.recognizedText}>
-            {answer}
+            {answerMutation.data && answerMutation.data.answer}
           </div>
         </>
       }
