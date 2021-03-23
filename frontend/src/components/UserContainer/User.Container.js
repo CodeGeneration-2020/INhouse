@@ -9,12 +9,14 @@ const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
     height: '100vh',
+    minWidth: '992px',
+    width: '100%'
   },
   container: {
     display: 'flex',
     height: '100vh',
+    width: '100%',
   },
   checkbox: {
     marginLeft: '30px',

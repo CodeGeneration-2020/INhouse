@@ -1,16 +1,14 @@
 .humantic {
   display: flex;
-  margin-top: 20px;
   margin-left: 20px;
   text-overflow: hidden;
   text-decoration: none;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
   width: 33.3%;
-  max-height: 100%;
+  max-width: 33.3%;
+  justify-content: flex-start;
   background-color: white;
-  border-right: solid 1px;
   button {
     margin-top: 10px;
     margin-left: 20px;

@@ -32,14 +32,10 @@ const Recognition = () => {
     <div className={classes.record}>
       <div className={classes.record_wrapper}>
         <ReactMic backgroundColor="white" strokeColor="#000000" record={record} onStop={onStop} />
-        <div className={classes.recordBtns}>
-          <Button variant="contained" color="primary" onClick={startRecording}>{BUTTONS.start}</Button>
-          <Button onClick={stopRecording} variant="contained" color="secondary">{BUTTONS.stop}</Button>
-        </div>
-        <div className={classes.sendAudio}>
-          <audio controls src={URL.createObjectURL(blob)} />
-          <Button variant="contained" color="primary" onClick={recognizeHandler}>{BUTTONS.send}</Button>
-        </div>
+        <Button variant="contained" color="primary" onClick={startRecording}>{BUTTONS.start}</Button>
+        <Button onClick={stopRecording} variant="contained" color="secondary">{BUTTONS.stop}</Button>
+        <audio controls src={URL.createObjectURL(blob)} />
+        <Button variant="contained" color="primary" onClick={recognizeHandler}>{BUTTONS.send}</Button>
       </div>
       {recognitionRows.map((recognitionRow, index) =>
         <RecognitionRow key={index} recognitionRow={recognitionRow} />
