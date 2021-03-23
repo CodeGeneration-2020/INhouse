@@ -55,9 +55,9 @@ export class AlgoliaDialogService
     const dialog = hits[0];
 
     return {
-      context: dialog.context,
-      question: dialog.question,
-      answer: dialog.answer,
+      context: dialog?.context ?? '',
+      question: dialog?.question ?? question,
+      answer: dialog?.answer ?? 'not found',
     };
   }
 
