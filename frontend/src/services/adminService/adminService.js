@@ -12,6 +12,11 @@ class AdminService extends HttpService {
     return this.post(route, service)
   }
 
+  getUserRequestedAnalysis(userId) {
+    const route = routes[this.getUserRequestedAnalysis.name]
+    return this.post(route, { userId })
+  }
+
   getLinkedinCount() {
     const route = routes[this.getLinkedinCount.name]
     return this.post(route)
