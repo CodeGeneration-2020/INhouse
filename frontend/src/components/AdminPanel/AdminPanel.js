@@ -13,7 +13,7 @@ const AdminPanel = () => {
 
   const linkedinCount = useQuery('linkedin-count', () => adminService.getLinkedinCount())
   const users = useQuery('users', () => adminService.getUsers())
-  const analysis = useMutation('analysis', userId => adminService.getUserRequestedAnalysis(userId))
+  const analyzes = useMutation('analysis', userId => adminService.getUserRequestedAnalysis(userId))
 
   const metrics = useQuery('metrics', async () => {
     const algolia = await adminService.getMetrics({ service: 'algolia' })
@@ -25,14 +25,10 @@ const AdminPanel = () => {
     onSuccess: () => queryClient.invalidateQueries('users')
   })
 
-  const deleteUserHandler = id => deleteUserMutation.mutate(id)
-
   const handleOpen = userId => {
-    analysis.mutate(userId)
     setOpen(true);
+    analyzes.mutate(userId)
   }
-
-  if (analysis.data) console.log(analysis.data);
 
   return (
     <div className={classes.admin_panel}>
@@ -44,11 +40,13 @@ const AdminPanel = () => {
       <h2>Users</h2>
       <Table>
         <TableHead className={classes.head}>
-          <TableCell>Username</TableCell>
-          <TableCell>Action</TableCell>
+          <TableRow>
+            <TableCell>Username</TableCell>
+            <TableCell>Action</TableCell>
+          </TableRow>
         </TableHead>
         <TableBody>
-          {users.data && users.data.map(user =>
+          {users.data?.map(user =>
             <TableRow className={classes.user} key={user.id}>
               <TableCell>
                 <ListItem className={classes.username} button onClick={() => handleOpen(user.id)}>
@@ -56,29 +54,25 @@ const AdminPanel = () => {
                 </ListItem>
               </TableCell>
               <TableCell>
-                <button onClick={() => deleteUserHandler(user.id)}>
-                  Remove
-                </button>
+                <button onClick={() => deleteUserMutation.mutate(user.id)}>Remove</button>
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
       <h2 className={classes.metrics}>
-        {metrics.data &&
-          `Metrics: algolia - ${metrics.data.algolia}, humantic - ${metrics.data.humantic}`
-        }
+        Metrics: algolia - {metrics.data?.algolia}, humantic - {metrics.data?.humantic}
       </h2>
       <h2>
-        {linkedinCount.data && `Amount of LinkedIn Profiles: ${linkedinCount.data}`}
+        Amount of LinkedIn Profiles: {linkedinCount?.data}
       </h2>
-      {analysis.data &&
-        <Modal open={open} onClose={() => setOpen(false)} className={classes.modal}>
-          <div className={classes.modal_container}>
-            {analysis.data.map(analys => <HumanticResponse linkedinInfo={analys.analysis} />)}
-          </div>
-        </Modal>
-      }
+      <Modal open={open} onClose={() => setOpen(false)} className={classes.modal}>
+        <div className={classes.modal_container}>
+          {analyzes.data?.map(analysis =>
+            <HumanticResponse key={analysis._id} linkedinInfo={analysis.analysis} />
+          )}
+        </div>
+      </Modal>
     </div>
   )
 }
