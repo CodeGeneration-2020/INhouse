@@ -1,5 +1,5 @@
 import { Button, Input } from '@material-ui/core';
-import React from 'react'
+import React, { useState } from 'react'
 import { useMutation } from 'react-query';
 import { useForm } from '../../../helpers/Hooks/UseForm';
 import classes from './Humantic.module.scss';
@@ -9,12 +9,14 @@ import userService from '../../../services/userService';
 
 const Humantic = () => {
   const [inputValue, setField, reset] = useForm({ linkedInUrl: '' })
+  const [analyzes, setAnalyzes] = useState([])
 
   const mutationHumantic = useMutation(() => userService.createHumantic(inputValue.linkedInUrl), {
-    onSuccess: () => reset()
+    onSuccess: res => {
+      reset()
+      setAnalyzes([...analyzes, res])
+    }
   })
-
-  const sendLinkedin = () => mutationHumantic.mutate()
 
   return (
     <div className={classes.humantic}>
@@ -24,11 +26,11 @@ const Humantic = () => {
           name="linkedInUrl"
           value={inputValue.linkedInUrl}
           onChange={setField} />
-        <Button variant="contained" color="primary" onClick={sendLinkedin}>
+        <Button variant="contained" color="primary" onClick={() => mutationHumantic.mutate()}>
           {BUTTONS.send}
         </Button>
       </div>
-      {mutationHumantic.data && <HumanticResponse linkedinInfo={mutationHumantic.data} />}
+      {analyzes.map(analysis => <HumanticResponse key={analysis.id} linkedinInfo={analysis} /> )}
     </div>
   )
 }
