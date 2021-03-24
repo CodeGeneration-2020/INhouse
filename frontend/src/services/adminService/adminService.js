@@ -31,6 +31,14 @@ class AdminService extends HttpService {
     const route = routes[this.deleteUser.name]
     return this.post(route, { id })
   }
+
+  getPre() {
+    const hardcodedData = [
+      { userId: '1', text: 'hello', createdAt: '18:00' },
+      { userId: '2', text: 'hi', createdAt: '12:00' },
+    ]
+    return hardcodedData;
+  }
 }
 
 export default AdminService;

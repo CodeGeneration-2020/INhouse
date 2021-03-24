@@ -1,18 +1,3 @@
-$white: white;
-
-.admin_panel {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  padding: 10px 50px 0px 50px;
-  margin: 0 auto;
-  margin-bottom: auto;
-  width: 800px;
-  height: 100vh;
-  background-color: $white;
-  border-radius: 20px;
-}
-
 .username {
   font-size: 25px;
 }
@@ -20,6 +5,7 @@ $white: white;
 .head {
   th {
     padding-left: 25px;
+    font-size: 20px;
   }
 }
 

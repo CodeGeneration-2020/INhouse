@@ -2,15 +2,14 @@ import { Button, ListItem, Modal, Table, TableBody, TableCell, TableHead, TableR
 import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useHistory } from 'react-router'
-import adminService from '../../services/adminService'
-import HumanticResponse from '../UserContainer/Humantic/HumanticResponse/HumanticResponse'
-import classes from './AdminPanel.module.scss'
+import adminService from '../../../services/adminService';
+import HumanticResponse from '../../UserContainer/Humantic/HumanticResponse/HumanticResponse';
+import classes from './GeneralSection.module.scss'
 
-const AdminPanel = () => {
+const GeneralSection = () => {
   const history = useHistory()
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient()
-
   const linkedinCount = useQuery('linkedin-count', () => adminService.getLinkedinCount())
   const users = useQuery('users', () => adminService.getUsers())
   const analyzes = useMutation('analysis', userId => adminService.getUserRequestedAnalysis(userId))
@@ -31,8 +30,7 @@ const AdminPanel = () => {
   }
 
   return (
-    <div className={classes.admin_panel}>
-      <h1>Admin panel</h1>
+    <>
       <Button className={classes.add_user} variant="contained" color="primary"
         onClick={() => history.push('/add_user')}>
         Add user
@@ -73,8 +71,8 @@ const AdminPanel = () => {
           )}
         </div>
       </Modal>
-    </div>
+    </>
   )
 }
 
-export default AdminPanel
+export default GeneralSection
