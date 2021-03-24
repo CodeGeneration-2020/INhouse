@@ -1,7 +1,8 @@
-import { Button, makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 import React from 'react'
 import { useMutation } from 'react-query';
 import userService from '../../../services/userService';
+import { GreenButton } from '../../../styles/buttons';
 
 const useStyles = makeStyles(() => ({
   pdf: {
@@ -17,14 +18,14 @@ const UploadPdf = () => {
   })
 
   return (
-    <Button className={classes.pdf} variant="contained" component="label">
+    <GreenButton className={classes.pdf} variant="contained" component="label">
       Upload File
       <input
         type="file"
         hidden
         onChange={e => pdfMutation.mutate(e.target.files[0])}
       />
-    </Button>
+    </GreenButton>
   )
 }
 

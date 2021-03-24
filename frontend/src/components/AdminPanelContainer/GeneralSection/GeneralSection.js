@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useHistory } from 'react-router'
 import adminService from '../../../services/adminService';
+import { GreenButton } from '../../../styles/buttons';
 import HumanticResponse from '../../UserContainer/Humantic/HumanticResponse/HumanticResponse';
 import classes from './GeneralSection.module.scss'
 
@@ -31,10 +32,10 @@ const GeneralSection = () => {
 
   return (
     <>
-      <Button className={classes.add_user} variant="contained" color="primary"
+      <GreenButton className={classes.add_user} variant="contained"
         onClick={() => history.push('/add_user')}>
         Add user
-      </Button>
+      </GreenButton>
       <h2>Users</h2>
       <Table>
         <TableHead className={classes.head}>
@@ -52,7 +53,11 @@ const GeneralSection = () => {
                 </ListItem>
               </TableCell>
               <TableCell>
-                <button onClick={() => deleteUserMutation.mutate(user.id)}>Remove</button>
+                <Button variant="contained" color="secondary"
+                  onClick={() => deleteUserMutation.mutate(user.id)}
+                >
+                  Remove
+                </Button>
               </TableCell>
             </TableRow>
           )}

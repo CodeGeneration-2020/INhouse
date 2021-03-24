@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core'
+import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core'
 import React from 'react'
 import { useQuery } from 'react-query'
 import adminService from '../../../services/adminService'
@@ -24,7 +24,11 @@ const PreSection = () => {
             <TableRow key={pre.userId}>
               <TableCell>{pre.text}</TableCell>
               <TableCell>{pre.createdAt}</TableCell>
-              <TableCell>Download</TableCell>
+              <TableCell>
+                <Button variant="contained" color="primary">
+                  Download
+                </Button>
+              </TableCell>
             </TableRow>
           )}
         </TableBody>
