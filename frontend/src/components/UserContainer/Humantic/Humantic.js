@@ -30,7 +30,7 @@ const Humantic = () => {
           {BUTTONS.send}
         </Button>
       </div>
-      {analyzes.map(analysis => <HumanticResponse key={analysis.id} linkedinInfo={analysis} /> )}
+      {analyzes.map(analysis => <HumanticResponse key={analysis.user_id} linkedinInfo={analysis} /> )}
     </div>
   )
 }

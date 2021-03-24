@@ -56,6 +56,8 @@ export class DialogController {
       dialogs.push(...newDialogs);
     }
 
-    return this.dialogService.uploadDialogs({ dialogs });
+    await this.dialogService.uploadDialogs({ dialogs });
+
+    return dialogs;
   }
 }
