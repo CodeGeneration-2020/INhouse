@@ -18,3 +18,13 @@ export interface TrackHumanticRequestOptions {
 export interface GetHumanticRequestsOptions {
   userId: string;
 }
+
+export interface TrackRecognizeOptions {
+  userId?: string;
+  text: string;
+}
+
+export interface GetAllRecognizedOptions {
+  limit?: number;
+  offset?: number;
+}

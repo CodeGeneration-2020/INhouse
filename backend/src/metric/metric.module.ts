@@ -14,6 +14,11 @@ import {
   HumanticRequestMetricSchema,
 } from './schemas/humantic-request-metric.schema';
 
+import {
+  RecognizeMetric,
+  RecognizeMetricSchema,
+} from './schemas/recognize-metric.schema';
+
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -24,6 +29,10 @@ import {
       {
         name: HumanticRequestMetric.name,
         schema: HumanticRequestMetricSchema,
+      },
+      {
+        name: RecognizeMetric.name,
+        schema: RecognizeMetricSchema,
       },
     ]),
   ],
