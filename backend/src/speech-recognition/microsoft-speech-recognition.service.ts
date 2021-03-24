@@ -8,6 +8,8 @@ import {
   SpeechRecognizer,
 } from 'microsoft-cognitiveservices-speech-sdk';
 
+import { MetricService } from '../metric/metric.service';
+
 import { RecognizeInput } from './types';
 
 import { SpeechRecognitionService } from './speech-recognition.service';
@@ -22,7 +24,10 @@ Recognizer.enableTelemetry(false);
 
 @Injectable()
 export class MicrosoftSpeechRecognitionService extends SpeechRecognitionService {
-  constructor(private configService: ConfigService) {
+  constructor(
+    private configService: ConfigService,
+    private metricService: MetricService,
+  ) {
     super();
   }
 
@@ -44,6 +49,8 @@ export class MicrosoftSpeechRecognitionService extends SpeechRecognitionService 
     const recognizer = new SpeechRecognizer(speechConfig, audioConfig);
 
     const { text } = await recognizeOnceAsync(recognizer);
+
+    this.metricService.trackRecognize({ text });
 
     return text;
   }

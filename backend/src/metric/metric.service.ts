@@ -9,6 +9,8 @@ import {
   GetCountApiCallsOptions,
   TrackHumanticRequestOptions,
   GetHumanticRequestsOptions,
+  TrackRecognizeOptions,
+  GetAllRecognizedOptions,
 } from './metric.service.types';
 
 import {
@@ -20,6 +22,11 @@ import {
   HumanticRequestMetric,
   HumanticRequestMetricDocument,
 } from './schemas/humantic-request-metric.schema';
+
+import {
+  RecognizeMetric,
+  RecognizeMetricDocument,
+} from './schemas/recognize-metric.schema';
 
 import { Request } from '../shared/types';
 
@@ -36,6 +43,9 @@ export class MetricService {
 
     @InjectModel(HumanticRequestMetric.name)
     private humanticRequestMetricModel: Model<HumanticRequestMetricDocument>,
+
+    @InjectModel(RecognizeMetric.name)
+    private recognizeMetricModel: Model<RecognizeMetricDocument>,
   ) {}
 
   trackApiCall({ service, method }: TracApiOptions) {
@@ -75,5 +85,16 @@ export class MetricService {
 
   getHumanticRequests({ userId }: GetHumanticRequestsOptions) {
     return this.humanticRequestMetricModel.find({ userId });
+  }
+
+  trackRecognize({
+    userId = this.request.user.id,
+    text,
+  }: TrackRecognizeOptions) {
+    return this.recognizeMetricModel.create({ userId, text });
+  }
+
+  getAllRecognized({ limit = 10, offset = 0 }: GetAllRecognizedOptions) {
+    return this.recognizeMetricModel.find().limit(limit).skip(offset);
   }
 }
