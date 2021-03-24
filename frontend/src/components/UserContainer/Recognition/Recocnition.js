@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReactMic } from 'react-mic';
 import classes from './Recognition.module.scss';
 import { useMutation } from 'react-query';
@@ -9,6 +9,7 @@ import RecognitionRow from './RecognitionRow/RecognitionRow';
 
 const Recognition = () => {
   const [record, setRecord] = useState(false)
+  const [autoRecord, setAutoRecord] = useState(false)
   const [audio, setAudio] = useState(new Blob([' '], { type: 'text/plain' }))
   const [recognitionRows, setRecognitionRows] = useState([])
 
@@ -22,20 +23,43 @@ const Recognition = () => {
     onSuccess: res => answerMutation.mutate(res.text)
   })
 
+  const startRecording = () => {
+    setAutoRecord(false)
+    setRecord(true)
+  }
 
-  const startRecording = () => setRecord(true)
   const stopRecording = () => setRecord(false)
+  const startAutoRecord = () => {
+    setRecord(true)
+    setAutoRecord(true)
+  }
   const onStop = recordedBlob => {
     questionMutation.mutate(recordedBlob.blob)
     setAudio(recordedBlob.blob)
   }
 
+  useEffect(() => {
+    if (!autoRecord) return;
+    const sendRecordInterval = setInterval(() => {
+      setRecord(false)
+      setRecord(true)
+    }, 15000);
+
+    return () => clearInterval(sendRecordInterval);
+  }, [autoRecord]);
+
   return (
     <div className={classes.record}>
       <div className={classes.record_wrapper}>
-        <ReactMic backgroundColor="white" strokeColor="#000000" record={record} onStop={onStop} />
-        <Button variant="contained" color="primary" onClick={startRecording}>{BUTTONS.start}</Button>
+        <ReactMic
+          backgroundColor="white"
+          strokeColor="#000000"
+          record={record}
+          onStop={onStop}
+        />
+        <Button onClick={startRecording} variant="contained" color="primary">{BUTTONS.start}</Button>
         <Button onClick={stopRecording} variant="contained" color="secondary">{BUTTONS.stop}</Button>
+        <Button onClick={startAutoRecord}>Auto Record</Button>
         <audio controls src={URL.createObjectURL(audio)} />
       </div>
       {recognitionRows.map((recognitionRow, index) =>
