@@ -15,7 +15,9 @@ const useStyles = makeStyles(() => ({
   },
   container: {
     display: 'flex',
+    overflowY: 'auto',
     height: '100vh',
+    marginBottom: '10px',
     width: '100%',
   },
   checkbox: {
