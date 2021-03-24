@@ -3,5 +3,6 @@ export const routes = {
   getLinkedinCount: '/humantic-ai/get-count-analysis',
   getUsers: '/user/get-all',
   deleteUser: '/user/delete',
-  getUserRequestedAnalysis: '/humantic-ai/get-analysis-requested-by-user'
+  getUserRequestedAnalysis: '/humantic-ai/get-analysis-requested-by-user',
+  getAllRecognized: '/metric/get-all-recognized',
 }

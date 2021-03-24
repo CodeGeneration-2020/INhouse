@@ -3,10 +3,10 @@ import React from 'react'
 import { useQuery } from 'react-query'
 import adminService from '../../../services/adminService'
 import classes from './PreSection.module.scss'
+import format from 'date-fns/format'
 
 const PreSection = () => {
-  const preQuery = useQuery('pre', () => adminService.getPre())
-  if (preQuery.data) console.log(preQuery.data);
+  const allRecognized = useQuery('all-recognized', () => adminService.getAllRecognized())
 
   return (
     <>
@@ -20,10 +20,10 @@ const PreSection = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {preQuery.data?.map(pre =>
-            <TableRow key={pre.userId}>
-              <TableCell>{pre.text}</TableCell>
-              <TableCell>{pre.createdAt}</TableCell>
+          {allRecognized.data?.map(row =>
+            <TableRow key={row._id}>
+              <TableCell>{row.text}</TableCell>
+              <TableCell>{format(new Date(row.createdAt), 'HH:mm LLL dd yyyy')}</TableCell>
               <TableCell>
                 <Button variant="contained" color="primary">
                   Download

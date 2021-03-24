@@ -1,12 +1,11 @@
 import React from 'react'
 import axios from 'axios';
-import { Button, TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom'
 import classes from './Auth.module.scss'
 import { useForm } from '../../helpers/Hooks/UseForm';
 import { strategy } from './strategy';
 import { GreenButton } from '../../styles/buttons';
-
 
 const Auth = ({ auth }) => {
   const [formValues, setField] = useForm({ username: '', password: '' })

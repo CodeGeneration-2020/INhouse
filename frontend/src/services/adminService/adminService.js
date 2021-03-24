@@ -32,12 +32,9 @@ class AdminService extends HttpService {
     return this.post(route, { id })
   }
 
-  getPre() {
-    const hardcodedData = [
-      { userId: '1', text: 'hello', createdAt: '18:00' },
-      { userId: '2', text: 'hi', createdAt: '12:00' },
-    ]
-    return hardcodedData;
+  getAllRecognized() {
+    const route = routes[this.getAllRecognized.name]
+    return this.post(route, { limit: 9999 });
   }
 }
 
