@@ -6,10 +6,13 @@ import algoliasearch, { SearchClient } from 'algoliasearch';
 import { ApiService } from '../../metric/types';
 import { MetricService } from '../../metric/metric.service';
 
-import { Dialog } from '../types';
+import { Dialog, SavedDialog } from '../types';
 
 import { DialogService } from './dialog.service';
-import { GetAnswerOptions, UploadDialogsOptions } from './dialog.service.types';
+import { GetOptions, GetAllOptions, UploadOptions } from './dialog.types';
+
+import { toSavedDialog } from './algolia-dialog.helpers';
+import { AlgoliaSavedDialog } from './algolia-dialog.types';
 
 @Injectable()
 export class AlgoliaDialogService
@@ -33,14 +36,12 @@ export class AlgoliaDialogService
   async onModuleInit() {
     const index = this.client.initIndex('dialogs');
 
-    const settings = {
+    await index.setSettings({
       searchableAttributes: ['question'],
-    };
-
-    await index.setSettings(settings).wait();
+    });
   }
 
-  async getAnswer({ question }: GetAnswerOptions) {
+  async get({ question }: GetOptions) {
     const index = this.client.initIndex('dialogs');
 
     const { hits } = await index.search<Dialog>(question, {
@@ -55,22 +56,47 @@ export class AlgoliaDialogService
     const dialog = hits[0];
 
     return {
-      context: dialog?.context ?? '',
+      context: dialog?.context ?? 'Not found',
       question: dialog?.question ?? question,
-      answer: dialog?.answer ?? 'not found',
+      answer: dialog?.answer ?? 'Not found',
     };
   }
 
-  async uploadDialogs({ dialogs }: UploadDialogsOptions) {
+  // TODO: create a pagination
+  async getAll({ limit = 10, offset = 0 }: GetAllOptions) {
     const index = this.client.initIndex('dialogs');
 
-    const options = { autoGenerateObjectIDIfNotExist: true };
+    const dialogs: SavedDialog[] = [];
 
-    await index.saveObjects(dialogs, options).wait();
+    await index.browseObjects<Dialog>({
+      batch: (batch: AlgoliaSavedDialog[]) => {
+        dialogs.push(...batch.map(toSavedDialog));
+      },
+    });
+
+    return dialogs;
+  }
+
+  async upload({ dialogs }: UploadOptions) {
+    const index = this.client.initIndex('dialogs');
+
+    const { objectIDs } = await index.saveObjects(dialogs, {
+      autoGenerateObjectIDIfNotExist: true,
+    });
 
     this.metricService.trackApiCall({
       service: ApiService.ALGOLIA,
       method: 'save-objects',
+    });
+
+    return dialogs.map((dialog, index) => {
+      const savedDialog: SavedDialog = {
+        id: objectIDs[index],
+
+        ...dialog,
+      };
+
+      return savedDialog;
     });
   }
 }
