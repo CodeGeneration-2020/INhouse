@@ -1,8 +1,12 @@
 import React from 'react'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core'
 import classes from './Sales.module.scss'
+import { useQuery } from 'react-query'
+import adminService from '../../../services/adminService'
 
 const Sales = () => {
+  const allSales = useQuery('all-sales', () => adminService.getAllSales())
+
   return (
     <>
       <h1>Sales questions and answers</h1>
@@ -14,10 +18,12 @@ const Sales = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-            <TableRow>
-              <TableCell>What is the end?</TableCell>
-              <TableCell>End</TableCell>
-            </TableRow>
+          {allSales.data?.map((row =>
+            <TableRow key={row.objectID}>
+              <TableCell>{row.question}</TableCell>
+              <TableCell>{row.answer}</TableCell>
+            </TableRow>))}
+
         </TableBody>
       </Table>
     </>
