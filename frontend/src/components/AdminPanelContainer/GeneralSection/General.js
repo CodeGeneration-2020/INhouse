@@ -6,9 +6,9 @@ import { BUTTONS, TEXTS } from '../../../helpers/constants/constants';
 import adminService from '../../../services/adminService';
 import { GreenButton } from '../../../styles/buttons';
 import HumanticResponse from '../../UserContainer/Humantic/HumanticResponse/HumanticResponse';
-import classes from './GeneralSection.module.scss'
+import classes from './General.module.scss'
 
-const GeneralSection = () => {
+const General = () => {
   const history = useHistory()
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient()
@@ -81,4 +81,4 @@ const GeneralSection = () => {
   )
 }
 
-export default GeneralSection
+export default General

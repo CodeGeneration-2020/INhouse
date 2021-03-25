@@ -1,7 +1,8 @@
 import { makeStyles } from "@material-ui/core";
 import { TEXTS } from "../../helpers/constants/constants";
-import GeneralSection from "./GeneralSection/GeneralSection"
-import PreSection from "./PreSection/PreSection"
+import General from "./GeneralSection/General"
+import Pre from "./Pre/Pre"
+import Sales from "./Sales/Sales";
 
 const useStyles = makeStyles(() => ({
   admin_panel: {
@@ -11,7 +12,7 @@ const useStyles = makeStyles(() => ({
     padding: '10px 50px 0px 50px',
     margin: '0 auto',
     marginBottom: 'auto',
-    width: '800px',
+    width: '80%',
     backgroundColor: 'white',
     borderRadius: '20px',
   },
@@ -23,8 +24,9 @@ const AdminPanelContainer = () => {
   return (
     <div className={classes.admin_panel}>
       <h1>{TEXTS.headAdmin}</h1>
-      <GeneralSection />
-      <PreSection />
+      <General />
+      <Pre />
+      <Sales />
     </div>
   )
 }

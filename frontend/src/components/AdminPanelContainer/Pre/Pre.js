@@ -2,11 +2,11 @@ import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@mater
 import React from 'react'
 import { useQuery } from 'react-query'
 import adminService from '../../../services/adminService'
-import classes from './PreSection.module.scss'
+import classes from './Pre.module.scss'
 import format from 'date-fns/format'
 import { BUTTONS, TEXTS } from '../../../helpers/constants/constants'
 
-const PreSection = () => {
+const Pre = () => {
   const allRecognized = useQuery('all-recognized', () => adminService.getAllRecognized())
 
   return (
@@ -15,6 +15,7 @@ const PreSection = () => {
       <Table className={classes.pre_section}>
         <TableHead className={classes.table_head}>
           <TableRow>
+            <TableCell>Username</TableCell>
             <TableCell>{TEXTS.recordedText}</TableCell>
             <TableCell>{TEXTS.dateAdded}</TableCell>
             <TableCell>{TEXTS.action}</TableCell>
@@ -23,6 +24,7 @@ const PreSection = () => {
         <TableBody>
           {allRecognized.data?.map(row =>
             <TableRow key={row._id}>
+              <TableCell>{row.userId}</TableCell>
               <TableCell>{row.text}</TableCell>
               <TableCell>{format(new Date(row.createdAt), 'HH:mm LLL dd yyyy')}</TableCell>
               <TableCell>
@@ -38,4 +40,4 @@ const PreSection = () => {
   )
 }
 
-export default PreSection
+export default Pre
