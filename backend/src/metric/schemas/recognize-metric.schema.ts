@@ -9,6 +9,13 @@ import { User } from '../../user/schemas/user.schema';
   versionKey: false,
 })
 export class RecognizeMetric {
+  @Type(() => String)
+  @Expose({
+    name: '_id',
+    groups: ['admin'],
+  })
+  id: string;
+
   @Type(() => User)
   @Prop({
     type: SchemaTypes.ObjectId,
