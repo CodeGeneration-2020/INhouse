@@ -24,8 +24,8 @@ const Pre = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {allRecognized.data?.map((row, index) =>
-            <TableRow key={index}>
+          {allRecognized.data?.map(row =>
+            <TableRow key={row.id}>
               <TableCell>{row.user.username}</TableCell>
               <TableCell>{row.text}</TableCell>
               <TableCell>{format(new Date(row.createdAt), 'HH:mm LLL dd yyyy')}</TableCell>
