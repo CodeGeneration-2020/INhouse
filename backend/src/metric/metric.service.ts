@@ -2,6 +2,7 @@ import { REQUEST } from '@nestjs/core';
 import { InjectModel } from '@nestjs/mongoose';
 import { Inject, Injectable, Scope } from '@nestjs/common';
 
+import { plainToClass } from 'class-transformer';
 import { Model, FilterQuery } from 'mongoose';
 
 import {
@@ -91,10 +92,23 @@ export class MetricService {
     userId = this.request.user.id,
     text,
   }: TrackRecognizeOptions) {
-    return this.recognizeMetricModel.create({ userId, text });
+    return this.recognizeMetricModel.create({ user: userId, text });
   }
 
-  getAllRecognized({ limit = 10, offset = 0 }: GetAllRecognizedOptions) {
-    return this.recognizeMetricModel.find().limit(limit).skip(offset);
+  async getAllRecognized({ limit = 10, offset = 0 }: GetAllRecognizedOptions) {
+    const query = this.recognizeMetricModel.find();
+
+    query.limit(limit);
+    query.skip(offset);
+    query.populate('user');
+    query.lean();
+
+    const recoginzedMetrics = await query.exec();
+
+    return plainToClass(RecognizeMetric, recoginzedMetrics, {
+      groups: ['admin'],
+      enableCircularCheck: true,
+      excludeExtraneousValues: true,
+    });
   }
 }
