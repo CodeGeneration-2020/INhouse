@@ -8,6 +8,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 
+import { plainToClass } from 'class-transformer';
 import { Model, FilterQuery } from 'mongoose';
 
 import { AuthService } from '../auth/auth.service';
@@ -53,9 +54,10 @@ export class UserService {
 
     await user.save();
 
-    return {
-      success: true,
-    };
+    return plainToClass(User, user, {
+      groups: ['admin'],
+      excludeExtraneousValues: true,
+    });
   }
 
   async login(loginUserDto: LoginUserDto) {
@@ -73,27 +75,25 @@ export class UserService {
       throw new NotFoundException('User not found');
     }
 
-    // TODO: use serializer for public user fields
-    return {
-      id: user.id,
-      username: user.username,
-      customerName: user.customerName,
-      contactName: user.contactName,
-      email: user.email,
-    };
+    return plainToClass(User, user, {
+      groups: ['admin'],
+      excludeExtraneousValues: true,
+    });
   }
 
   async getAll({ limit = 10, offset = 0 }: GetAllOptions) {
-    const users = await this.userModel.find().limit(limit).skip(offset);
+    const query = this.userModel.find();
 
-    // TODO: use serializer for public user fields
-    return users.map((user) => ({
-      id: user.id,
-      username: user.username,
-      customerName: user.customerName,
-      contactName: user.contactName,
-      email: user.email,
-    }));
+    query.limit(limit);
+    query.skip(offset);
+    query.lean();
+
+    const users = await query.exec();
+
+    return plainToClass(User, users, {
+      groups: ['admin'],
+      excludeExtraneousValues: true,
+    });
   }
 
   async edit(editUserDto: EditUserDto) {
@@ -118,8 +118,10 @@ export class UserService {
 
     await user.save();
 
-    // TODO: use serializer for public user fields
-    return this.get({ id: user.id });
+    return plainToClass(User, user, {
+      groups: ['admin'],
+      excludeExtraneousValues: true,
+    });
   }
 
   async delete(deleteUserDto: DeleteUserDto) {
