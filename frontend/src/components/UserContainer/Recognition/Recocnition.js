@@ -60,7 +60,7 @@ const Recognition = () => {
         />
         <GreenButton onClick={startRecording} variant="contained">{BUTTONS.start}</GreenButton>
         <Button onClick={stopRecording} variant="contained" color="secondary">{BUTTONS.stop}</Button>
-        <Button onClick={startAutoRecord} variant="contained" color="primary">Auto Record</Button>
+        <Button onClick={startAutoRecord} variant="contained" color="primary">{BUTTONS.autoRecord}</Button>
         <audio controls src={URL.createObjectURL(audio)} />
       </div>
       {recognitionRows.map((recognitionRow, index) =>

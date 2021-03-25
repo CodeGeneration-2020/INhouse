@@ -4,19 +4,20 @@ import { useQuery } from 'react-query'
 import adminService from '../../../services/adminService'
 import classes from './PreSection.module.scss'
 import format from 'date-fns/format'
+import { BUTTONS, TEXTS } from '../../../helpers/constants/constants'
 
 const PreSection = () => {
   const allRecognized = useQuery('all-recognized', () => adminService.getAllRecognized())
 
   return (
     <>
-      <h1>PRE Section</h1>
+      <h1>{TEXTS.headPRE}</h1>
       <Table className={classes.pre_section}>
         <TableHead className={classes.table_head}>
           <TableRow>
-            <TableCell>Recorded text</TableCell>
-            <TableCell>Date added</TableCell>
-            <TableCell>Action</TableCell>
+            <TableCell>{TEXTS.recordedText}</TableCell>
+            <TableCell>{TEXTS.dateAdded}</TableCell>
+            <TableCell>{TEXTS.action}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -26,7 +27,7 @@ const PreSection = () => {
               <TableCell>{format(new Date(row.createdAt), 'HH:mm LLL dd yyyy')}</TableCell>
               <TableCell>
                 <Button variant="contained" color="primary">
-                  Download
+                  {BUTTONS.download}
                 </Button>
               </TableCell>
             </TableRow>

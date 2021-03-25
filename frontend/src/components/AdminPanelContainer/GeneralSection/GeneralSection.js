@@ -2,6 +2,7 @@ import { Button, ListItem, Modal, Table, TableBody, TableCell, TableHead, TableR
 import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useHistory } from 'react-router'
+import { BUTTONS, TEXTS } from '../../../helpers/constants/constants';
 import adminService from '../../../services/adminService';
 import { GreenButton } from '../../../styles/buttons';
 import HumanticResponse from '../../UserContainer/Humantic/HumanticResponse/HumanticResponse';
@@ -34,14 +35,14 @@ const GeneralSection = () => {
     <>
       <GreenButton className={classes.add_user} variant="contained"
         onClick={() => history.push('/add_user')}>
-        Add user
+        {BUTTONS.addUser}
       </GreenButton>
-      <h2>Users</h2>
+      <h2>{TEXTS.headGeneral}</h2>
       <Table>
         <TableHead className={classes.head}>
           <TableRow>
-            <TableCell>Username</TableCell>
-            <TableCell>Action</TableCell>
+            <TableCell>{TEXTS.username}</TableCell>
+            <TableCell>{TEXTS.action}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -56,7 +57,7 @@ const GeneralSection = () => {
                 <Button variant="contained" color="secondary"
                   onClick={() => deleteUserMutation.mutate(user.id)}
                 >
-                  Remove
+                  {BUTTONS.remove}
                 </Button>
               </TableCell>
             </TableRow>
@@ -64,10 +65,10 @@ const GeneralSection = () => {
         </TableBody>
       </Table>
       <h2 className={classes.metrics}>
-        Metrics: algolia - {metrics.data?.algolia}, humantic - {metrics.data?.humantic}
+        {TEXTS.metrics}: {TEXTS.algolia} - {metrics.data?.algolia}, {TEXTS.humantic} - {metrics.data?.humantic}
       </h2>
       <h2>
-        Amount of LinkedIn Profiles: {linkedinCount?.data}
+        {TEXTS.linkedin}: {linkedinCount?.data}
       </h2>
       <Modal open={open} onClose={() => setOpen(false)} className={classes.modal}>
         <div className={classes.modal_container}>

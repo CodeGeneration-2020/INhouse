@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core";
+import { TEXTS } from "../../helpers/constants/constants";
 import GeneralSection from "./GeneralSection/GeneralSection"
 import PreSection from "./PreSection/PreSection"
 
@@ -21,7 +22,7 @@ const AdminPanelContainer = () => {
 
   return (
     <div className={classes.admin_panel}>
-      <h1>Admin panel</h1>
+      <h1>{TEXTS.headAdmin}</h1>
       <GeneralSection />
       <PreSection />
     </div>
