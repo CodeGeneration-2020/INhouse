@@ -29,11 +29,18 @@ export class DialogController {
     private textAnalyzerService: TextAnalyzerService,
   ) {}
 
-  @Post('get-answer')
+  @Post('get')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   getAnswer(@Body() getAnswerDto: GetAnswerDto) {
-    return this.dialogService.getAnswer(getAnswerDto);
+    return this.dialogService.get(getAnswerDto);
+  }
+
+  @Post('get-all')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  getAll(@Body() params: any) {
+    return this.dialogService.getAll(params);
   }
 
   @Post('upload-with-pdf')
@@ -56,8 +63,6 @@ export class DialogController {
       dialogs.push(...newDialogs);
     }
 
-    await this.dialogService.uploadDialogs({ dialogs });
-
-    return dialogs;
+    return this.dialogService.upload({ dialogs });
   }
 }

@@ -3,3 +3,7 @@ export interface Dialog {
   question: string;
   answer: string;
 }
+
+export interface SavedDialog extends Dialog {
+  id: string;
+}
