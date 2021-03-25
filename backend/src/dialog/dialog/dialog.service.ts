@@ -1,9 +1,11 @@
-import { Dialog } from '../types';
+import { Dialog, SavedDialog } from '../types';
 
-import { GetAnswerOptions, UploadDialogsOptions } from './dialog.service.types';
+import { GetOptions, GetAllOptions, UploadOptions } from './dialog.types';
 
 export abstract class DialogService {
-  abstract getAnswer(options: GetAnswerOptions): Promise<Dialog>;
+  abstract get(options: GetOptions): Promise<Dialog>;
 
-  abstract uploadDialogs(options: UploadDialogsOptions): Promise<void>;
+  abstract getAll(options: GetAllOptions): Promise<SavedDialog[]>;
+
+  abstract upload(options: UploadOptions): Promise<SavedDialog[]>;
 }
