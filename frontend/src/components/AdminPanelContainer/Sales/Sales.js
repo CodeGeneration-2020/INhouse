@@ -19,11 +19,10 @@ const Sales = () => {
         </TableHead>
         <TableBody>
           {allSales.data?.map((row =>
-            <TableRow key={row.objectID}>
+            <TableRow key={row.id}>
               <TableCell>{row.question}</TableCell>
               <TableCell>{row.answer}</TableCell>
             </TableRow>))}
-
         </TableBody>
       </Table>
     </>

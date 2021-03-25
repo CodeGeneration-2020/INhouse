@@ -10,6 +10,7 @@ import { useMargin } from '../../../styles/margin'
 const Pre = () => {
   const margin = useMargin()
   const allRecognized = useQuery('all-recognized', () => adminService.getAllRecognized())
+  console.log(allRecognized.data);
 
   return (
     <>
@@ -26,7 +27,7 @@ const Pre = () => {
         <TableBody>
           {allRecognized.data?.map(row =>
             <TableRow key={row._id}>
-              <TableCell>{row.userId}</TableCell>
+              <TableCell>{row.username}</TableCell>
               <TableCell>{row.text}</TableCell>
               <TableCell>{format(new Date(row.createdAt), 'HH:mm LLL dd yyyy')}</TableCell>
               <TableCell>
