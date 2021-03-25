@@ -5,10 +5,12 @@ import { useHistory } from 'react-router'
 import { BUTTONS, TEXTS } from '../../../helpers/constants/constants';
 import adminService from '../../../services/adminService';
 import { GreenButton } from '../../../styles/buttons';
+import { useMargin } from '../../../styles/margin';
 import HumanticResponse from '../../UserContainer/Humantic/HumanticResponse/HumanticResponse';
 import classes from './General.module.scss'
 
 const General = () => {
+  const margin = useMargin();
   const history = useHistory()
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient()
@@ -42,7 +44,7 @@ const General = () => {
         <TableHead className={classes.head}>
           <TableRow>
             <TableCell>{TEXTS.username}</TableCell>
-            <TableCell>{TEXTS.action}</TableCell>
+            <TableCell className={margin.left}>{TEXTS.action}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

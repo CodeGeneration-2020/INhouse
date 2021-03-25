@@ -5,8 +5,10 @@ import adminService from '../../../services/adminService'
 import classes from './Pre.module.scss'
 import format from 'date-fns/format'
 import { BUTTONS, TEXTS } from '../../../helpers/constants/constants'
+import { useMargin } from '../../../styles/margin'
 
 const Pre = () => {
+  const margin = useMargin()
   const allRecognized = useQuery('all-recognized', () => adminService.getAllRecognized())
 
   return (
@@ -18,7 +20,7 @@ const Pre = () => {
             <TableCell>Username</TableCell>
             <TableCell>{TEXTS.recordedText}</TableCell>
             <TableCell>{TEXTS.dateAdded}</TableCell>
-            <TableCell>{TEXTS.action}</TableCell>
+            <TableCell className={margin.left}>{TEXTS.action}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
