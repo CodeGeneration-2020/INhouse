@@ -18,21 +18,21 @@ const useStyles = makeStyles(() => ({
     width: "300px",
     margin: "0 auto",
   },
-  wrapper: {
-    width: "80%",
-    margin: '0 auto',
-  },
   header: {
     margin: "50px auto",
   },
+  danger: {
+    color: "red",
+    margin: "0 auto",
+  },
+  pdf_spinner: {
+    margin: '300px auto',
+  }
 }));
 
 const UploadPdf = () => {
-  const [parsedPdfs, setParsedPdfs] = useState([]);
   const classes = useStyles();
-  const pdfMutation = useMutation((file) => userService.uploadPdf(file), {
-    onSuccess: (res) => setParsedPdfs(res),
-  });
+  const pdfMutation = useMutation((file) => userService.uploadPdf(file));
 
   return (
     <>
@@ -48,24 +48,37 @@ const UploadPdf = () => {
           onChange={(e) => pdfMutation.mutate(e.target.files[0])}
         />
       </GreenButton>
-      {pdfMutation.isLoading && <CircularProgress />}
-      <h1 className={classes.header}>Parsed pdfs</h1>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Question</TableCell>
-              <TableCell>Answer</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {parsedPdfs.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell>{row.question}</TableCell>
-                <TableCell>{row.answer}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      {pdfMutation.isLoading ? (
+        <CircularProgress className={classes.pdf_spinner} />
+      ) : (
+        <>
+          {pdfMutation.isError ? (
+            <>
+              <h1 className={classes.header}>Parsed pdfs</h1>
+              <h2 className={classes.danger}>Can not parse</h2>
+            </>
+          ) : (
+            pdfMutation.data && (
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Question</TableCell>
+                    <TableCell>Answer</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {pdfMutation.data.map((row) => (
+                    <TableRow key={row.id}>
+                      <TableCell>{row.question}</TableCell>
+                      <TableCell>{row.answer}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )
+          )}
+        </>
+      )}
     </>
   );
 };
