@@ -1,4 +1,4 @@
-import { Input } from '@material-ui/core';
+import { CircularProgress, Input } from '@material-ui/core';
 import React, { useState } from 'react'
 import { useMutation } from 'react-query';
 import { useForm } from '../../../helpers/Hooks/UseForm';
@@ -31,6 +31,7 @@ const Humantic = () => {
           {BUTTONS.send}
         </GreenButton>
       </div>
+      {mutationHumantic.isLoading && <CircularProgress />}
       {analyzes.map(analysis => <HumanticResponse key={analysis.user_id} linkedinInfo={analysis} /> )}
     </div>
   )
