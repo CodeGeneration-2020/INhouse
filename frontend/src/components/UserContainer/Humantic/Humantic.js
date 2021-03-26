@@ -31,7 +31,7 @@ const Humantic = () => {
           {BUTTONS.send}
         </GreenButton>
       </div>
-      {mutationHumantic.isLoading && <CircularProgress />}
+      {mutationHumantic.isLoading && <CircularProgress className={classes.humantic_spinner} />}
       {analyzes.map(analysis => <HumanticResponse key={analysis.user_id} linkedinInfo={analysis} /> )}
     </div>
   )

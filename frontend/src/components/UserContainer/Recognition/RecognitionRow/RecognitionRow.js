@@ -1,4 +1,3 @@
-import { CircularProgress } from "@material-ui/core";
 import React from "react";
 import { RECOGNITION } from "../../constants/constants";
 import classes from "./RecognitionRow.module.scss";

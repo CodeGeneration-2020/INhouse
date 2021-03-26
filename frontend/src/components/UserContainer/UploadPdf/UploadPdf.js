@@ -7,7 +7,7 @@ import {
   TableRow,
   CircularProgress,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import { useMutation } from "react-query";
 import { BUTTONS } from "../../../helpers/constants/constants";
 import userService from "../../../services/userService";

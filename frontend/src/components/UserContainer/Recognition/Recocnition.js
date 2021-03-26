@@ -82,7 +82,7 @@ const Recognition = () => {
         </Button>
         <audio controls src={URL.createObjectURL(audio)} />
       </div>
-      {questionMutation.isLoading && <CircularProgress />}
+      {questionMutation.isLoading && <CircularProgress className={classes.recognition_spinner} />}
       {recognitionRows.map((recognitionRow, index) => (
         <RecognitionRow key={index} recognitionRow={recognitionRow} />
       ))}

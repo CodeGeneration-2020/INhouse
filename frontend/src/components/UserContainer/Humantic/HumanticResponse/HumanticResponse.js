@@ -1,4 +1,3 @@
-import { CircularProgress } from '@material-ui/core'
 import React from 'react'
 import { HUMANTIC } from '../../constants/constants'
 import classes from './HumanticResponse.module.scss'

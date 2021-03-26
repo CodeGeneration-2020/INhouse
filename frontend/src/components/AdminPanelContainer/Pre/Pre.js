@@ -26,7 +26,7 @@ const Pre = () => {
     <>
       <h1>{TEXTS.headPRE}</h1>
       {allRecognized.isLoading ? (
-        <CircularProgress />
+        <CircularProgress className={classes.pre_spinner}/>
       ) : (
         <TableContainer className={classes.container}>
           <Table className={classes.pre_section} stickyHeader>

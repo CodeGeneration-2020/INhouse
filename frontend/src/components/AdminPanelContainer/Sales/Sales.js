@@ -19,7 +19,7 @@ const Sales = () => {
     <>
       <h1>Sales questions and answers</h1>
       {allSales.isLoading ? (
-        <CircularProgress />
+        <CircularProgress className={classes.sales_spinner} />
       ) : (
         <TableContainer className={classes.container}> 
           <Table stickyHeader>

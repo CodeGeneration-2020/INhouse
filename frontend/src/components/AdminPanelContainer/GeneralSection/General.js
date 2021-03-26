@@ -60,7 +60,7 @@ const General = () => {
       </GreenButton>
       <h2>{TEXTS.headGeneral}</h2>
       {users.isLoading ? (
-        <CircularProgress />
+        <CircularProgress className={classes.users_spinner} />
       ) : (
         <Table>
           <TableHead className={classes.head}>
@@ -99,7 +99,7 @@ const General = () => {
         {metrics.isLoading ? (
           <CircularProgress />
         ) : (
-        `${TEXTS.metrics}: ${TEXTS.algolia} - ${metrics.data?.algolia},
+          `${TEXTS.metrics}: ${TEXTS.algolia} - ${metrics.data?.algolia},
         ${TEXTS.humantic} - ${metrics.data?.humantic}`
         )}
       </h2>
@@ -113,7 +113,7 @@ const General = () => {
       >
         <div className={classes.modal_container}>
           {analyzes.isLoading ? (
-            <CircularProgress />
+            <CircularProgress className={classes.analyzes_spinner} />
           ) : (
             analyzes.data?.map((analysis) => (
               <HumanticResponse
