@@ -6,6 +6,7 @@ import { useMutation } from 'react-query';
 import { BUTTONS } from '../../../helpers/constants/constants';
 import userService from '../../../services/userService';
 import RecognitionRow from './RecognitionRow/RecognitionRow';
+import { GreenButton } from '../../../styles/buttons';
 
 const Recognition = () => {
   const [record, setRecord] = useState(false)
@@ -57,9 +58,9 @@ const Recognition = () => {
           record={record}
           onStop={onStop}
         />
-        <Button onClick={startRecording} variant="contained" color="primary">{BUTTONS.start}</Button>
+        <GreenButton onClick={startRecording} variant="contained">{BUTTONS.start}</GreenButton>
         <Button onClick={stopRecording} variant="contained" color="secondary">{BUTTONS.stop}</Button>
-        <Button onClick={startAutoRecord}>Auto Record</Button>
+        <Button onClick={startAutoRecord} variant="contained" color="primary">{BUTTONS.autoRecord}</Button>
         <audio controls src={URL.createObjectURL(audio)} />
       </div>
       {recognitionRows.map((recognitionRow, index) =>

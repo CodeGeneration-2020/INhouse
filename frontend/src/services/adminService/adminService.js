@@ -31,6 +31,16 @@ class AdminService extends HttpService {
     const route = routes[this.deleteUser.name]
     return this.post(route, { id })
   }
+
+  getAllRecognized() {
+    const route = routes[this.getAllRecognized.name]
+    return this.post(route, { limit: 9999 });
+  }
+
+  getAllSales() {
+    const route = routes[this.getAllSales.name]
+    return this.post(route, {})
+}
 }
 
 export default AdminService;

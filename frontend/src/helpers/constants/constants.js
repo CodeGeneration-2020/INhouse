@@ -2,9 +2,14 @@ export const BUTTONS = {
   start: 'Start',
   stop: 'Stop',
   send: 'Send',
+  autoRecord: 'Auto record',
+  uploadPdf: 'Upload pdf file',
+  download: 'Download',
+  addUser: 'Add user',
   register: 'Register',
   login: 'Log in',
-  add: 'Add'
+  add: 'Add',
+  remove: 'Remove',
 }
 
 export const TEXTS = {
@@ -12,5 +17,16 @@ export const TEXTS = {
   questionLogin: 'Not registered yet? Register',
   registerHeader: 'Registeration',
   loginHeader: 'Loggin In',
-  addHeader: 'Add User'
+  addHeader: 'Add User',
+  headAdmin: 'Admin panel',
+  headGeneral: 'Users',
+  username: 'Username',
+  action: 'Action',
+  metrics: 'Metrics',
+  algolia: 'algolia',
+  humantic: 'humantic',
+  headPRE: 'PRE Section',
+  recordedText: 'Recorded text',
+  dateAdded: 'Date added',
+  linkedin: 'Amount of linkedin profiles',
 }
