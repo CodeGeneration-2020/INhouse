@@ -1,27 +1,30 @@
 import React from 'react'
-import axios from 'axios';
 import { TextField } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom'
 import classes from './Auth.module.scss'
 import { useForm } from '../../helpers/Hooks/UseForm';
 import { strategy } from './strategy';
 import { GreenButton } from '../../styles/buttons';
+import { useMutation } from 'react-query';
+import authService from "../../services/authService";
 
 const Auth = ({ auth }) => {
-  const [formValues, setField] = useForm({ username: '', password: '' })
   const history = useHistory()
   const text = strategy[auth]
+  const [formValues, setField] = useForm({ username: '', password: '' })
+  
+  const login = useMutation(formValues => authService.login(formValues), {
+    onSuccess: () => history.push('/')
+  })
 
-  const authHandler = async e => {
+  const register = useMutation(formValues => authService.register(formValues), {
+    onSuccess: () => history.push('/login')
+  })
+
+  const authHandler = e => {
     e.preventDefault();
     if (!formValues.username || !formValues.password) return;
-    const authUrl = `http://localhost:3000/user/${text.endpoint}`
-    const res = await axios.post(authUrl, formValues)
-    if (auth === 'login') {
-      localStorage.setItem('token', res.data.access_token);
-      localStorage.setItem('username', formValues.username);
-    }
-    history.push(`${text.link}`)
+    auth === 'login' ? login.mutate(formValues) : register.mutate(formValues)
   };
 
   return (
