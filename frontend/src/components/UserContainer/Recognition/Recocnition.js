@@ -80,9 +80,13 @@ const Recognition = () => {
         <audio controls src={URL.createObjectURL(audio)} />
       </div>
       {questionMutation.isLoading && <CircularProgress className={classes.recognition_spinner} />}
-      {recognitionRows.map((recognitionRow, index) => (
-        <RecognitionRow key={index} recognitionRow={recognitionRow} />
-      ))}
+      <div className={classes.recognition_rows}>
+        {recognitionRows.map((recognitionRow, index) => (
+          <div key={index}>
+            < RecognitionRow recognitionRow={recognitionRow} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

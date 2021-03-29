@@ -28,3 +28,8 @@
 .recognition_spinner {
   margin: 50px auto;
 }
+
+.recognition_rows {
+  display: flex;
+  flex-direction: column-reverse;
+}
