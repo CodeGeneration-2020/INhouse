@@ -88,11 +88,14 @@ export class MetricService {
     return this.humanticRequestMetricModel.find({ userId });
   }
 
-  trackRecognize({
-    userId = this.request.user.id,
-    text,
-  }: TrackRecognizeOptions) {
-    return this.recognizeMetricModel.create({ user: userId, text });
+  trackRecognize(options: TrackRecognizeOptions) {
+    const userId = options.userId ?? this.request.user.id;
+
+    return this.recognizeMetricModel.create({
+      user: userId,
+      fileId: options.fileId,
+      text: options.text,
+    });
   }
 
   async getAllRecognized({ limit = 10, offset = 0 }: GetAllRecognizedOptions) {

@@ -21,6 +21,7 @@ export interface GetHumanticRequestsOptions {
 
 export interface TrackRecognizeOptions {
   userId?: string;
+  fileId: string;
   text: string;
 }
 

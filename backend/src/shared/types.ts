@@ -1,11 +1,15 @@
+import { Readable } from 'stream';
+
 import { Multipart } from 'fastify-multipart';
-import { FastifyRequest } from 'fastify';
+import { FastifyRequest, FastifyReply } from 'fastify';
 
 import { UserDocument } from '../user/schemas/user.schema';
 
 import { kFiles } from './constants';
 
-export type MultipartFile = Multipart;
+export type MultipartFile = Multipart<true> & {
+  file: Readable;
+};
 
 export type MultipartFiles = Record<string, MultipartFile>;
 
@@ -14,3 +18,6 @@ export interface Request extends FastifyRequest {
 
   user: UserDocument;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface Response extends FastifyReply {}
