@@ -63,6 +63,10 @@ export class DialogController {
       dialogs.push(...newDialogs);
     }
 
+    if (dialogs.length === 0) {
+      return [];
+    }
+
     return this.dialogService.upload({ dialogs });
   }
 }

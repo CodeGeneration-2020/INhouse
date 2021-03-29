@@ -1,1 +1,3 @@
-export type RecognizeInput = NodeJS.ReadableStream;
+import { Readable } from 'stream';
+
+export type RecognizeInput = Readable;

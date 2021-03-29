@@ -25,6 +25,7 @@
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "fastify-multipart": "^4.0.1",
+    "gridfile": "^1.0.2",
     "microsoft-cognitiveservices-speech-sdk": "^1.15.1",
     "mongoose": "^5.11.20",
     "passport": "^0.4.1",

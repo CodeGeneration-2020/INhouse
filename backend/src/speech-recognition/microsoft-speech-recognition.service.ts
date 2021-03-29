@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
+import { v4 } from 'uuid';
+
 import {
   Recognizer,
   AudioConfig,
@@ -8,6 +10,7 @@ import {
   SpeechRecognizer,
 } from 'microsoft-cognitiveservices-speech-sdk';
 
+import { FileService } from '../file/file.service';
 import { MetricService } from '../metric/metric.service';
 
 import { RecognizeInput } from './types';
@@ -20,11 +23,14 @@ import {
   convertToPushStream,
 } from './microsoft-speech-recognition.helpers';
 
+import { cloneReadableStream } from '../shared/helpers';
+
 Recognizer.enableTelemetry(false);
 
 @Injectable()
 export class MicrosoftSpeechRecognitionService extends SpeechRecognitionService {
   constructor(
+    private fileService: FileService,
     private configService: ConfigService,
     private metricService: MetricService,
   ) {
@@ -42,7 +48,11 @@ export class MicrosoftSpeechRecognitionService extends SpeechRecognitionService 
 
     speechConfig.speechRecognitionLanguage = 'en-US';
 
-    const pushStream = convertToPushStream(formatToWav(input));
+    const stream = formatToWav(input);
+
+    const clonedStream = cloneReadableStream(stream);
+
+    const pushStream = convertToPushStream(stream);
 
     const audioConfig = AudioConfig.fromStreamInput(pushStream);
 
@@ -50,7 +60,17 @@ export class MicrosoftSpeechRecognitionService extends SpeechRecognitionService 
 
     const { text } = await recognizeOnceAsync(recognizer);
 
-    this.metricService.trackRecognize({ text });
+    if (text !== undefined) {
+      setImmediate(async () => {
+        const { id: fileId } = await this.fileService.upload({
+          filename: `${v4()}.wav`,
+          stream: clonedStream,
+          contentType: 'audio/wav',
+        });
+
+        await this.metricService.trackRecognize({ fileId, text });
+      });
+    }
 
     return text;
   }

@@ -12,8 +12,8 @@ export interface Article {
   content: string;
 }
 
-const SKIP_HEADER_Y = 1.577;
-const SKIP_FOOTER_Y = 34.688;
+const skipHeaderY = 1.577;
+const skipFooterY = 34.688;
 
 export const parseArticles = async (input: Buffer): Promise<Article[]> => {
   const lines: Line[] = [];
@@ -41,11 +41,11 @@ export const parseArticles = async (input: Buffer): Promise<Article[]> => {
       return;
     }
 
-    if (y <= SKIP_HEADER_Y) {
+    if (y <= skipHeaderY) {
       return;
     }
 
-    if (y >= SKIP_FOOTER_Y) {
+    if (y >= skipFooterY) {
       return;
     }
 

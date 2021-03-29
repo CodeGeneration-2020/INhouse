@@ -26,8 +26,8 @@ export class SpeechRecognitionController {
   @UseGuards(JwtAuthGuard)
   @UseGuards(MultipartGuard)
   @UseInterceptors(FilesInterceptor)
-  async recognize(@File('input') input: MultipartFile) {
-    const text = await this.speechRecognitionService.recognize(input.file);
+  async recognize(@File('input') { file }: MultipartFile) {
+    const text = await this.speechRecognitionService.recognize(file);
 
     return { text };
   }

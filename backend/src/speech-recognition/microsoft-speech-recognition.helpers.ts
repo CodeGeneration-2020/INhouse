@@ -1,4 +1,5 @@
 import { spawn } from 'child_process';
+import { Readable } from 'stream';
 
 import {
   AudioInputStream,
@@ -6,6 +7,8 @@ import {
   PushAudioInputStream,
   SpeechRecognitionResult,
 } from 'microsoft-cognitiveservices-speech-sdk';
+
+import { createDeferred, cloneReadableStream } from '../shared/helpers';
 
 const ffmpegArgs = [
   '-i',
@@ -21,19 +24,15 @@ const ffmpegArgs = [
   'pipe:1',
 ];
 
-export const formatToWav = (
-  stream: NodeJS.ReadableStream,
-): NodeJS.ReadableStream => {
+export const formatToWav = (stream: Readable): Readable => {
   const ffmpeg = spawn('ffmpeg', ffmpegArgs);
 
-  stream.pipe(ffmpeg.stdin);
+  cloneReadableStream(stream).pipe(ffmpeg.stdin);
 
   return ffmpeg.stdout;
 };
 
-export const convertToPushStream = (
-  stream: NodeJS.ReadableStream,
-): PushAudioInputStream => {
+export const convertToPushStream = (stream: Readable): PushAudioInputStream => {
   const pushStream = AudioInputStream.createPushStream();
 
   stream.on('data', (buffer: Buffer) => {
@@ -50,23 +49,24 @@ export const convertToPushStream = (
 export const recognizeOnceAsync = (
   recognizer: SpeechRecognizer,
 ): Promise<SpeechRecognitionResult> => {
-  return new Promise((resolve, reject) => {
-    const closeRecognizer = () => {
-      recognizer.close();
-    };
+  const deferred = createDeferred<SpeechRecognitionResult>();
 
-    const onResponse = (response: SpeechRecognitionResult) => {
-      resolve(response);
+  const clean = () => {
+    recognizer.close();
+  };
 
-      closeRecognizer();
-    };
+  recognizer.recognizeOnceAsync(
+    (response) => {
+      deferred.resolve(response);
 
-    const onError = (error: string) => {
-      reject(error);
+      clean();
+    },
+    (error) => {
+      deferred.reject(error);
 
-      closeRecognizer();
-    };
+      clean();
+    },
+  );
 
-    recognizer.recognizeOnceAsync(onResponse, onError);
-  });
+  return deferred.promise;
 };
