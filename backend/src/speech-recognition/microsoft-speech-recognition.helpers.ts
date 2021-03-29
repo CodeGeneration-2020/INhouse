@@ -1,4 +1,5 @@
 import { spawn } from 'child_process';
+import { Readable } from 'stream';
 
 import {
   AudioInputStream,
@@ -6,6 +7,8 @@ import {
   PushAudioInputStream,
   SpeechRecognitionResult,
 } from 'microsoft-cognitiveservices-speech-sdk';
+
+import { cloneReadableStream } from '../shared/helpers';
 
 const ffmpegArgs = [
   '-i',
@@ -21,19 +24,15 @@ const ffmpegArgs = [
   'pipe:1',
 ];
 
-export const formatToWav = (
-  stream: NodeJS.ReadableStream,
-): NodeJS.ReadableStream => {
+export const formatToWav = (stream: Readable): Readable => {
   const ffmpeg = spawn('ffmpeg', ffmpegArgs);
 
-  stream.pipe(ffmpeg.stdin);
+  cloneReadableStream(stream).pipe(ffmpeg.stdin);
 
   return ffmpeg.stdout;
 };
 
-export const convertToPushStream = (
-  stream: NodeJS.ReadableStream,
-): PushAudioInputStream => {
+export const convertToPushStream = (stream: Readable): PushAudioInputStream => {
   const pushStream = AudioInputStream.createPushStream();
 
   stream.on('data', (buffer: Buffer) => {

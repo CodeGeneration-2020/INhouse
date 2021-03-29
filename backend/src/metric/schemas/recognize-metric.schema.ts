@@ -16,6 +16,16 @@ export class RecognizeMetric {
   })
   id: string;
 
+  @Type(() => String)
+  @Prop({
+    type: SchemaTypes.String,
+    required: true,
+  })
+  @Expose({
+    groups: ['admin'],
+  })
+  fileId: string;
+
   @Type(() => User)
   @Prop({
     type: SchemaTypes.ObjectId,

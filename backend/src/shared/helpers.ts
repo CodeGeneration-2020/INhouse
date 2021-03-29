@@ -2,9 +2,7 @@ import { Readable } from 'stream';
 
 import { Deferred } from './deferred';
 
-export const cloneReadableStream = (
-  source: NodeJS.ReadableStream,
-): NodeJS.ReadableStream => {
+export const cloneReadableStream = (source: Readable): Readable => {
   const out = new Readable();
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -25,7 +23,7 @@ export const cloneReadableStream = (
   return out;
 };
 
-export const createDeferred = <T = any>() => new Deferred<T>();
+export const createDeferred = <T>() => new Deferred<T>();
 
 export const cloneBuffer = (source: Buffer): Buffer => {
   const clone = Buffer.alloc(source.length);
@@ -33,4 +31,21 @@ export const cloneBuffer = (source: Buffer): Buffer => {
   source.copy(clone);
 
   return clone;
+};
+
+type Fn<A, R> = (...args: A[]) => R;
+
+export const lazyInit = <A, R>(fn: Fn<A, R>): Fn<A, R> => {
+  let result: R;
+  let called = false;
+
+  return (...args: A[]): R => {
+    if (!called) {
+      result = fn(...args);
+
+      called = true;
+    }
+
+    return result;
+  };
 };

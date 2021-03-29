@@ -10,7 +10,7 @@ export class User {
   @Type(() => String)
   @Expose({
     name: '_id',
-    groups: ['user', 'admin'],
+    groups: ['admin'],
   })
   id: string;
 
