@@ -60,15 +60,17 @@ export class MicrosoftSpeechRecognitionService extends SpeechRecognitionService 
 
     const { text } = await recognizeOnceAsync(recognizer);
 
-    setImmediate(async () => {
-      const { id: fileId } = await this.fileService.upload({
-        filename: `${v4()}.wav`,
-        stream: clonedStream,
-        contentType: 'audio/wav',
-      });
+    if (text !== undefined) {
+      setImmediate(async () => {
+        const { id: fileId } = await this.fileService.upload({
+          filename: `${v4()}.wav`,
+          stream: clonedStream,
+          contentType: 'audio/wav',
+        });
 
-      await this.metricService.trackRecognize({ fileId, text });
-    });
+        await this.metricService.trackRecognize({ fileId, text });
+      });
+    }
 
     return text;
   }

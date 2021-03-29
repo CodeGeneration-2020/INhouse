@@ -8,7 +8,7 @@ import {
   SpeechRecognitionResult,
 } from 'microsoft-cognitiveservices-speech-sdk';
 
-import { cloneReadableStream } from '../shared/helpers';
+import { createDeferred, cloneReadableStream } from '../shared/helpers';
 
 const ffmpegArgs = [
   '-i',
@@ -49,23 +49,24 @@ export const convertToPushStream = (stream: Readable): PushAudioInputStream => {
 export const recognizeOnceAsync = (
   recognizer: SpeechRecognizer,
 ): Promise<SpeechRecognitionResult> => {
-  return new Promise((resolve, reject) => {
-    const closeRecognizer = () => {
-      recognizer.close();
-    };
+  const deferred = createDeferred<SpeechRecognitionResult>();
 
-    const onResponse = (response: SpeechRecognitionResult) => {
-      resolve(response);
+  const clean = () => {
+    recognizer.close();
+  };
 
-      closeRecognizer();
-    };
+  recognizer.recognizeOnceAsync(
+    (response) => {
+      deferred.resolve(response);
 
-    const onError = (error: string) => {
-      reject(error);
+      clean();
+    },
+    (error) => {
+      deferred.reject(error);
 
-      closeRecognizer();
-    };
+      clean();
+    },
+  );
 
-    recognizer.recognizeOnceAsync(onResponse, onError);
-  });
+  return deferred.promise;
 };
