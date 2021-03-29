@@ -23,10 +23,14 @@ const useStyles = makeStyles(() => ({
   },
   danger: {
     color: "red",
-    margin: "0 auto",
+    margin: "100px auto",
   },
   pdf_spinner: {
     margin: '300px auto',
+  },
+  table: {
+    width: '80%',
+    margin: '0 auto',
   }
 }));
 
@@ -52,32 +56,31 @@ const UploadPdf = () => {
         <CircularProgress className={classes.pdf_spinner} />
       ) : (
         <>
-          {pdfMutation.isError ? (
-            <>
-              <h1 className={classes.header}>Parsed pdfs</h1>
-              <h2 className={classes.danger}>Can not parse</h2>
-              <h3 className={classes.danger}>Your pdf is encrypted</h3>
-            </>
-          ) : (
+          {pdfMutation.isError ?
+            <h2 className={classes.danger}>Can not parse: Your pdf is encrypted</h2>
+            :
             pdfMutation.data && (
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Question</TableCell>
-                    <TableCell>Answer</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {pdfMutation.data.map((row) => (
-                    <TableRow key={row.id}>
-                      <TableCell>{row.question}</TableCell>
-                      <TableCell>{row.answer}</TableCell>
+              <>
+                <h1 className={classes.header}>Parsed pdfs</h1>
+                <Table className={classes.table}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Question</TableCell>
+                      <TableCell>Answer</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            )
-          )}
+                  </TableHead>
+                  <TableBody>
+                    {pdfMutation.data.map((row) => (
+                      <TableRow key={row.id}>
+                        <TableCell>{row.question}</TableCell>
+                        <TableCell>{row.answer}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </>
+
+            )}
         </>
       )}
     </>
