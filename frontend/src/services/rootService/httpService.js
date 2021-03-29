@@ -11,9 +11,9 @@ export class HttpService {
     const response = await this.httpModule.get(`${address}${route}`);
     return response.data;
   }
-  async post(route, body) {
+  async post(route, body, params) {
     const headers = await getHeaders()
-    const response = await this.httpModule.post(`${address}${route}`, body, headers);
+    const response = await this.httpModule.post(`${address}${route}`, body, {...headers, ...params});
     return response.data;
   }
   async put(route, body) {

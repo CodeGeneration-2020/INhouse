@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@material-ui/core";
 import React from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import adminService from "../../../services/adminService";
 import classes from "./Pre.module.scss";
 import format from "date-fns/format";
@@ -18,15 +18,16 @@ import { useMargin } from "../../../styles/margin";
 
 const Pre = () => {
   const margin = useMargin();
-  const allRecognized = useQuery("all-recognized", () =>
-    adminService.getAllRecognized()
-  );
+  const allRecognized = useQuery("all-recognized", () => adminService.getAllRecognized());
+  const downloadMutation = useMutation(id => adminService.downloadAudio(id), {
+    onSuccess: res => console.log(res),
+  })
 
   return (
     <>
       <h1>{TEXTS.headPRE}</h1>
       {allRecognized.isLoading ? (
-        <CircularProgress className={classes.pre_spinner}/>
+        <CircularProgress className={classes.pre_spinner} />
       ) : (
         <TableContainer className={classes.container}>
           <Table className={classes.pre_section} stickyHeader>
@@ -47,7 +48,11 @@ const Pre = () => {
                     {format(new Date(row.createdAt), "HH:mm LLL dd yyyy")}
                   </TableCell>
                   <TableCell>
-                    <Button variant="contained" color="primary">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => downloadMutation.mutate(row.fileId)}
+                    >
                       {BUTTONS.download}
                     </Button>
                   </TableCell>

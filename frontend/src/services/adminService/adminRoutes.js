@@ -5,5 +5,6 @@ export const routes = {
   deleteUser: '/user/delete',
   getUserRequestedAnalysis: '/humantic-ai/get-analysis-requested-by-user',
   getAllRecognized: '/metric/get-all-recognized',
-  getAllSales: '/dialog/get-all'
+  getAllSales: '/dialog/get-all',
+  downloadAudio: '/file/download'
 }
