@@ -78,13 +78,15 @@ const General = () => {
                   </ListItem>
                 </TableCell>
                 <TableCell>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => deleteUserMutation.mutate(user.id)}
-                  >
-                    {BUTTONS.remove}
-                  </Button>
+                  {user.username !== localStorage.getItem('username') &&
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => deleteUserMutation.mutate(user.id)}
+                    >
+                      {BUTTONS.remove}
+                    </Button>
+                  }
                 </TableCell>
               </TableRow>
             ))}

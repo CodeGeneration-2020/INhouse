@@ -41,7 +41,7 @@ const Pre = () => {
             <TableBody>
               {allRecognized.data?.map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell>{row.user.username}</TableCell>
+                  <TableCell>{row.user?.username}</TableCell>
                   <TableCell>{row.text}</TableCell>
                   <TableCell>
                     {format(new Date(row.createdAt), "HH:mm LLL dd yyyy")}
