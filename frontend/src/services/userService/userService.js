@@ -1,12 +1,7 @@
-import axios from "axios";
 import { HttpService } from "../rootService/httpService";
 import { routes } from "./userRoutes";
 
 class UserService extends HttpService {
-  constructor() {
-    super(axios)
-  }
-
   createHumantic(linkedInUrl) {
     const route = routes[this.createHumantic.name];
     return this.post(route, { linkedInUrl })

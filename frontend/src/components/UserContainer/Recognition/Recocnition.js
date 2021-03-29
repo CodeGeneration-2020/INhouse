@@ -25,12 +25,9 @@ const Recognition = () => {
     }
   );
 
-  const questionMutation = useMutation(
-    (blob) => userService.questionRecognition(blob),
-    {
-      onSuccess: (res) => answerMutation.mutate(res.text),
-    }
-  );
+  const questionMutation = useMutation((blob) => userService.questionRecognition(blob), {
+    onSuccess: (res) => answerMutation.mutate(res.text || 'not recognized'),
+  });
 
   const startRecording = () => {
     setAutoRecord(false);

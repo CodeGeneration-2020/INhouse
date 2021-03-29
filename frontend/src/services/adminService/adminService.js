@@ -1,12 +1,7 @@
-import axios from "axios";
 import { HttpService } from "../rootService/httpService";
 import { routes } from "./adminRoutes";
 
 class AdminService extends HttpService {
-  constructor() {
-    super(axios)
-  }
-
   getMetrics(service) {
     const route = routes[this.getMetrics.name];
     return this.post(route, service)
@@ -40,7 +35,7 @@ class AdminService extends HttpService {
   getAllSales() {
     const route = routes[this.getAllSales.name]
     return this.post(route, {})
-}
+  }
 }
 
 export default AdminService;

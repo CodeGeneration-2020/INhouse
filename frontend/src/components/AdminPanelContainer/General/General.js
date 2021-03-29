@@ -26,13 +26,9 @@ const General = () => {
 
   const queryClient = useQueryClient();
 
-  const linkedinCount = useQuery("linkedin-count", () =>
-    adminService.getLinkedinCount()
-  );
+  const linkedinCount = useQuery("linkedin-count", () => adminService.getLinkedinCount());
   const users = useQuery("users", () => adminService.getUsers());
-  const analyzes = useMutation("analysis", (userId) =>
-    adminService.getUserRequestedAnalysis(userId)
-  );
+  const analyzes = useMutation("analysis", userId => adminService.getUserRequestedAnalysis(userId));
 
   const metrics = useQuery("metrics", async () => {
     const algolia = await adminService.getMetrics({ service: "algolia" });
@@ -40,11 +36,11 @@ const General = () => {
     return { algolia, humantic };
   });
 
-  const deleteUserMutation = useMutation((id) => adminService.deleteUser(id), {
+  const deleteUserMutation = useMutation(id => adminService.deleteUser(id), {
     onSuccess: () => queryClient.invalidateQueries("users"),
   });
 
-  const handleOpen = (userId) => {
+  const handleOpen = userId => {
     setOpen(true);
     analyzes.mutate(userId);
   };

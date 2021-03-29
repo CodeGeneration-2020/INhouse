@@ -56,6 +56,7 @@ const UploadPdf = () => {
             <>
               <h1 className={classes.header}>Parsed pdfs</h1>
               <h2 className={classes.danger}>Can not parse</h2>
+              <h3 className={classes.danger}>Your pdf is encrypted</h3>
             </>
           ) : (
             pdfMutation.data && (

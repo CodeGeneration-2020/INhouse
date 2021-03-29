@@ -1,10 +1,11 @@
+import axios from 'axios';
 import { getHeaders } from './../headers'
 
 const address = process.env.REACT_APP_ADDRESS
 
 export class HttpService {
-  constructor(httpModule) {
-    this.httpModule = httpModule;
+  constructor() {
+    this.httpModule = axios;
   }
   async get(route) {
     const response = await this.httpModule.get(`${address}${route}`);
