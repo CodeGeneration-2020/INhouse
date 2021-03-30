@@ -12,11 +12,17 @@ import { v4 as uuidv4 } from 'uuid';
 const Humantic = () => {
   const [inputValue, setField, reset] = useForm({ linkedInUrl: '' })
   const [analyzes, setAnalyzes] = useState([])
+  const [alert, setAlert] = useState(false)
 
   const mutationHumantic = useMutation(() => userService.createHumantic(inputValue.linkedInUrl), {
     onSuccess: res => {
+      if (res === null) {
+        setAlert(true)
+      } else {
+        setAlert(false)
+        setAnalyzes([...analyzes, res])
+      }
       reset()
-      setAnalyzes([...analyzes, res])
     }
   })
 
@@ -33,6 +39,7 @@ const Humantic = () => {
         </GreenButton>
       </div>
       {mutationHumantic.isLoading && <CircularProgress className={classes.humantic_spinner} />}
+      {alert && <div className={classes.danger}>Profile not found!</div>}
       {analyzes.map(analysis => <HumanticResponse key={uuidv4()} linkedinInfo={analysis} /> )}
     </div>
   )

@@ -32,7 +32,7 @@ export class HumanticAiService {
 
     @InjectModel(ProfileAnalysis.name)
     private profileAnalysisModel: Model<ProfileAnalysisDocument>,
-  ) {}
+  ) { }
 
   private async createAnalysis({ userId }: CreateAnalysisOptions) {
     const url = `${baseUrl}/user-profile/create`;
@@ -97,6 +97,10 @@ export class HumanticAiService {
         response = await this.fetchAnalysis({
           userId: linkedInUrl,
         });
+
+        if (response.metadata.status === 'NOT_FOUND') {
+          return null;
+        }
       } while (response.metadata.analysis_status === 'NOT_COMPLETE');
 
       profileAnalysis = await this.profileAnalysisModel.create({
