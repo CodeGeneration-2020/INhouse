@@ -1,4 +1,4 @@
-import { HttpService } from "../rootService/httpService";
+import { HttpService } from "../httpService";
 import { routes } from "./adminRoutes";
 import fileDownload from 'js-file-download';
 

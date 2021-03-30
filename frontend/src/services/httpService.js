@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getHeaders } from './../headers'
+import { getHeaders } from './headers'
 
 const address = process.env.REACT_APP_ADDRESS
 
