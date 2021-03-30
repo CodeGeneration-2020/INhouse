@@ -28,7 +28,6 @@ jobs:
         npm install -g ffmpeg
         npm install
         npm run build
-        npm run start:prod --if-present
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
