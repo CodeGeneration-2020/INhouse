@@ -7,6 +7,7 @@ import { BUTTONS } from '../../../helpers/constants/constants';
 import HumanticResponse from './HumanticResponse/HumanticResponse';
 import userService from '../../../services/userService';
 import { GreenButton } from '../../../styles/buttons';
+import { v4 as uuidv4 } from 'uuid';
 
 const Humantic = () => {
   const [inputValue, setField, reset] = useForm({ linkedInUrl: '' })
@@ -32,7 +33,7 @@ const Humantic = () => {
         </GreenButton>
       </div>
       {mutationHumantic.isLoading && <CircularProgress className={classes.humantic_spinner} />}
-      {analyzes.map(analysis => <HumanticResponse key={analysis.user_id} linkedinInfo={analysis} /> )}
+      {analyzes.map(analysis => <HumanticResponse key={uuidv4()} linkedinInfo={analysis} /> )}
     </div>
   )
 }
