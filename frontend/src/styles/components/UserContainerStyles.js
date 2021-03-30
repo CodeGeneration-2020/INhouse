@@ -11,7 +11,7 @@ export const UserContainerStyles = makeStyles(() => ({
   container: {
     display: 'flex',
     overflowY: 'auto',
-    // height: '100vh',
+    height: '100vh',
     marginBottom: '10px',
     width: '100%',
   },
