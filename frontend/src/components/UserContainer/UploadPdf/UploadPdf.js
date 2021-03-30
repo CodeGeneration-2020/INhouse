@@ -31,6 +31,11 @@ const useStyles = makeStyles(() => ({
   table: {
     width: '80%',
     margin: '0 auto',
+  },
+  warning: {
+    color: 'red',
+    margin: '20px auto',
+    fontSize: '15px',
   }
 }));
 
@@ -52,6 +57,7 @@ const UploadPdf = () => {
           onChange={(e) => pdfMutation.mutate(e.target.files[0])}
         />
       </GreenButton>
+      <div className={classes.warning}>If you'll send an encypted pdf, it can take a long time*</div>
       {pdfMutation.isLoading ? (
         <CircularProgress className={classes.pdf_spinner} />
       ) : (
