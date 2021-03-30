@@ -19,6 +19,7 @@ const Auth = ({ auth }) => {
     const res = await axios.post(authUrl, formValues)
     if (auth === 'login') {
       localStorage.setItem('token', res.data.access_token);
+      localStorage.setItem('username', formValues.username);
     }
     history.push(`${text.link}`)
   };

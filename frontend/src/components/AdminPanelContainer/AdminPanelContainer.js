@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import { TEXTS } from "../../helpers/constants/constants";
-import General from "./GeneralSection/General"
+import General from "./General/General"
 import Pre from "./Pre/Pre"
 import Sales from "./Sales/Sales";
 

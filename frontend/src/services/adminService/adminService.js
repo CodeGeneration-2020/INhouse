@@ -1,12 +1,8 @@
-import axios from "axios";
 import { HttpService } from "../rootService/httpService";
 import { routes } from "./adminRoutes";
+import fileDownload from 'js-file-download';
 
 class AdminService extends HttpService {
-  constructor() {
-    super(axios)
-  }
-
   getMetrics(service) {
     const route = routes[this.getMetrics.name];
     return this.post(route, service)
@@ -40,7 +36,14 @@ class AdminService extends HttpService {
   getAllSales() {
     const route = routes[this.getAllSales.name]
     return this.post(route, {})
-}
+  }
+
+  downloadAudio(id) {
+    const route = routes[this.downloadAudio.name]
+    this
+      .post(route, { id }, { responseType: 'blob' })
+      .then(res => fileDownload(res, 'audio.wav'))
+  }
 }
 
 export default AdminService;
