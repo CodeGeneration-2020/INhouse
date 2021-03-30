@@ -26,8 +26,8 @@ jobs:
         cd ./backend
         npm install -g yarn
         npm install -g ffmpeg
-        yarn
-        yarn start:prod --if-present
+        npm install
+        npm run start:prod --if-present
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
