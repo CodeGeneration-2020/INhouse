@@ -14,19 +14,12 @@ const Recognition = () => {
   const [audio, setAudio] = useState(new Blob([" "], { type: "text/plain" }));
   const [recognitionRows, setRecognitionRows] = useState([]);
 
-  const answerMutation = useMutation(
-    (question) => userService.getAnswer(question),
-    {
-      onSuccess: (res) =>
-        setRecognitionRows([
-          ...recognitionRows,
-          { question: res.question, answer: res.answer },
-        ]),
-    }
-  );
+  const answerMutation = useMutation(question => userService.getAnswer(question), {
+    onSuccess: res => setRecognitionRows([...recognitionRows, res]),
+  });
 
   const questionMutation = useMutation((blob) => userService.questionRecognition(blob), {
-    onSuccess: (res) => answerMutation.mutate(res.text || 'not recognized'),
+    onSuccess: res => answerMutation.mutate(res.text || 'not recognized'),
   });
 
   const startRecording = () => {
@@ -54,7 +47,7 @@ const Recognition = () => {
     const sendRecordInterval = setInterval(() => {
       setRecord(false);
       setRecord(true);
-    }, 2000);
+    }, 15000);
 
     return () => clearInterval(sendRecordInterval);
   }, [autoRecord]);
