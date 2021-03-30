@@ -27,6 +27,7 @@ jobs:
         npm install -g yarn
         npm install -g ffmpeg
         npm install
+        npm run build
         npm run start:prod --if-present
 
     - name: Upload artifact for deployment job
