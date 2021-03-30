@@ -18,4 +18,7 @@ export const UserContainerStyles = makeStyles(() => ({
   checkbox: {
     marginLeft: '30px',
   },
+  admin_button: {
+    margin: '5px 10px 10px',
+  }
 }));

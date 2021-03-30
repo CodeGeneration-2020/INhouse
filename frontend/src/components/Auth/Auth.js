@@ -18,7 +18,7 @@ const Auth = ({ auth }) => {
   })
 
   const register = useMutation(formValues => authService.register(formValues), {
-    onSuccess: () => history.push('/login')
+    onSuccess: () => auth === 'register' ? history.push('/login') : history.push('/admin_panel')
   })
 
   const authHandler = e => {
