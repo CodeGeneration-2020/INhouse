@@ -31,11 +31,6 @@ jobs:
       with:
         name: node-app
         path: ./frontend/build
-    - name: Upload node_modules for deployment job
-      uses: actions/upload-artifact@v2
-      with:
-        name: node-app
-        path: ./frontend/node_modules    
 
   deploy:
     runs-on: ubuntu-latest
@@ -57,4 +52,4 @@ jobs:
         app-name: 'inhouse-stage-frontend'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_0022b1d2ce254b59b0a7aea9a2384fbd }}
-        package: main.js
+        package: .
