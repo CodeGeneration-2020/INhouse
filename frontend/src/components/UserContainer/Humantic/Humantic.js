@@ -2,20 +2,28 @@ import { CircularProgress, Input } from '@material-ui/core';
 import React, { useState } from 'react'
 import { useMutation } from 'react-query';
 import { useForm } from '../../../helpers/Hooks/UseForm';
-import classes from './Humantic.module.scss';
 import { BUTTONS } from '../../../helpers/constants/constants';
 import HumanticResponse from './HumanticResponse/HumanticResponse';
 import userService from '../../../services/userService';
 import { GreenButton } from '../../../styles/buttons';
+import { HumanticStyles } from '../../../styles/components/HumanticStyles';
+import { v4 as uuidv4 } from 'uuid';
 
 const Humantic = () => {
+  const classes = HumanticStyles()
   const [inputValue, setField, reset] = useForm({ linkedInUrl: '' })
   const [analyzes, setAnalyzes] = useState([])
+  const [alert, setAlert] = useState(false)
 
   const mutationHumantic = useMutation(() => userService.createHumantic(inputValue.linkedInUrl), {
     onSuccess: res => {
+      if (res === null) {
+        setAlert(true)
+      } else {
+        setAlert(false)
+        setAnalyzes([...analyzes, res])
+      }
       reset()
-      setAnalyzes([...analyzes, res])
     }
   })
 
@@ -27,12 +35,15 @@ const Humantic = () => {
           name="linkedInUrl"
           value={inputValue.linkedInUrl}
           onChange={setField} />
-        <GreenButton variant="contained" color="primary" onClick={() => mutationHumantic.mutate()}>
+        <GreenButton variant="contained" color="primary" className={classes.button} onClick={() => mutationHumantic.mutate()}>
           {BUTTONS.send}
         </GreenButton>
       </div>
       {mutationHumantic.isLoading && <CircularProgress className={classes.humantic_spinner} />}
-      {analyzes.map(analysis => <HumanticResponse key={analysis.user_id} linkedinInfo={analysis} /> )}
+      {alert && <div className={classes.danger}>Profile not found!</div>}
+      <div className={classes.analyzes_wrapper}>
+        {analyzes.map(analysis => <HumanticResponse key={uuidv4()} linkedinInfo={analysis} />)}
+      </div>
     </div>
   )
 }

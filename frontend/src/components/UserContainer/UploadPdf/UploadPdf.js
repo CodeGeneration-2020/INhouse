@@ -1,6 +1,5 @@
 import {
   Table,
-  makeStyles,
   TableBody,
   TableCell,
   TableHead,
@@ -12,30 +11,10 @@ import { useMutation } from "react-query";
 import { BUTTONS } from "../../../helpers/constants/constants";
 import userService from "../../../services/userService";
 import { GreenButton } from "../../../styles/buttons";
-
-const useStyles = makeStyles(() => ({
-  pdf: {
-    width: "300px",
-    margin: "0 auto",
-  },
-  header: {
-    margin: "50px auto",
-  },
-  danger: {
-    color: "red",
-    margin: "100px auto",
-  },
-  pdf_spinner: {
-    margin: '300px auto',
-  },
-  table: {
-    width: '80%',
-    margin: '0 auto',
-  }
-}));
+import { UploadPdfStyles } from "../../../styles/components/UploadPdfStyles";
 
 const UploadPdf = () => {
-  const classes = useStyles();
+  const classes = UploadPdfStyles()
   const pdfMutation = useMutation((file) => userService.uploadPdf(file));
 
   return (
@@ -52,6 +31,7 @@ const UploadPdf = () => {
           onChange={(e) => pdfMutation.mutate(e.target.files[0])}
         />
       </GreenButton>
+      <div className={classes.warning}>If you'll send an encypted pdf, it can take a long time*</div>
       {pdfMutation.isLoading ? (
         <CircularProgress className={classes.pdf_spinner} />
       ) : (

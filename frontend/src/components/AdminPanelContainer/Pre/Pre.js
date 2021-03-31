@@ -19,9 +19,7 @@ import { useMargin } from "../../../styles/margin";
 const Pre = () => {
   const margin = useMargin();
   const allRecognized = useQuery("all-recognized", () => adminService.getAllRecognized());
-  const downloadMutation = useMutation(id => adminService.downloadAudio(id), {
-    onSuccess: res => console.log(res),
-  })
+  const downloadMutation = useMutation(id => adminService.downloadAudio(id))
 
   return (
     <>
