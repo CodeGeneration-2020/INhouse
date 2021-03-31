@@ -3,7 +3,7 @@ import { Readable } from 'stream';
 import { Multipart } from 'fastify-multipart';
 import { FastifyRequest, FastifyReply } from 'fastify';
 
-import { UserDocument } from '../user/schemas/user.schema';
+import { UserDocument } from 'src/user/schemas/user.schema';
 
 import { kFiles } from './constants';
 

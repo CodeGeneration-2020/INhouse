@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-export class EditUserDto {
+export class EditDto {
   @IsString()
   @IsNotEmpty()
   id: string;
