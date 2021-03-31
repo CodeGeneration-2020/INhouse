@@ -1,47 +1,38 @@
 import { Card, Checkbox, FormControlLabel } from '@material-ui/core';
 import Humantic from './Humantic/Humantic';
-import Recognition from './Recognition/Recocnition'
-import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom'
+import Recognition from './Recognition/Recognition'
 import { useState } from 'react';
 import UploadPdf from './UploadPdf/UploadPdf';
-
-const useStyles = makeStyles(() => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100vh',
-    minWidth: '992px',
-    width: '100%'
-  },
-  container: {
-    display: 'flex',
-    overflowY: 'auto',
-    height: '100vh',
-    marginBottom: '10px',
-    width: '100%',
-  },
-  checkbox: {
-    marginLeft: '30px',
-  },
-}));
+import { UserContainerStyles } from '../../styles/components/UserContainerStyles';
+import { GreenButton } from '../../styles/buttons';
 
 const UserContainer = () => {
-  const classes = useStyles();
+  const classes = UserContainerStyles()
   const [checked, setChecked] = useState(false)
+  const history = useHistory()
 
   return (
     <Card className={classes.root}>
-      <FormControlLabel
-        className={classes.checkbox}
-        label="Im a customer"
-        control={
-          <Checkbox
-            checked={checked}
-            onChange={() => setChecked(!checked)}
-            color="primary"
-          />
-        }
-      />
+      <div className={classes.header_wrapper}>
+        <FormControlLabel
+          className={classes.checkbox}
+          label="Im a customer"
+          control={
+            <Checkbox
+              checked={checked}
+              onChange={() => setChecked(!checked)}
+              color="primary"
+            />
+          }
+        />
+        <GreenButton
+          className={classes.admin_button}
+          onClick={() => history.push('/admin_panel')}
+        >
+          Go to admin panel
+        </GreenButton>
+      </div>
       {checked ?
         <UploadPdf />
         :
