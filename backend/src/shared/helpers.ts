@@ -2,6 +2,8 @@ import { Readable } from 'stream';
 
 import { Deferred } from './deferred';
 
+type Fn<A, R> = (...args: A[]) => R;
+
 export const cloneReadableStream = (source: Readable): Readable => {
   const out = new Readable();
 
@@ -33,8 +35,6 @@ export const cloneBuffer = (source: Buffer): Buffer => {
   return clone;
 };
 
-type Fn<A, R> = (...args: A[]) => R;
-
 export const lazyInit = <A, R>(fn: Fn<A, R>): Fn<A, R> => {
   let result: R;
   let called = false;
@@ -48,4 +48,22 @@ export const lazyInit = <A, R>(fn: Fn<A, R>): Fn<A, R> => {
 
     return result;
   };
+};
+
+export const assignExistProperties = <T, P extends keyof T>(
+  target: T,
+  source: Partial<T>,
+  properties: P[],
+) => {
+  for (const property of properties) {
+    const value = source[property];
+
+    if (value === undefined) {
+      continue;
+    }
+
+    target[property] = value;
+  }
+
+  return target;
 };

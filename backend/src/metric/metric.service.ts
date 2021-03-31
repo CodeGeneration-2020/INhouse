@@ -2,8 +2,7 @@ import { REQUEST } from '@nestjs/core';
 import { InjectModel } from '@nestjs/mongoose';
 import { Inject, Injectable, Scope } from '@nestjs/common';
 
-import { plainToClass } from 'class-transformer';
-import { Model, FilterQuery } from 'mongoose';
+import { Model, FilterQuery, PopulateOptions } from 'mongoose';
 
 import {
   TracApiOptions,
@@ -53,7 +52,7 @@ export class MetricService {
     return this.apiCallMetricModel.create({ service, method });
   }
 
-  async getCountApiCalls({ service, method }: GetCountApiCallsOptions) {
+  getCountApiCalls({ service, method }: GetCountApiCallsOptions) {
     const filter: FilterQuery<ApiCallMetricDocument> = { service };
 
     if (method !== undefined) {
@@ -68,7 +67,6 @@ export class MetricService {
     profileAnalysisId,
   }: TrackHumanticRequestOptions) {
     // TODO: use findOneAndUpdate with { insert: true } option
-
     let request = await this.humanticRequestMetricModel.findOne({
       userId,
       profileAnalysisId,
@@ -98,20 +96,31 @@ export class MetricService {
     });
   }
 
-  async getAllRecognized({ limit = 10, offset = 0 }: GetAllRecognizedOptions) {
+  async getAllRecognized({ search, paginate }: GetAllRecognizedOptions) {
+    // TODO: use aggregate for find by username
     const query = this.recognizeMetricModel.find();
 
-    query.limit(limit);
-    query.skip(offset);
-    query.populate('user');
+    const populate: PopulateOptions = {
+      path: 'user',
+    };
+
+    if (search) {
+      populate.match = {
+        username: new RegExp(search.username, 'i'),
+      };
+    }
+
+    query.populate(populate);
+
+    if (paginate) {
+      query.limit(paginate.limit);
+      query.skip(paginate.offset);
+    }
+
     query.lean();
 
-    const recoginzedMetrics = await query.exec();
+    const responses = await query.exec();
 
-    return plainToClass(RecognizeMetric, recoginzedMetrics, {
-      groups: ['admin'],
-      enableCircularCheck: true,
-      excludeExtraneousValues: true,
-    });
+    return responses.filter(({ user }) => Boolean(user));
   }
 }

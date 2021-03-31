@@ -1,8 +1,9 @@
 import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
 
-import { UserService } from '../user/user.service';
-import { UserDocument } from '../user/schemas/user.schema';
+import { UserService } from 'src/user/user.service';
+
+import { ValidateCredentialsOptions, LoginOptions } from './auth.types';
 
 @Injectable()
 export class AuthService {
@@ -11,22 +12,26 @@ export class AuthService {
     private userService: UserService,
   ) {}
 
-  async validateUser(username: string, password: string) {
+  async validateCredentials({
+    username,
+    password,
+  }: ValidateCredentialsOptions) {
     const user = await this.userService.findOne({ username });
 
     if (!user) {
       return null;
     }
 
-    // TODO: use bcrypt for salt passwords
-    if (user.password !== password) {
+    const isValid = await user.comparePassword(password);
+
+    if (!isValid) {
       return null;
     }
 
     return user;
   }
 
-  async login(user: UserDocument) {
+  async login({ user }: LoginOptions) {
     const payload = {
       sub: user.id,
       username: user.username,

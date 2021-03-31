@@ -1,140 +1,97 @@
 import { InjectModel } from '@nestjs/mongoose';
+import { Injectable, ConflictException } from '@nestjs/common';
 
-import {
-  Inject,
-  Injectable,
-  forwardRef,
-  ConflictException,
-  NotFoundException,
-} from '@nestjs/common';
-
-import { plainToClass } from 'class-transformer';
 import { Model, FilterQuery } from 'mongoose';
 
-import { AuthService } from '../auth/auth.service';
+import { assignExistProperties } from 'src/shared/helpers';
 
-import { GetAllOptions } from './user.service.types';
+import {
+  CreateOptions,
+  GetOptions,
+  GetAllOptions,
+  EditOptions,
+  DeleteOptions,
+} from './user.types';
 
 import { User, UserDocument } from './schemas/user.schema';
-
-import { GetUserDto } from './dto/get-user.dto';
-import { EditUserDto } from './dto/edit-user.dto';
-import { LoginUserDto } from './dto/login-user.dto';
-import { CreateUserDto } from './dto/create-user.dto';
-import { DeleteUserDto } from './dto/delete-user.dto';
 
 @Injectable()
 export class UserService {
   constructor(
-    @Inject(forwardRef(() => AuthService))
-    private authService: AuthService,
-
     @InjectModel(User.name)
     private userModel: Model<UserDocument>,
   ) {}
 
-  async findOne(filter: FilterQuery<UserDocument>) {
+  findOne(filter: FilterQuery<UserDocument>) {
     return this.userModel.findOne(filter);
   }
 
-  async findById(id: any) {
-    return this.findOne({ _id: id });
+  findById(id: any) {
+    return this.userModel.findById(id);
   }
 
-  async create(createUserDto: CreateUserDto) {
-    let user = await this.findOne({
-      username: createUserDto.username,
-    });
+  async create({ username, password }: CreateOptions) {
+    let user = await this.findOne({ username });
 
     if (user) {
       throw new ConflictException('User already exist');
     }
 
-    user = new this.userModel(createUserDto);
+    user = new this.userModel({ username, password });
 
     await user.save();
 
-    return plainToClass(User, user, {
-      groups: ['admin'],
-      excludeExtraneousValues: true,
-    });
+    return user;
   }
 
-  async login(loginUserDto: LoginUserDto) {
-    const user = await this.findOne({
-      username: loginUserDto.username,
-    });
-
-    return this.authService.login(user);
+  get({ id }: GetOptions) {
+    return this.findById(id);
   }
 
-  async get(getUserDto: GetUserDto) {
-    const user = await this.findById(getUserDto.id);
-
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
-    return plainToClass(User, user, {
-      groups: ['admin'],
-      excludeExtraneousValues: true,
-    });
-  }
-
-  async getAll({ limit = 10, offset = 0 }: GetAllOptions) {
+  getAll({ search, paginate }: GetAllOptions) {
     const query = this.userModel.find();
 
-    query.limit(limit);
-    query.skip(offset);
+    if (search) {
+      query.where('username', new RegExp(search.username));
+    }
+
+    if (paginate) {
+      query.limit(paginate.limit);
+      query.skip(paginate.offset);
+    }
+
     query.lean();
 
-    const users = await query.exec();
-
-    return plainToClass(User, users, {
-      groups: ['admin'],
-      excludeExtraneousValues: true,
-    });
+    return query.exec();
   }
 
-  async edit(editUserDto: EditUserDto) {
-    const user = await this.findById(editUserDto.id);
+  async edit(options: EditOptions) {
+    const user = await this.findById(options.id);
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      return null;
     }
 
-    // NOTE: maybe use Object.assing?
-    if (editUserDto.customerName) {
-      user.customerName = editUserDto.customerName;
-    }
-
-    if (editUserDto.contactName) {
-      user.contactName = editUserDto.contactName;
-    }
-
-    if (editUserDto.email) {
-      user.email = editUserDto.email;
-    }
+    assignExistProperties(user, options, [
+      'customerName',
+      'contactName',
+      'email',
+    ]);
 
     await user.save();
 
-    return plainToClass(User, user, {
-      groups: ['admin'],
-      excludeExtraneousValues: true,
-    });
+    return user;
   }
 
-  async delete(deleteUserDto: DeleteUserDto) {
-    const user = await this.findById(deleteUserDto.id);
+  async delete({ id }: DeleteOptions) {
+    const user = await this.findById(id);
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      return false;
     }
 
     await user.remove();
 
-    return {
-      success: true,
-    };
+    return true;
   }
 }

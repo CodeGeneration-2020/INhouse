@@ -12,7 +12,6 @@ import { DialogService } from './dialog.service';
 import { GetOptions, GetAllOptions, UploadOptions } from './dialog.types';
 
 import { toSavedDialog } from './algolia-dialog.helpers';
-import { AlgoliaSavedDialog } from './algolia-dialog.types';
 
 @Injectable()
 export class AlgoliaDialogService
@@ -46,6 +45,7 @@ export class AlgoliaDialogService
 
     const { hits } = await index.search<Dialog>(question, {
       hitsPerPage: 1,
+      searchableAttributes: ['question'],
     });
 
     this.metricService.trackApiCall({
@@ -62,19 +62,37 @@ export class AlgoliaDialogService
     };
   }
 
-  // TODO: create a pagination
-  async getAll({ limit = 10, offset = 0 }: GetAllOptions) {
+  async getAll({ search, paginate }: GetAllOptions) {
     const index = this.client.initIndex('dialogs');
 
-    const dialogs: SavedDialog[] = [];
-
-    await index.browseObjects<Dialog>({
-      batch: (batch: AlgoliaSavedDialog[]) => {
-        dialogs.push(...batch.map(toSavedDialog));
+    const searchArgs: Parameters<typeof index.search> = [
+      undefined,
+      {
+        restrictSearchableAttributes: ['question', 'answer'],
       },
+    ];
+
+    if (search) {
+      searchArgs[0] = search.text;
+    }
+
+    if (paginate) {
+      searchArgs[1] = {
+        ...searchArgs[1],
+
+        length: paginate.limit,
+        offset: paginate.offset,
+      };
+    }
+
+    const { hits } = await index.search<Dialog>(...searchArgs);
+
+    this.metricService.trackApiCall({
+      service: ApiService.ALGOLIA,
+      method: 'search',
     });
 
-    return dialogs;
+    return hits.map(toSavedDialog);
   }
 
   async upload({ dialogs }: UploadOptions) {
