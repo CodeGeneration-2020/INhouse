@@ -21,14 +21,13 @@ export class MetricController {
   @Post('get-count-api-calls')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  getCountApiCalls(@Body() params: GetCountApiCallsDto) {
-    return this.metricService.getCountApiCalls(params);
+  getCountApiCalls(@Body() body: GetCountApiCallsDto) {
+    return this.metricService.getCountApiCalls(body);
   }
 
   @Post('get-all-recognized')
-  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  getRecognized(@Body() params: GetAllRecognizedDto) {
-    return this.metricService.getAllRecognized(params);
+  getRecognized(@Body() body: GetAllRecognizedDto) {
+    return this.metricService.getAllRecognized(body);
   }
 }
