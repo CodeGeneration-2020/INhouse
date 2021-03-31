@@ -5,8 +5,13 @@ export interface GetOptions {
 }
 
 export interface GetAllOptions {
-  limit?: number;
-  offset?: number;
+  search?: {
+    text: string;
+  };
+  paginate?: {
+    limit: number;
+    offset: number;
+  };
 }
 
 export interface UploadOptions {

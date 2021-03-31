@@ -15,6 +15,7 @@ import { DialogService } from './dialog/dialog.service';
 import { TextAnalyzerService } from './text-analyzer/text-analyzer.service';
 
 import { GetAnswerDto } from './dto/get-answer.dto';
+import { GetAllDto } from './dto/get-all.dto';
 
 import { File } from '../shared/decorators/file.decorator';
 import { JwtAuthGuard } from '../shared/guards/jwt-auth.guard';
@@ -39,8 +40,8 @@ export class DialogController {
   @Post('get-all')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  getAll(@Body() params: any) {
-    return this.dialogService.getAll(params);
+  getAll(@Body() body: GetAllDto) {
+    return this.dialogService.getAll(body);
   }
 
   @Post('upload-with-pdf')
