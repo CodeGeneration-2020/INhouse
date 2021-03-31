@@ -8,4 +8,10 @@ export const SalesStyles = makeStyles(() => ({
   sales_spinner: {
     margin: '50px',
   },
+  spinner_wrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    minHeight: '700px',
+    width: '100%',
+  }
 }));

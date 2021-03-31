@@ -18,7 +18,10 @@ class AdminService extends HttpService {
     return this.post(route)
   }
 
-  getUsers() {
+  getUsers(params) {
+    if (params.queryKey[1]) {
+      console.log('users search: ', params.queryKey[1]);
+    }
     const route = routes[this.getUsers.name]
     return this.post(route, { limit: 10000 })
   }
@@ -28,12 +31,18 @@ class AdminService extends HttpService {
     return this.post(route, { id })
   }
 
-  getAllRecognized() {
+  getAllRecognized(params) {
+    if (params.queryKey[1]) {
+      console.log('recognition search: ', params.queryKey[1]);
+    }
     const route = routes[this.getAllRecognized.name]
     return this.post(route, { limit: 9999 });
   }
 
-  getAllSales() {
+  getAllSales(params) {
+    if (params.queryKey[1]) {
+      console.log('sales search: ', params.queryKey[1]);
+    }
     const route = routes[this.getAllSales.name]
     return this.post(route, {})
   }
