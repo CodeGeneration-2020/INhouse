@@ -1,26 +1,15 @@
-import {
-  Button,
-  CircularProgress,
-  ListItem,
-  Modal,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "@material-ui/core";
+import { Button, CircularProgress, ListItem, Modal, Table, TableBody, TableCell, TableHead, TableRow, } from "@material-ui/core";
 import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useHistory } from "react-router";
 import { BUTTONS, TEXTS } from "../../../helpers/constants/constants";
 import adminService from "../../../services/adminService";
 import { GreenButton } from "../../../styles/buttons";
-import { useMargin } from "../../../styles/margin";
+import { GeneralStyles } from "../../../styles/components/GeneralStyles";
 import HumanticResponse from "../../UserContainer/Humantic/HumanticResponse/HumanticResponse";
-import classes from "./General.module.scss";
 
 const General = () => {
-  const margin = useMargin();
+  const classes = GeneralStyles();
   const history = useHistory();
   const [open, setOpen] = useState(false);
 
@@ -47,43 +36,31 @@ const General = () => {
 
   return (
     <>
-      <GreenButton
-        className={classes.add_user}
-        variant="contained"
-        onClick={() => history.push("/add_user")}
-      >
+      <GreenButton className={classes.add_user} variant="contained" onClick={() => history.push("/add_user")}>
         {BUTTONS.addUser}
       </GreenButton>
       <h2>{TEXTS.headGeneral}</h2>
-      {users.isLoading ? (
+      {users.isLoading ?
         <CircularProgress className={classes.users_spinner} />
-      ) : (
+        :
         <Table>
           <TableHead className={classes.head}>
             <TableRow>
               <TableCell>{TEXTS.username}</TableCell>
-              <TableCell className={margin.left}>{TEXTS.action}</TableCell>
+              <TableCell align='right'>{TEXTS.action}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {users.data?.map((user) => (
               <TableRow className={classes.user} key={user.id}>
                 <TableCell>
-                  <ListItem
-                    className={classes.username}
-                    button
-                    onClick={() => handleOpen(user.id)}
-                  >
+                  <ListItem className={classes.username} button onClick={() => handleOpen(user.id)}>
                     {user.username}
                   </ListItem>
                 </TableCell>
-                <TableCell>
+                <TableCell align='right'>
                   {user.username !== localStorage.getItem('username') &&
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => deleteUserMutation.mutate(user.id)}
-                    >
+                    <Button variant="contained" color="secondary" onClick={() => deleteUserMutation.mutate(user.id)}>
                       {BUTTONS.remove}
                     </Button>
                   }
@@ -92,34 +69,22 @@ const General = () => {
             ))}
           </TableBody>
         </Table>
-      )}
+      }
       <h2 className={classes.metrics}>
-        {metrics.isLoading ? (
+        {metrics.isLoading ?
           <CircularProgress />
-        ) : (
-          `${TEXTS.metrics}: ${TEXTS.algolia} - ${metrics.data?.algolia},
-        ${TEXTS.humantic} - ${metrics.data?.humantic}`
-        )}
+          :
+          `${TEXTS.metrics}: ${TEXTS.algolia} - ${metrics.data?.algolia}, ${TEXTS.humantic} - ${metrics.data?.humantic}`
+        }
       </h2>
-      <h2>
-        {TEXTS.linkedin}: {linkedinCount?.data}
-      </h2>
-      <Modal
-        open={open}
-        onClose={() => setOpen(false)}
-        className={classes.modal}
-      >
+      <h2>{TEXTS.linkedin}: {linkedinCount?.data}</h2>
+      <Modal open={open} onClose={() => setOpen(false)} className={classes.modal}>
         <div className={classes.modal_container}>
-          {analyzes.isLoading ? (
+          {analyzes.isLoading ?
             <CircularProgress className={classes.analyzes_spinner} />
-          ) : (
-            analyzes.data?.map((analysis) => (
-              <HumanticResponse
-                key={analysis._id}
-                linkedinInfo={analysis.analysis}
-              />
-            ))
-          )}
+            :
+            analyzes.data?.map((analysis) => <HumanticResponse key={analysis._id} linkedinInfo={analysis.analysis} />)
+          }
         </div>
       </Modal>
     </>

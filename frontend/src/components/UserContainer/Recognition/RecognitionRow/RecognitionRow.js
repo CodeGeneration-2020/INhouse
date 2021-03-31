@@ -1,8 +1,10 @@
 import React from "react";
+import { RecognitionRowStyles } from "../../../../styles/components/RecognitionRowStyles";
 import { RECOGNITION } from "../../constants/constants";
-import classes from "./RecognitionRow.module.scss";
 
 const RecognitionRow = ({ recognitionRow }) => {
+  const classes = RecognitionRowStyles()
+
   return (
     <div className={classes.question_answer}>
       <div className={classes.question}>

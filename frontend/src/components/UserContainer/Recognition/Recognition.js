@@ -1,14 +1,15 @@
 import { Button, CircularProgress } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { ReactMic } from "react-mic";
-import classes from "./Recognition.module.scss";
 import { useMutation } from "react-query";
 import { BUTTONS } from "../../../helpers/constants/constants";
 import userService from "../../../services/userService";
 import RecognitionRow from "./RecognitionRow/RecognitionRow";
 import { GreenButton } from "../../../styles/buttons";
+import { RecognitionStyles } from '../../../styles/components/RecognitionStyles';
 
 const Recognition = () => {
+  const classes = RecognitionStyles()
   const [record, setRecord] = useState(false);
   const [autoRecord, setAutoRecord] = useState(false);
   const [audio, setAudio] = useState(new Blob([" "], { type: "text/plain" }));

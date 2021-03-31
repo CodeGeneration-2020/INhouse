@@ -1,14 +1,15 @@
 import React from 'react'
 import { TextField } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom'
-import classes from './Auth.module.scss'
 import { useForm } from '../../helpers/Hooks/UseForm';
 import { strategy } from './strategy';
 import { GreenButton } from '../../styles/buttons';
 import { useMutation } from 'react-query';
 import authService from "../../services/authService";
+import { AuthStyles } from '../../styles/components/AuthStyles';
 
 const Auth = ({ auth }) => {
+  const classes = AuthStyles()
   const history = useHistory()
   const text = strategy[auth]
   const [formValues, setField] = useForm({ username: '', password: '' })
@@ -33,7 +34,7 @@ const Auth = ({ auth }) => {
         <h1>{text.header}</h1>
         <TextField
           size="medium"
-          className="textfield"
+          className={classes.textfield}
           variant="standard"
           label="Username"
           value={formValues.username}
@@ -42,7 +43,7 @@ const Auth = ({ auth }) => {
         />
         <TextField
           size="medium"
-          className="textfield"
+          className={classes.textfield}
           variant="standard"
           label="Password"
           value={formValues.password}
@@ -58,7 +59,7 @@ const Auth = ({ auth }) => {
         >
           {text.button}
         </GreenButton>
-        <Link className="login_link" to={`${text.questionLink}`}>
+        <Link className={classes.login_link} to={`${text.questionLink}`}>
           {text.question}
         </Link>
       </form>
