@@ -1,11 +1,40 @@
-import { IsNumber, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
+
+import {
+  IsNumber,
+  IsString,
+  IsDefined,
+  IsOptional,
+  IsNotEmpty,
+  ValidateNested,
+} from 'class-validator';
+
+class SearchDto {
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  username: string;
+}
+
+// TODO: move to shared
+class PaginateDto {
+  @IsNumber()
+  @IsDefined()
+  limit: number;
+
+  @IsNumber()
+  @IsDefined()
+  offset: number;
+}
 
 export class GetAllDto {
-  @IsNumber()
+  @Type(() => SearchDto)
   @IsOptional()
-  limit?: number;
+  @ValidateNested()
+  search?: SearchDto;
 
-  @IsNumber()
+  @Type(() => PaginateDto)
   @IsOptional()
-  offset?: number;
+  @ValidateNested()
+  paginate?: PaginateDto;
 }
