@@ -17,7 +17,7 @@ export const strategy = {
     endpoint: 'login',
     link: '/',
   },
-  add: {
+  create: {
     header: TEXTS.addHeader,
     button: BUTTONS.add,
     endpoint: 'register',

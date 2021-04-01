@@ -33,8 +33,5 @@ export const AuthStyles = makeStyles(() => ({
     marginTop: '20px',
     color: 'black',
     textDecoration: 'none',
-    '&:hover': {
-      textDecoration: 'underline',
-    }
   },
 }));

@@ -15,8 +15,8 @@ export const BUTTONS = {
 export const TEXTS = {
   questionRegister: 'Already registered? Log in',
   questionLogin: 'Not registered yet? Register',
-  registerHeader: 'Registeration',
-  loginHeader: 'Loggin In',
+  registerHeader: 'Registration',
+  loginHeader: 'Log In',
   addHeader: 'Add User',
   headAdmin: 'Admin panel',
   headGeneral: 'Users',
