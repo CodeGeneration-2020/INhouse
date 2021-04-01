@@ -45,7 +45,7 @@ export class AlgoliaDialogService
 
     const { hits } = await index.search<Dialog>(question, {
       hitsPerPage: 1,
-      searchableAttributes: ['question'],
+      restrictSearchableAttributes: ['question'],
     });
 
     this.metricService.trackApiCall({
