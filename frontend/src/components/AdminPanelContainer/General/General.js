@@ -68,15 +68,15 @@ const General = () => {
             </TableHead>
             <TableBody>
               {users.data?.map((user) => (
-                <TableRow className={classes.user} key={user._id}>
+                <TableRow className={classes.user} key={user.id}>
                   <TableCell>
-                    <ListItem className={classes.username} button onClick={() => handleOpen(user._id)}>
+                    <ListItem className={classes.username} button onClick={() => handleOpen(user.id)}>
                       {user.username}
                     </ListItem>
                   </TableCell>
                   <TableCell align='right'>
                     {user.username !== localStorage.getItem('username') &&
-                      <Button variant="contained" color="secondary" onClick={() => deleteUserMutation.mutate(user._id)}>
+                      <Button variant="contained" color="secondary" onClick={() => deleteUserMutation.mutate(user.id)}>
                         {BUTTONS.remove}
                       </Button>
                     }

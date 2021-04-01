@@ -10,6 +10,10 @@ class AuthService extends HttpService {
       localStorage.setItem('username', authValues.formValues.username);
     }
   }
+  roleCheck() {
+    const route = routes[this.roleCheck.name]
+    return this.post(route, {})
+  }
 }
 
 export default AuthService;
