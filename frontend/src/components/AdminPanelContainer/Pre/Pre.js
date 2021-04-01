@@ -1,19 +1,33 @@
 import { Button, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import adminService from "../../../services/adminService";
 import format from "date-fns/format";
 import { BUTTONS, TEXTS } from "../../../helpers/constants/constants";
 import { PreStyles } from "../../../styles/components/PreStyles";
+import Search from "../Search";
 
 const Pre = () => {
   const classes = PreStyles()
-  const allRecognized = useQuery("all-recognized", () => adminService.getAllRecognized());
+
+  const inputEl = useRef()
+
+  const [searchValue, setSearchValue] = useState('')
+
+  const allRecognized = useQuery(["all-recognized", searchValue], searchValue => adminService.getAllRecognized(searchValue));
   const downloadMutation = useMutation(id => adminService.downloadAudio(id))
+
+  const searchHandler = () => setSearchValue(inputEl.current.value)
+
+  const clearSearchHandler = () => {
+    inputEl.current.value = ''
+    setSearchValue(inputEl.current.value)
+  }
 
   return (
     <>
       <h1>{TEXTS.headPRE}</h1>
+      <Search inputEl={inputEl} searchHandler={searchHandler} clearSearchHandler={clearSearchHandler} />
       {allRecognized.isLoading ?
         <CircularProgress className={classes.pre_spinner} />
         :
@@ -29,7 +43,7 @@ const Pre = () => {
             </TableHead>
             <TableBody>
               {allRecognized.data?.map(row => (
-                <TableRow key={row.id}>
+                <TableRow key={row._id}>
                   <TableCell>{row.user?.username}</TableCell>
                   <TableCell>{row.text}</TableCell>
                   <TableCell>{format(new Date(row.createdAt), "HH:mm LLL dd yyyy")}</TableCell>
