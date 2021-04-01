@@ -8,24 +8,20 @@ import { useMutation } from 'react-query';
 import authService from "../../services/authService";
 import { AuthStyles } from '../../styles/components/AuthStyles';
 
-const Auth = ({ auth }) => {
+const Auth = ({ authType }) => {
   const classes = AuthStyles()
   const history = useHistory()
-  const text = strategy[auth]
+  const text = strategy[authType]
   const [formValues, setField] = useForm({ username: '', password: '' })
-  
-  const login = useMutation(formValues => authService.login(formValues), {
-    onSuccess: () => history.push('/')
-  })
 
-  const register = useMutation(formValues => authService.register(formValues), {
-    onSuccess: () => auth === 'register' ? history.push('/login') : history.push('/admin_panel')
+  const authMutation = useMutation(authValues => authService.auth(authValues), {
+    onSuccess: () => history.push(text.link)
   })
 
   const authHandler = e => {
     e.preventDefault();
     if (!formValues.username || !formValues.password) return;
-    auth === 'login' ? login.mutate(formValues) : register.mutate(formValues)
+    authMutation.mutate({ authType, formValues })
   };
 
   return (

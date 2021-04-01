@@ -15,9 +15,9 @@ function App() {
         <BrowserRouter>
           <Route exact path="/" component={() => <ProtectedRoute Component={UserContainer} />} />
           <Route exact path="/admin_panel" component={() => <ProtectedRoute Component={AdminPanelContainer} />} />
-          <Route exact path="/register" component={() => <Auth auth={'register'} />} />
-          <Route exact path="/login" component={() => <Auth auth={'login'} />} />
-          <Route exact path="/add_user" component={() => <Auth auth={'add'} />} />
+          <Route exact path="/register" component={() => <Auth authType={'register'} />} />
+          <Route exact path="/login" component={() => <Auth authType={'login'} />} />
+          <Route exact path="/add_user" component={() => <Auth authType={'create'} />} />
         </BrowserRouter>
       </QueryClientProvider>
     </div>
