@@ -8,8 +8,13 @@ export interface GetOptions {
 }
 
 export interface GetAllOptions {
-  limit?: number;
-  offset?: number;
+  search?: {
+    username?: string;
+  };
+  paginate?: {
+    limit?: number;
+    offset?: number;
+  };
 }
 
 export interface EditOptions {

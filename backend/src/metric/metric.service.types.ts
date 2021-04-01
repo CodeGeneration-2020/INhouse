@@ -26,6 +26,11 @@ export interface TrackRecognizeOptions {
 }
 
 export interface GetAllRecognizedOptions {
-  limit?: number;
-  offset?: number;
+  search?: {
+    username: string;
+  };
+  paginate?: {
+    limit: number;
+    offset: number;
+  };
 }

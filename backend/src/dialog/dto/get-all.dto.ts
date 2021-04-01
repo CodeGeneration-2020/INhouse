@@ -13,7 +13,7 @@ class SearchDto {
   @IsString()
   @IsDefined()
   @IsNotEmpty()
-  username: string;
+  text: string;
 }
 
 // TODO: move to shared
@@ -27,7 +27,7 @@ class PaginateDto {
   offset: number;
 }
 
-export class GetAllRecognizedDto {
+export class GetAllDto {
   @Type(() => SearchDto)
   @IsOptional()
   @ValidateNested()

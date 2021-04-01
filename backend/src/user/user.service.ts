@@ -22,11 +22,11 @@ export class UserService {
     private userModel: Model<UserDocument>,
   ) {}
 
-  async findOne(filter: FilterQuery<UserDocument>) {
+  findOne(filter: FilterQuery<UserDocument>) {
     return this.userModel.findOne(filter);
   }
 
-  async findById(id: any) {
+  findById(id: any) {
     return this.userModel.findById(id);
   }
 
@@ -48,11 +48,18 @@ export class UserService {
     return this.findById(id);
   }
 
-  getAll({ limit = 10, offset = 0 }: GetAllOptions) {
+  getAll({ search, paginate }: GetAllOptions) {
     const query = this.userModel.find();
 
-    query.limit(limit);
-    query.skip(offset);
+    if (search) {
+      query.where('username', new RegExp(search.username));
+    }
+
+    if (paginate) {
+      query.limit(paginate.limit);
+      query.skip(paginate.offset);
+    }
+
     query.lean();
 
     return query.exec();
