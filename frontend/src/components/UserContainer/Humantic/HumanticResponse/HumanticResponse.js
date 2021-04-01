@@ -1,8 +1,10 @@
 import React from 'react'
+import { HumanticResponseStyles } from '../../../../styles/components/HumanticResponseStyles'
 import { HUMANTIC } from '../../constants/constants'
-import classes from './HumanticResponse.module.scss'
 
 const HumanticResponse = ({ linkedinInfo }) => {
+  const classes = HumanticResponseStyles()
+
   return (
     <div className={classes.linkedinInfo}>
       <h3>{linkedinInfo.display_name}</h3>
