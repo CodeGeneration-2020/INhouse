@@ -1,6 +1,6 @@
 import { IsNumber, IsOptional } from 'class-validator';
 
-export class GetAllUsersDto {
+export class GetAllDto {
   @IsNumber()
   @IsOptional()
   limit?: number;

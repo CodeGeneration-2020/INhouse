@@ -1,5 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
+import {
+  hash as bcryptHash,
+  genSalt as bcryptGenSalt,
+  compare as bcryptCompare,
+} from 'bcrypt';
+
 import { Document, SchemaTypes } from 'mongoose';
 import { Type, Expose, Exclude } from 'class-transformer';
 
@@ -10,7 +16,6 @@ export class User {
   @Type(() => String)
   @Expose({
     name: '_id',
-    groups: ['admin'],
   })
   id: string;
 
@@ -21,36 +26,28 @@ export class User {
     unique: true,
     required: true,
   })
-  @Expose({
-    groups: ['admin'],
-  })
+  @Expose()
   username: string;
 
   @Type(() => String)
   @Prop({
     type: SchemaTypes.String,
   })
-  @Expose({
-    groups: ['admin'],
-  })
+  @Expose()
   customerName: string;
 
   @Type(() => String)
   @Prop({
     type: SchemaTypes.String,
   })
-  @Expose({
-    groups: ['admin'],
-  })
+  @Expose()
   contactName: string;
 
   @Type(() => String)
   @Prop({
     type: SchemaTypes.String,
   })
-  @Expose({
-    groups: ['admin'],
-  })
+  @Expose()
   email: string;
 
   @Type(() => String)
@@ -60,8 +57,30 @@ export class User {
   })
   @Exclude()
   password: string;
+
+  comparePassword(password: string) {
+    return bcryptCompare(password, this.password);
+  }
 }
 
-export type UserDocument = User & Document;
+export type UserDocument = User & Document<User>;
 
-export const UserSchema = SchemaFactory.createForClass(User);
+const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.pre('save', async function (this: UserDocument, next) {
+  if (!this.isModified('password')) {
+    next();
+
+    return;
+  }
+
+  const salt = await bcryptGenSalt();
+
+  this.password = await bcryptHash(this.password, salt);
+
+  next();
+});
+
+UserSchema.loadClass(User);
+
+export { UserSchema };

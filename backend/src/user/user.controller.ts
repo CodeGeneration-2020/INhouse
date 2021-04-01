@@ -1,70 +1,49 @@
-import {
-  Body,
-  Post,
-  HttpCode,
-  UseGuards,
-  HttpStatus,
-  Controller,
-} from '@nestjs/common';
+import { Req, Body, Post, UseGuards, Controller } from '@nestjs/common';
+
+import { Request } from 'src/shared/types';
+import { JwtAuthGuard } from 'src/shared/guards/jwt-auth.guard';
 
 import { UserService } from './user.service';
-import { UserDocument } from './schemas/user.schema';
 
-import { GetUserDto } from './dto/get-user.dto';
-import { EditUserDto } from './dto/edit-user.dto';
-import { LoginUserDto } from './dto/login-user.dto';
-import { CreateUserDto } from './dto/create-user.dto';
-import { DeleteUserDto } from './dto/delete-user.dto';
-import { GetAllUsersDto } from './dto/get-all-users.dto';
-
-import { User } from '../shared/decorators/user.decorator';
-import { JwtAuthGuard } from '../shared/guards/jwt-auth.guard';
-import { LocalAuthGuard } from '../shared/guards/local-auth.guard';
+import { CreateDto } from './dto/create.dto';
+import { GetDto } from './dto/get.dto';
+import { GetAllDto } from './dto/get-all.dto';
+import { EditDto } from './dto/edit.dto';
+import { DeleteDto } from './dto/delete.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Post('register')
-  @HttpCode(HttpStatus.CREATED)
-  register(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
-
-  @Post('login')
-  @HttpCode(HttpStatus.OK)
-  @UseGuards(LocalAuthGuard)
-  login(@Body() loginUserDto: LoginUserDto) {
-    return this.userService.login(loginUserDto);
+  @Post('create')
+  @UseGuards(JwtAuthGuard)
+  create(@Body() body: CreateDto) {
+    return this.userService.create(body);
   }
 
   @Post('get')
-  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  get(@Body() getUserDto: GetUserDto, @User() user: UserDocument) {
-    return this.userService.get({
-      id: getUserDto?.id ?? user.id,
-    });
+  get(@Req() { user }: Request, @Body() body: GetDto) {
+    const id = body?.id ?? user.id;
+
+    return this.userService.get({ id });
   }
 
   @Post('get-all')
-  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  getAll(@Body() getAllUsersDto: GetAllUsersDto) {
-    return this.userService.getAll(getAllUsersDto);
+  getAll(@Body() body: GetAllDto) {
+    return this.userService.getAll(body);
   }
 
   @Post('edit')
-  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  edit(@Body() editUserDto: EditUserDto) {
-    return this.userService.edit(editUserDto);
+  edit(@Body() body: EditDto) {
+    return this.userService.edit(body);
   }
 
   @Post('delete')
-  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  delete(@Body() deleteUserDto: DeleteUserDto) {
-    return this.userService.delete(deleteUserDto);
+  delete(@Body() body: DeleteDto) {
+    return this.userService.delete(body);
   }
 }
