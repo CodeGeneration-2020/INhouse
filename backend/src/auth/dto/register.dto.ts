@@ -1,11 +1,17 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsIn, IsString, IsNotEmpty } from 'class-validator';
+
+import { Role } from 'src/shared/role.enum';
 
 export class RegisterDto {
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
   username: string;
 
+  @IsIn([Role.PRE, Role.SDRE])
   @IsNotEmpty()
+  role: Role;
+
   @IsString()
+  @IsNotEmpty()
   password: string;
 }

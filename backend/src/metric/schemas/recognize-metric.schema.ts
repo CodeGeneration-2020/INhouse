@@ -3,7 +3,9 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Type, Expose } from 'class-transformer';
 import { Document, SchemaTypes } from 'mongoose';
 
-import { User } from '../../user/schemas/user.schema';
+import { User } from 'src/user/schemas/user.schema';
+
+import { Role } from 'src/shared/role.enum';
 
 @Schema({
   versionKey: false,
@@ -12,7 +14,7 @@ export class RecognizeMetric {
   @Type(() => String)
   @Expose({
     name: '_id',
-    groups: ['admin'],
+    groups: [Role.ADMIN],
   })
   id: string;
 
@@ -22,7 +24,7 @@ export class RecognizeMetric {
     required: true,
   })
   @Expose({
-    groups: ['admin'],
+    groups: [Role.ADMIN],
   })
   fileId: string;
 
@@ -33,7 +35,7 @@ export class RecognizeMetric {
     required: true,
   })
   @Expose({
-    groups: ['admin'],
+    groups: [Role.ADMIN],
   })
   user: User;
 
@@ -43,7 +45,7 @@ export class RecognizeMetric {
     required: true,
   })
   @Expose({
-    groups: ['admin'],
+    groups: [Role.ADMIN],
   })
   text: string;
 
@@ -53,12 +55,13 @@ export class RecognizeMetric {
     default: () => new Date(),
   })
   @Expose({
-    groups: ['admin'],
+    groups: [Role.ADMIN],
   })
   createdAt: Date;
 }
 
-export type RecognizeMetricDocument = RecognizeMetric & Document;
+export type RecognizeMetricDocument = RecognizeMetric &
+  Document<RecognizeMetric>;
 
 export const RecognizeMetricSchema = SchemaFactory.createForClass(
   RecognizeMetric,
