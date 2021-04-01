@@ -1,5 +1,5 @@
-import { Button, CircularProgress, IconButton, InputBase, ListItem, makeStyles, Modal, Paper, Table, TableBody, TableCell, TableHead, TableRow, } from "@material-ui/core";
-import SearchIcon from '@material-ui/icons/Search';
+import { Button, CircularProgress, ListItem, Modal, Table, TableBody, TableCell, TableHead, TableRow, } from "@material-ui/core";
+
 import React, { useState, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useHistory } from "react-router";
@@ -8,27 +8,9 @@ import adminService from "../../../services/adminService";
 import { GreenButton } from "../../../styles/buttons";
 import { GeneralStyles } from "../../../styles/components/GeneralStyles";
 import HumanticResponse from "../../UserContainer/Humantic/HumanticResponse/HumanticResponse";
-
-const searchStyles = makeStyles((theme) => ({
-  root: {
-    padding: '2px 4px',
-    marginLeft: 'auto',
-    display: 'flex',
-    alignItems: 'center',
-    width: 400,
-    marginBottom: '20px'
-  },
-  input: {
-    marginLeft: theme.spacing(1),
-    flex: 1,
-  },
-  iconButton: {
-    padding: 10,
-  },
-}));
+import Search from "../Search";
 
 const General = () => {
-  const searchStyle = searchStyles()
   const classes = GeneralStyles();
   const history = useHistory();
   const queryClient = useQueryClient();
@@ -56,6 +38,13 @@ const General = () => {
     setOpen(true);
     analyzes.mutate(userId);
   };
+  
+  const searchHandler = () => setSearchValue(inputEl.current.value)
+
+  const clearSearchHandler = () => {
+    inputEl.current.value = ''
+    setSearchValue(inputEl.current.value)
+  }
 
   return (
     <>
@@ -63,47 +52,36 @@ const General = () => {
         {BUTTONS.addUser}
       </GreenButton>
       <h2>{TEXTS.headGeneral}</h2>
+      <Search inputEl={inputEl} searchHandler={searchHandler} clearSearchHandler={clearSearchHandler} />
       {users.isLoading ?
         <CircularProgress className={classes.users_spinner} />
         :
-        <>
-          <Paper className={searchStyle.root}>
-            <InputBase
-              className={searchStyle.input}
-              placeholder="Search User"
-              inputRef={inputEl}
-            />
-            <IconButton className={searchStyle.iconButton} onClick={() => setSearchValue(inputEl.current.value)}>
-              <SearchIcon />
-            </IconButton>
-          </Paper>
-          <Table>
-            <TableHead className={searchStyle.head}>
-              <TableRow>
-                <TableCell>{TEXTS.username}</TableCell>
-                <TableCell align='right'>{TEXTS.action}</TableCell>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>{TEXTS.username}</TableCell>
+              <TableCell align='right'>{TEXTS.action}</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {users.data?.map((user) => (
+              <TableRow className={classes.user} key={user._id}>
+                <TableCell>
+                  <ListItem className={classes.username} button onClick={() => handleOpen(user.id)}>
+                    {user.username}
+                  </ListItem>
+                </TableCell>
+                <TableCell align='right'>
+                  {user.username !== localStorage.getItem('username') &&
+                    <Button variant="contained" color="secondary" onClick={() => deleteUserMutation.mutate(user.id)}>
+                      {BUTTONS.remove}
+                    </Button>
+                  }
+                </TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.data?.map((user) => (
-                <TableRow className={classes.user} key={user.id}>
-                  <TableCell>
-                    <ListItem className={classes.username} button onClick={() => handleOpen(user.id)}>
-                      {user.username}
-                    </ListItem>
-                  </TableCell>
-                  <TableCell align='right'>
-                    {user.username !== localStorage.getItem('username') &&
-                      <Button variant="contained" color="secondary" onClick={() => deleteUserMutation.mutate(user.id)}>
-                        {BUTTONS.remove}
-                      </Button>
-                    }
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </>
+            ))}
+          </TableBody>
+        </Table>
       }
       <h2 className={classes.metrics}>
         {metrics.isLoading ?

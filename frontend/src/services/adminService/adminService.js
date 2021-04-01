@@ -19,11 +19,15 @@ class AdminService extends HttpService {
   }
 
   getUsers(params) {
-    if (params.queryKey[1]) {
-      console.log('users search: ', params.queryKey[1]);
-    }
     const route = routes[this.getUsers.name]
-    return this.post(route, { limit: 10000 })
+    if (params.queryKey[1]) {
+      return this.post(route, {
+        search: {
+          username: params.queryKey[1]
+        }
+      })
+    }
+    return this.post(route, {})
   }
 
   deleteUser(id) {
@@ -32,18 +36,26 @@ class AdminService extends HttpService {
   }
 
   getAllRecognized(params) {
-    if (params.queryKey[1]) {
-      console.log('recognition search: ', params.queryKey[1]);
-    }
     const route = routes[this.getAllRecognized.name]
-    return this.post(route, { limit: 9999 });
+    if (params.queryKey[1]) {
+      return this.post(route, {
+        search: {
+          username: params.queryKey[1]
+        }
+      })
+    }
+    return this.post(route, {});
   }
 
   getAllSales(params) {
-    if (params.queryKey[1]) {
-      console.log('sales search: ', params.queryKey[1]);
-    }
     const route = routes[this.getAllSales.name]
+    if (params.queryKey[1]) {
+      return this.post(route, {
+        search: {
+          text: params.queryKey[1]
+        }
+      })
+    }
     return this.post(route, {})
   }
 
