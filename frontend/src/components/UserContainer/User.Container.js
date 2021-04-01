@@ -1,4 +1,4 @@
-import { Card, Checkbox, FormControlLabel } from '@material-ui/core';
+import { Card, Checkbox, CircularProgress, FormControlLabel } from '@material-ui/core';
 import Humantic from './Humantic/Humantic';
 import { useHistory } from 'react-router-dom'
 import Recognition from './Recognition/Recognition'
@@ -6,11 +6,16 @@ import { useState } from 'react';
 import UploadPdf from './UploadPdf/UploadPdf';
 import { UserContainerStyles } from '../../styles/components/UserContainerStyles';
 import { GreenButton } from '../../styles/buttons';
+import { useQuery } from 'react-query';
+import authService from '../../services/authService';
 
 const UserContainer = () => {
   const classes = UserContainerStyles()
   const [checked, setChecked] = useState(false)
   const history = useHistory()
+
+  const { data, isLoading } = useQuery('role', () => authService.roleCheck())
+  if (isLoading) return <CircularProgress />
 
   return (
     <Card className={classes.root}>
@@ -26,12 +31,11 @@ const UserContainer = () => {
             />
           }
         />
-        <GreenButton
-          className={classes.admin_button}
-          onClick={() => history.push('/admin_panel')}
-        >
-          Go to admin panel
-        </GreenButton>
+        {data.role === 'ADMIN' &&
+          <GreenButton className={classes.admin_button} onClick={() => history.push('/admin_panel')}>
+            Go to admin panel
+          </GreenButton>
+        }
       </div>
       {checked ?
         <UploadPdf />
