@@ -29,7 +29,7 @@ const Humantic = () => {
 
   return (
     <div className={classes.humantic}>
-      <div>
+      <div className={classes.url}>
         <Input
           placeholder='linkedIn URL'
           name="linkedInUrl"
@@ -39,10 +39,12 @@ const Humantic = () => {
           {BUTTONS.send}
         </GreenButton>
       </div>
-      {mutationHumantic.isLoading && <CircularProgress className={classes.humantic_spinner} />}
-      {alert && <div className={classes.danger}>Profile not found!</div>}
-      <div className={classes.analyzes_wrapper}>
-        {analyzes.map(analysis => <HumanticResponse key={uuidv4()} linkedinInfo={analysis} />)}
+      <div className={classes.humantic_content}>
+        {mutationHumantic.isLoading && <CircularProgress className={classes.humantic_spinner} />}
+        {alert && <div className={classes.danger}>Profile not found!</div>}
+        <div className={classes.analyzes_wrapper}>
+          {analyzes.map(analysis => <HumanticResponse key={uuidv4()} linkedinInfo={analysis} />)}
+        </div>
       </div>
     </div>
   )

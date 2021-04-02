@@ -3,9 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 export const RecognitionStyles = makeStyles(() => ({
   record: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column-reverse',
     width: '66.6%',
-    height: '100%',
+    height: '90.5vh',
+    justifyContent: 'space-between',
     minWidth: '1000px',
     '& button': {
       display: 'block',
@@ -13,7 +14,7 @@ export const RecognitionStyles = makeStyles(() => ({
     },
     '& canvas': {
       maxWidth: '300px',
-      margin: '0px 10px 0px 10px'
+      margin: '10px 10px 0px 10px'
     },
   },
   audio: {
@@ -22,8 +23,9 @@ export const RecognitionStyles = makeStyles(() => ({
   },
   record_wrapper: {
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    zIndex: '3',
   },
 
   recognition_spinner: {
@@ -32,5 +34,6 @@ export const RecognitionStyles = makeStyles(() => ({
   recognition_rows: {
     display: 'flex',
     flexDirection: 'column-reverse',
+    marginBottom: 'auto'
   },
 }));

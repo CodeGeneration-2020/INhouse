@@ -12,7 +12,6 @@ export const UserContainerStyles = makeStyles(() => ({
     display: 'flex',
     overflowY: 'auto',
     height: '100vh',
-    background: 'linear-gradient(transparent 45%, white 50%, rgb(255, 255, 144, 0) 50%)',
     width: '100%',
     background: 'white',
   },
@@ -32,12 +31,6 @@ export const UserContainerStyles = makeStyles(() => ({
     bottom: '0',
     left: '0',
     height: '70%', 
-    background: 'url(data:image/svg+xml;base64,alotofcodehere)',
-    background: '-moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 70%)',
-    background: '-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(70%,rgba(255,255,255,1)))',
-    background: '-webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 70%)',
-    background: '-o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 70%)',
-    background: '-ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 70%)',
-    background: 'linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 70%)',
+    background: 'linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)',
   }
 }));

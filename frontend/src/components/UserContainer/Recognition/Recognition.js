@@ -7,6 +7,7 @@ import userService from "../../../services/userService";
 import RecognitionRow from "./RecognitionRow/RecognitionRow";
 import { GreenButton } from "../../../styles/buttons";
 import { RecognitionStyles } from '../../../styles/components/RecognitionStyles';
+import Select from "../Select";
 
 const Recognition = () => {
   const classes = RecognitionStyles()
@@ -56,6 +57,7 @@ const Recognition = () => {
   return (
     <div className={classes.record}>
       <div className={classes.record_wrapper}>
+        <Select />
         <ReactMic
           backgroundColor="white"
           strokeColor="#000000"

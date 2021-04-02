@@ -4,17 +4,18 @@ export const HumanticStyles = makeStyles(() => ({
   humantic: {
     display: 'flex',
     marginLeft: '20px',
-    textOverflow: 'hidden',
-    textDecoration: 'none',
-    flexDirection: 'column',
+    flexDirection: 'column-reverse',
     alignItems: 'center',
+    height: '90vh',
     width: '33.3%',
-    justifyContent: 'flex-start',
-    background: 'none'
   },
   button: {
-    marginTop: '10px',
     marginLeft: '20px',
+  },
+  url: {
+    position: 'absolute',
+    zIndex: '3',
+    bottom: 99,
   },
   humantic_spinner: {
     marginTop: '40px',
@@ -27,6 +28,9 @@ export const HumanticStyles = makeStyles(() => ({
   danger: {
     marginTop: '50px',
     color: 'red',
+  },
+  humantic_content: {
+    marginBottom: 'auto',
   }
 }));
 
