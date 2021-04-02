@@ -5,8 +5,8 @@ export type CreateOneDialog = Dialog;
 export type CreateManyDialogs = Dialog[];
 
 export interface FindOneOptions {
-  relatedTo: Dialog['relatedTo'];
-  question: Dialog['question'];
+  relatedTo: string;
+  question: string;
 }
 
 export interface FindManyOptions {
