@@ -1,23 +1,22 @@
 import { Injectable, HttpService } from '@nestjs/common';
 
-import { Dialog } from '../types';
+import { AnalyzedDialog } from './types';
 
-import { AnalyzeOptions } from './text-analyzer.types';
 import { TextAnalyzerService } from './text-analyzer.service';
+import { Analyze, AnalyzeResult } from './text-analyzer.types';
 
 import { ShortqResponse } from './ai-text-analyzer.types';
 
-// TODO: move to service or config?
-const baseUrl = 'http://20.48.159.112:8085';
-
 @Injectable()
 export class AITextAnalyzerService extends TextAnalyzerService {
+  private baseApiUrl = 'http://20.48.159.112:8085';
+
   constructor(private httpService: HttpService) {
     super();
   }
 
-  async analyze({ text }: AnalyzeOptions) {
-    const url = `${baseUrl}/shortq`;
+  async analyze(text: Analyze): Promise<AnalyzeResult> {
+    const url = `${this.baseApiUrl}/shortq`;
 
     const { data } = await this.httpService
       .post<ShortqResponse>(url, {
@@ -29,10 +28,10 @@ export class AITextAnalyzerService extends TextAnalyzerService {
       return [];
     }
 
-    const dialogs: Dialog[] = [];
+    const dialogs: AnalyzedDialog[] = [];
 
     for (const question of data.questions) {
-      const dialog: Dialog = {
+      const dialog: AnalyzedDialog = {
         context: question.context,
         question: question.Question,
         answer: question.Answer,
