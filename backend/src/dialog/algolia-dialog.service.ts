@@ -1,5 +1,5 @@
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Injectable, OnModuleInit } from '@nestjs/common';
 
 import algoliasearch, { SearchClient } from 'algoliasearch';
 
@@ -20,9 +20,7 @@ import {
 import { toSavedDialog } from './algolia-dialog.helpers';
 
 @Injectable()
-export class AlgoliaDialogService
-  extends DialogService
-  implements OnModuleInit {
+export class AlgoliaDialogService extends DialogService {
   private client: SearchClient;
 
   private metricService: MetricService;
@@ -38,12 +36,12 @@ export class AlgoliaDialogService
     this.metricService = metricService;
   }
 
-  async onModuleInit() {
+  async initSettings() {
     const index = this.client.initIndex('dialogs');
 
     await index.setSettings({
       searchableAttributes: ['question'],
-      attributesForFaceting: ['userId'],
+      attributesForFaceting: ['relatedTo'],
     });
   }
 
@@ -74,6 +72,8 @@ export class AlgoliaDialogService
 
   async findOne({ relatedTo, question }: FindOneOptions) {
     const index = this.client.initIndex('dialogs');
+
+    await this.initSettings();
 
     const { hits } = await index.search<Dialog>(question, {
       filters: `relatedTo:"${relatedTo}"`,
@@ -117,6 +117,8 @@ export class AlgoliaDialogService
       // @ts-ignore
       searchArgs[1].offset = paginate.offset;
     }
+
+    await this.initSettings();
 
     const { hits } = await index.search<Dialog>(...searchArgs);
 
