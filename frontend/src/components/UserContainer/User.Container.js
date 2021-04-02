@@ -8,14 +8,16 @@ import { UserContainerStyles } from '../../styles/components/UserContainerStyles
 import { GreenButton } from '../../styles/buttons';
 import { useQuery } from 'react-query';
 import authService from '../../services/authService';
+import { pageSpinnerStyles } from '../../styles/pageSpinnerStyles';
 
 const UserContainer = () => {
+  const spinnerClasses = pageSpinnerStyles()
   const classes = UserContainerStyles()
   const [checked, setChecked] = useState(false)
   const history = useHistory()
 
   const { data, isLoading } = useQuery('role', () => authService.roleCheck())
-  if (isLoading) return <CircularProgress />
+  if (isLoading) return <CircularProgress className={spinnerClasses.route_spinner} />
 
   return (
     <Card className={classes.root}>
