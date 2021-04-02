@@ -12,7 +12,7 @@ const Auth = ({ authType }) => {
   const classes = AuthStyles()
   const history = useHistory()
   const text = strategy[authType]
-  const [formValues, setField] = useForm({ username: '', password: '' })
+  const [formValues, setField] = useForm({ username: '', password: '', role: 'PRE' })
 
   const authMutation = useMutation(authValues => authService.auth(authValues), {
     onSuccess: () => history.push(text.link)
