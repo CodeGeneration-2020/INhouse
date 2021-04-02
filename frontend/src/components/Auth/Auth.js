@@ -7,12 +7,13 @@ import { GreenButton } from '../../styles/buttons';
 import { useMutation } from 'react-query';
 import authService from "../../services/authService";
 import { AuthStyles } from '../../styles/components/AuthStyles';
+import { ROLES } from '../../helpers/constants/constants';
 
 const Auth = ({ authType }) => {
   const classes = AuthStyles()
   const history = useHistory()
   const text = strategy[authType]
-  const [formValues, setField] = useForm({ username: '', password: '' })
+  const [formValues, setField] = useForm({ username: '', password: '', role: ROLES.pre })
 
   const authMutation = useMutation(authValues => authService.auth(authValues), {
     onSuccess: () => history.push(text.link)
