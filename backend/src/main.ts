@@ -25,7 +25,13 @@ const run = async () => {
 
   app.register(fastifyMulipart);
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidUnknownValues: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
 
   const port = configService.get<string>('PORT');
   const address = configService.get<string>('ADDRESS');
