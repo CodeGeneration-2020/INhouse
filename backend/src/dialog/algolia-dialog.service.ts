@@ -3,13 +3,19 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 
 import algoliasearch, { SearchClient } from 'algoliasearch';
 
-import { ApiService } from '../../metric/types';
-import { MetricService } from '../../metric/metric.service';
+import { MetricService } from 'src/metric/metric.service';
+import { ApiService } from 'src/metric/types';
 
-import { Dialog, SavedDialog } from '../types';
+import { Dialog } from './types';
 
 import { DialogService } from './dialog.service';
-import { GetOptions, GetAllOptions, UploadOptions } from './dialog.types';
+
+import {
+  CreateOneDialog,
+  CreateManyDialogs,
+  FindOneOptions,
+  FindManyOptions,
+} from './dialog.types';
 
 import { toSavedDialog } from './algolia-dialog.helpers';
 
@@ -37,15 +43,41 @@ export class AlgoliaDialogService
 
     await index.setSettings({
       searchableAttributes: ['question'],
+      attributesForFaceting: ['userId'],
     });
   }
 
-  async get({ question }: GetOptions) {
+  async createOne(dialog: CreateOneDialog) {
+    const [savedDialog] = await this.createMany([dialog]);
+
+    return savedDialog;
+  }
+
+  async createMany(dialogs: CreateManyDialogs) {
+    const index = this.client.initIndex('dialogs');
+
+    const { objectIDs } = await index.saveObjects(dialogs, {
+      autoGenerateObjectIDIfNotExist: true,
+    });
+
+    this.metricService.trackApiCall({
+      service: ApiService.ALGOLIA,
+      method: 'save-objects',
+    });
+
+    return dialogs.map((dialog, index) => {
+      const objectID = objectIDs[index];
+
+      return toSavedDialog({ objectID, ...dialog });
+    });
+  }
+
+  async findOne({ relatedTo, question }: FindOneOptions) {
     const index = this.client.initIndex('dialogs');
 
     const { hits } = await index.search<Dialog>(question, {
+      filters: `relatedTo:"${relatedTo}"`,
       hitsPerPage: 1,
-      restrictSearchableAttributes: ['question'],
     });
 
     this.metricService.trackApiCall({
@@ -55,14 +87,14 @@ export class AlgoliaDialogService
 
     const dialog = hits[0];
 
-    return {
-      context: dialog?.context ?? 'Not found',
-      question: dialog?.question ?? question,
-      answer: dialog?.answer ?? 'Not found',
-    };
+    if (!dialog) {
+      return null;
+    }
+
+    return toSavedDialog(dialog);
   }
 
-  async getAll({ search, paginate }: GetAllOptions) {
+  async findMany({ search, paginate }: FindManyOptions) {
     const index = this.client.initIndex('dialogs');
 
     const searchArgs: Parameters<typeof index.search> = [
@@ -77,12 +109,13 @@ export class AlgoliaDialogService
     }
 
     if (paginate) {
-      searchArgs[1] = {
-        ...searchArgs[1],
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      searchArgs[1].length = paginate.limit;
 
-        length: paginate.limit,
-        offset: paginate.offset,
-      };
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      searchArgs[1].offset = paginate.offset;
     }
 
     const { hits } = await index.search<Dialog>(...searchArgs);
@@ -93,28 +126,5 @@ export class AlgoliaDialogService
     });
 
     return hits.map(toSavedDialog);
-  }
-
-  async upload({ dialogs }: UploadOptions) {
-    const index = this.client.initIndex('dialogs');
-
-    const { objectIDs } = await index.saveObjects(dialogs, {
-      autoGenerateObjectIDIfNotExist: true,
-    });
-
-    this.metricService.trackApiCall({
-      service: ApiService.ALGOLIA,
-      method: 'save-objects',
-    });
-
-    return dialogs.map((dialog, index) => {
-      const savedDialog: SavedDialog = {
-        id: objectIDs[index],
-
-        ...dialog,
-      };
-
-      return savedDialog;
-    });
   }
 }

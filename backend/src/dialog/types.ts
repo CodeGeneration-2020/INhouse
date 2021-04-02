@@ -1,4 +1,5 @@
 export interface Dialog {
+  relatedTo: string;
   context: string;
   question: string;
   answer: string;

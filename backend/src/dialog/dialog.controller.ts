@@ -1,73 +1,39 @@
-import {
-  Body,
-  Post,
-  HttpCode,
-  UseGuards,
-  HttpStatus,
-  Controller,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Post, UseGuards, Controller } from '@nestjs/common';
 
-import { Dialog } from './types';
-import { parseArticles } from './utils/pdf-parser.util';
+import { JwtAuthGuard } from 'src/shared/guards/jwt-auth.guard';
 
-import { DialogService } from './dialog/dialog.service';
-import { TextAnalyzerService } from './text-analyzer/text-analyzer.service';
+import { DialogService } from './dialog.service';
 
-import { GetAnswerDto } from './dto/get-answer.dto';
-import { GetAllDto } from './dto/get-all.dto';
-
-import { File } from '../shared/decorators/file.decorator';
-import { JwtAuthGuard } from '../shared/guards/jwt-auth.guard';
-import { MultipartFile } from '../shared/types';
-import { MultipartGuard } from '../shared/guards/multipart.guard';
-import { FilesInterceptor } from '../shared/interceptors/files.interceptor';
+import { CreateOneDto } from './dto/create-one.dto';
+import { CreateManyDto } from './dto/create-many.dto';
+import { FindOneDto } from './dto/find-one.dto';
+import { FindManyDto } from './dto/find-many.dto';
 
 @Controller('dialog')
 export class DialogController {
-  constructor(
-    private dialogService: DialogService,
-    private textAnalyzerService: TextAnalyzerService,
-  ) {}
+  constructor(private dialogService: DialogService) {}
 
-  @Post('get')
-  @HttpCode(HttpStatus.OK)
+  @Post('create-one')
   @UseGuards(JwtAuthGuard)
-  getAnswer(@Body() getAnswerDto: GetAnswerDto) {
-    return this.dialogService.get(getAnswerDto);
+  createOne(@Body() { dialog }: CreateOneDto) {
+    return this.dialogService.createOne(dialog);
   }
 
-  @Post('get-all')
-  @HttpCode(HttpStatus.OK)
+  @Post('create-many')
   @UseGuards(JwtAuthGuard)
-  getAll(@Body() body: GetAllDto) {
-    return this.dialogService.getAll(body);
+  createMany(@Body() { dialogs }: CreateManyDto) {
+    return this.dialogService.createMany(dialogs);
   }
 
-  @Post('upload-with-pdf')
-  @HttpCode(HttpStatus.OK)
+  @Post('find-one')
   @UseGuards(JwtAuthGuard)
-  @UseGuards(MultipartGuard)
-  @UseInterceptors(FilesInterceptor)
-  async uploadWithPdf(@File('input') input: MultipartFile) {
-    const pdfBuffer = await input.toBuffer();
+  findOne(@Body() body: FindOneDto) {
+    return this.dialogService.findOne(body);
+  }
 
-    const articles = await parseArticles(pdfBuffer);
-
-    const dialogs: Dialog[] = [];
-
-    for (const article of articles) {
-      const newDialogs = await this.textAnalyzerService.analyze({
-        text: article.content,
-      });
-
-      dialogs.push(...newDialogs);
-    }
-
-    if (dialogs.length === 0) {
-      return [];
-    }
-
-    return this.dialogService.upload({ dialogs });
+  @Post('find-many')
+  @UseGuards(JwtAuthGuard)
+  findMany(@Body() body: FindManyDto) {
+    return this.dialogService.findMany(body);
   }
 }
