@@ -30,3 +30,8 @@ export const TEXTS = {
   dateAdded: 'Date added',
   linkedin: 'Amount of linkedin profiles',
 }
+
+export const ROLES = {
+  pre: 'PRE',
+  admin: 'ADMIN',
+}
