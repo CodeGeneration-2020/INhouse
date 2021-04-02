@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import algoliasearch, { SearchClient } from 'algoliasearch';
+import algoliasearch, { SearchClient, SearchIndex } from 'algoliasearch';
 
 import { MetricService } from 'src/metric/metric.service';
 import { ApiService } from 'src/metric/types';
@@ -36,13 +36,11 @@ export class AlgoliaDialogService extends DialogService {
     this.metricService = metricService;
   }
 
-  async initSettings() {
-    const index = this.client.initIndex('dialogs');
-
-    await index.setSettings({
-      searchableAttributes: ['question'],
-      attributesForFaceting: ['relatedTo'],
-    });
+  private setSettings(
+    index: SearchIndex,
+    settings: Parameters<SearchIndex['setSettings']>[0],
+  ) {
+    return index.setSettings(settings).wait();
   }
 
   async createOne(dialog: CreateOneDialog) {
@@ -73,7 +71,10 @@ export class AlgoliaDialogService extends DialogService {
   async findOne({ relatedTo, question }: FindOneOptions) {
     const index = this.client.initIndex('dialogs');
 
-    await this.initSettings();
+    await this.setSettings(index, {
+      searchableAttributes: ['question'],
+      attributesForFaceting: ['relatedTo'],
+    });
 
     const { hits } = await index.search<Dialog>(question, {
       filters: `relatedTo:"${relatedTo}"`,
@@ -97,28 +98,22 @@ export class AlgoliaDialogService extends DialogService {
   async findMany({ search, paginate }: FindManyOptions) {
     const index = this.client.initIndex('dialogs');
 
-    const searchArgs: Parameters<typeof index.search> = [
-      undefined,
-      {
-        restrictSearchableAttributes: ['question', 'answer'],
-      },
-    ];
+    const searchArgs: Parameters<typeof index.search> = [undefined, undefined];
 
     if (search) {
       searchArgs[0] = search.text;
     }
 
     if (paginate) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      searchArgs[1].length = paginate.limit;
-
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      searchArgs[1].offset = paginate.offset;
+      searchArgs[1] = {
+        length: paginate.limit,
+        offset: paginate.offset,
+      };
     }
 
-    await this.initSettings();
+    await this.setSettings(index, {
+      searchableAttributes: ['question', 'answer'],
+    });
 
     const { hits } = await index.search<Dialog>(...searchArgs);
 
