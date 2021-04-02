@@ -6,7 +6,7 @@ export const RecognitionRowStyles = makeStyles(() => ({
   recognizedText: {
     fontSize: '30px',
     maxWidth: '300px',
-    minHeight: '300px',
+    minHeight: '100px',
     wordWrap: 'break-word',
   },
   

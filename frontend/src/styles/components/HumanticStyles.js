@@ -10,7 +10,7 @@ export const HumanticStyles = makeStyles(() => ({
     alignItems: 'center',
     width: '33.3%',
     justifyContent: 'flex-start',
-    backgroundColor: 'white',
+    background: 'none'
   },
   button: {
     marginTop: '10px',

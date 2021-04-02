@@ -43,8 +43,11 @@ const UserContainer = () => {
         <UploadPdf />
         :
         <div className={classes.container}>
-          <Recognition />
-          <Humantic />
+          <div className={classes.content}>
+            <Humantic />
+            <Recognition />
+          </div>
+          <div className={classes.gradient}></div>
         </div>
       }
     </Card>
