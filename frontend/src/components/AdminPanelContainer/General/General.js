@@ -1,4 +1,4 @@
-import { Button, CircularProgress, ListItem, Modal, Table, TableBody, TableCell, TableHead, TableRow, } from "@material-ui/core";
+import { Button, CircularProgress, ListItem, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, } from "@material-ui/core";
 
 import React, { useState, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -38,13 +38,15 @@ const General = () => {
     setOpen(true);
     analyzes.mutate(userId);
   };
-  
+
   const searchHandler = () => setSearchValue(inputEl.current.value)
 
   const clearSearchHandler = () => {
     inputEl.current.value = ''
     setSearchValue(inputEl.current.value)
   }
+
+  if (analyzes.data) console.log(analyzes.data);
 
   return (
     <>
@@ -56,32 +58,34 @@ const General = () => {
       {users.isLoading ?
         <CircularProgress className={classes.users_spinner} />
         :
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>{TEXTS.username}</TableCell>
-              <TableCell align='right'>{TEXTS.action}</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {users.data?.map((user) => (
-              <TableRow className={classes.user} key={user._id}>
-                <TableCell>
-                  <ListItem className={classes.username} button onClick={() => handleOpen(user.id)}>
-                    {user.username}
-                  </ListItem>
-                </TableCell>
-                <TableCell align='right'>
-                  {user.username !== localStorage.getItem('username') &&
-                    <Button variant="contained" color="secondary" onClick={() => deleteUserMutation.mutate(user.id)}>
-                      {BUTTONS.remove}
-                    </Button>
-                  }
-                </TableCell>
+        <TableContainer className={classes.container}>
+          <Table stickyHeader>
+            <TableHead>
+              <TableRow>
+                <TableCell>{TEXTS.username}</TableCell>
+                <TableCell align='right'>{TEXTS.action}</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {users.data?.map((user) => (
+                <TableRow className={classes.user} key={user.id}>
+                  <TableCell>
+                    <ListItem className={classes.username} button onClick={() => handleOpen(user.id)}>
+                      {user.username}
+                    </ListItem>
+                  </TableCell>
+                  <TableCell align='right'>
+                    {user.username !== localStorage.getItem('username') &&
+                      <Button variant="contained" color="secondary" onClick={() => deleteUserMutation.mutate(user.id)}>
+                        {BUTTONS.remove}
+                      </Button>
+                    }
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       }
       <h2 className={classes.metrics}>
         {metrics.isLoading ?
@@ -96,7 +100,13 @@ const General = () => {
           {analyzes.isLoading ?
             <CircularProgress className={classes.analyzes_spinner} />
             :
-            analyzes.data?.map((analysis) => <HumanticResponse key={analysis._id} linkedinInfo={analysis.analysis} />)
+            <>
+              {analyzes.data?.length === 0 ?
+                <h3 className={classes.empty_modal}>This user has not searched for linkedin profiles yet.</h3>
+                :
+                analyzes.data?.map((analysis) => <HumanticResponse key={analysis._id} linkedinInfo={analysis.analysis} />)
+              }
+            </>
           }
         </div>
       </Modal>

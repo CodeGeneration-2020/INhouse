@@ -6,6 +6,8 @@ import {
   compare as bcryptCompare,
 } from 'bcrypt';
 
+import { Role } from 'src/shared/role.enum';
+
 import { Document, SchemaTypes } from 'mongoose';
 import { Type, Expose, Exclude } from 'class-transformer';
 
@@ -16,6 +18,7 @@ export class User {
   @Type(() => String)
   @Expose({
     name: '_id',
+    groups: [Role.ADMIN, Role.PRE, Role.SDRE],
   })
   id: string;
 
@@ -26,28 +29,47 @@ export class User {
     unique: true,
     required: true,
   })
-  @Expose()
+  @Expose({
+    groups: [Role.ADMIN, Role.PRE, Role.SDRE],
+  })
   username: string;
 
   @Type(() => String)
   @Prop({
     type: SchemaTypes.String,
+    enum: Role,
+    required: true,
   })
-  @Expose()
+  @Expose({
+    groups: [Role.ADMIN, Role.PRE, Role.SDRE],
+  })
+  role: Role;
+
+  @Type(() => String)
+  @Prop({
+    type: SchemaTypes.String,
+  })
+  @Expose({
+    groups: [Role.ADMIN, Role.PRE, Role.SDRE],
+  })
   customerName: string;
 
   @Type(() => String)
   @Prop({
     type: SchemaTypes.String,
   })
-  @Expose()
+  @Expose({
+    groups: [Role.ADMIN, Role.PRE, Role.SDRE],
+  })
   contactName: string;
 
   @Type(() => String)
   @Prop({
     type: SchemaTypes.String,
   })
-  @Expose()
+  @Expose({
+    groups: [Role.ADMIN, Role.PRE, Role.SDRE],
+  })
   email: string;
 
   @Type(() => String)

@@ -15,8 +15,8 @@ export const BUTTONS = {
 export const TEXTS = {
   questionRegister: 'Already registered? Log in',
   questionLogin: 'Not registered yet? Register',
-  registerHeader: 'Registeration',
-  loginHeader: 'Loggin In',
+  registerHeader: 'Registration',
+  loginHeader: 'Log In',
   addHeader: 'Add User',
   headAdmin: 'Admin panel',
   headGeneral: 'Users',
@@ -29,4 +29,9 @@ export const TEXTS = {
   recordedText: 'Recorded text',
   dateAdded: 'Date added',
   linkedin: 'Amount of linkedin profiles',
+}
+
+export const ROLES = {
+  pre: 'PRE',
+  admin: 'ADMIN',
 }

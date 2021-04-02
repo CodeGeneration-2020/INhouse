@@ -30,14 +30,18 @@ export class UserService {
     return this.userModel.findById(id);
   }
 
-  async create({ username, password }: CreateOptions) {
-    let user = await this.findOne({ username });
+  async create(options: CreateOptions) {
+    let user = await this.findOne({
+      username: options.username,
+    });
 
     if (user) {
       throw new ConflictException('User already exist');
     }
 
-    user = new this.userModel({ username, password });
+    user = new this.userModel();
+
+    assignExistProperties(user, options, ['username', 'role', 'password']);
 
     await user.save();
 

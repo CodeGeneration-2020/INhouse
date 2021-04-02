@@ -3,6 +3,9 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const GeneralStyles = makeStyles(() => ({
+  container: {
+    maxHeight: '600px',
+  },
   metrics: {
     marginTop: '100px',
   },
@@ -39,5 +42,12 @@ export const GeneralStyles = makeStyles(() => ({
   analyzes_spinner: {
     marginTop: '140px',
     marginLeft: '275px',
+  },
+  empty_modal: {
+    display: 'flex',
+    width: '100%',
+    height: '85%',
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 }));

@@ -9,7 +9,7 @@ import { FastifyRequest } from 'fastify';
 
 @Injectable()
 export class MultipartGuard implements CanActivate {
-  public async canActivate(context: ExecutionContext): Promise<boolean> {
+  public async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest<FastifyRequest>();
 
     const isMultipart = request.isMultipart();

@@ -1,5 +1,8 @@
+import { Role } from 'src/shared/role.enum';
+
 export interface CreateOptions {
   username: string;
+  role: Role;
   password: string;
 }
 
