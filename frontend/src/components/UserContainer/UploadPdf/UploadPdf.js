@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCell, TableHead, TableRow, CircularProgress } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { BUTTONS } from "../../../helpers/constants/constants";
 import userService from "../../../services/userService";
@@ -15,7 +15,7 @@ const UploadPdf = () => {
   const pdfMutation = useMutation(values => userService.uploadPdf(values));
 
   const selectHandler = e => setUserId(e.target.value)
-  const uploadHandler = e => pdfMutation.mutate({file: e.target.files[0], userId})
+  const uploadHandler = e => pdfMutation.mutate({ file: e.target.files[0], userId })
 
   return (
     <>

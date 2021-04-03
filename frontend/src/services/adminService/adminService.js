@@ -59,6 +59,12 @@ class AdminService extends HttpService {
     return this.post(route, {})
   }
 
+  createSales(salesValues) {
+    // const { relatedTo, context, question, answer } = salesValues
+    const route = routes[this.createSales.name]
+    return this.post(route, { dialog: salesValues } )
+  }
+
   downloadAudio(id) {
     const route = routes[this.downloadAudio.name]
     this

@@ -15,7 +15,7 @@ const Select = ({ state, selectHandler }) => {
       <NativeSelect
         value={state}
         onChange={selectHandler}
-        inputProps={{ name: 'userId', id: 'user' }}
+        inputProps={{ name: 'relatedTo', id: 'user' }}
       >
         <option value={''}>None</option>
         {users.data?.map(user => <option key={user.id} value={user.id}>{user.username}</option>)}

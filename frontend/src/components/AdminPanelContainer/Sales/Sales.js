@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { CircularProgress, Input, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import adminService from "../../../services/adminService";
 import { SalesStyles } from "../../../styles/components/SalesStyles";
 import Search from "../Search";
@@ -12,24 +12,30 @@ const Sales = () => {
   const classes = SalesStyles()
 
   const inputEl = useRef()
+  const queryClient = useQueryClient();
 
-  const [formValues, setField] = useForm({ question: '', answer: '', context: '', userId: '' })
+  const [formValues, setField] = useForm({ relatedTo: '', context: '', answer: '', question: ''  })
   const [searchValue, setSearchValue] = useState('')
   const [buttonDisabled, setButtonDisabled] = useState(true)
 
   const allSales = useQuery(["all-sales", searchValue], searchValue => adminService.getAllSales(searchValue));
-
-  useEffect(() => {
-    const { question, answer, context, userId } = formValues
-    !question || !answer || !context || !userId ? setButtonDisabled(true) : setButtonDisabled(false)
-  }, [formValues])
+  const createSales = useMutation(salesValues => adminService.createSales(salesValues), {
+    onSuccess: () => queryClient.invalidateQueries('all-sales'),
+  })
 
   const searchHandler = () => setSearchValue(inputEl.current.value)
-
+  
   const clearSearchHandler = () => {
     inputEl.current.value = ''
     setSearchValue(inputEl.current.value)
   }
+  
+  useEffect(() => {
+    const { question, answer, context, relatedTo } = formValues
+    !question || !answer || !context || !relatedTo ? setButtonDisabled(true) : setButtonDisabled(false)
+  }, [formValues])
+  
+  const createSalesHandler = () => createSales.mutate(formValues)
 
   return (
     <>
@@ -59,7 +65,7 @@ const Sales = () => {
         <GreenButton
           disabled={buttonDisabled}
           className={classes.add_sales_button}
-          onClick={() => console.log(formValues)}
+          onClick={createSalesHandler}
         >
           Add
         </GreenButton>
