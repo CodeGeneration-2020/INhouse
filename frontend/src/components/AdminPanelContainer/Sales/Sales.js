@@ -14,7 +14,7 @@ const Sales = () => {
   const inputEl = useRef()
   const queryClient = useQueryClient();
 
-  const [formValues, setField] = useForm({ relatedTo: '', context: '', answer: '', question: ''  })
+  const [formValues, setField] = useForm({ relatedTo: '', context: '', answer: '', question: '' })
   const [searchValue, setSearchValue] = useState('')
   const [buttonDisabled, setButtonDisabled] = useState(true)
 
@@ -24,17 +24,17 @@ const Sales = () => {
   })
 
   const searchHandler = () => setSearchValue(inputEl.current.value)
-  
+
   const clearSearchHandler = () => {
     inputEl.current.value = ''
     setSearchValue(inputEl.current.value)
   }
-  
+
   useEffect(() => {
     const { question, answer, context, relatedTo } = formValues
     !question || !answer || !context || !relatedTo ? setButtonDisabled(true) : setButtonDisabled(false)
   }, [formValues])
-  
+
   const createSalesHandler = () => createSales.mutate(formValues)
 
   return (
@@ -63,6 +63,7 @@ const Sales = () => {
         />
         <Select className={classes.input_sales} state={formValues.userId} selectHandler={setField} />
         <GreenButton
+          variant="contained"
           disabled={buttonDisabled}
           className={classes.add_sales_button}
           onClick={createSalesHandler}

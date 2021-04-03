@@ -9,11 +9,11 @@ const RecognitionRow = ({ recognitionRow }) => {
     <div className={classes.question_answer}>
       <div className={classes.question}>
         <h1>{RECOGNITION.question}</h1>
-        <div className={classes.recognizedText}>{recognitionRow.question}</div>
+        <div className={classes.recognizedText}>{recognitionRow?.question || 'Not recognized'}</div>
       </div>
       <div className={classes.answer}>
         <h1>{RECOGNITION.answer}</h1>
-        <div className={classes.recognizedText}>{recognitionRow.answer}</div>
+        <div className={classes.recognizedText}>{recognitionRow?.answer || 'Not found'}</div>
       </div>
     </div>
   );

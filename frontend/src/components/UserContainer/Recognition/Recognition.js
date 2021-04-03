@@ -15,13 +15,16 @@ const Recognition = () => {
   const [autoRecord, setAutoRecord] = useState(false);
   const [audio, setAudio] = useState(new Blob([" "], { type: "text/plain" }));
   const [recognitionRows, setRecognitionRows] = useState([]);
+  const [userId, setUserId] = useState('')
 
   const answerMutation = useMutation(question => userService.getAnswer(question), {
     onSuccess: res => setRecognitionRows([...recognitionRows, res]),
   });
 
   const questionMutation = useMutation((blob) => userService.questionRecognition(blob), {
-    onSuccess: res => answerMutation.mutate(res.text || 'not recognized'),
+    onSuccess: res => {
+      answerMutation.mutate({ question: res.text || 'not recognized', relatedTo: userId })
+    },
   });
 
   const startRecording = () => {
@@ -54,23 +57,25 @@ const Recognition = () => {
     return () => clearInterval(sendRecordInterval);
   }, [autoRecord]);
 
+  const selectHandler = e => setUserId(e.target.value)
+
   return (
     <div className={classes.record}>
       <div className={classes.record_wrapper}>
-        <Select />
+        <Select state={userId} selectHandler={selectHandler} />
         <ReactMic
           backgroundColor="white"
           strokeColor="#000000"
           record={record}
           onStop={onStop}
         />
-        <GreenButton onClick={startRecording} variant="contained">
+        <GreenButton onClick={startRecording} variant="contained" disabled={!userId}>
           {BUTTONS.start}
         </GreenButton>
-        <Button onClick={stopRecording} variant="contained" color="secondary">
+        <Button onClick={stopRecording} variant="contained" color="secondary" disabled={!userId}>
           {BUTTONS.stop}
         </Button>
-        <Button onClick={startAutoRecord} variant="contained" color="primary">
+        <Button onClick={startAutoRecord} variant="contained" color="primary" disabled={!userId}>
           {BUTTONS.autoRecord}
         </Button>
         <audio controls src={URL.createObjectURL(audio)} />
