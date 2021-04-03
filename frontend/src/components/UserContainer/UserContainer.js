@@ -43,6 +43,12 @@ const UserContainer = () => {
         <UploadPdf />
         :
         <div className={classes.container}>
+          <div className={classes.headers}>
+              <h1 className={classes.prospect}>Prospect info</h1>
+              <h1 className={classes.question}>Question</h1>
+              <h1 className={classes.answer}>Answer</h1>
+              <h1 className={classes.transcript}>Transcript</h1>
+            </div>
           <div className={classes.content}>
             <Humantic />
             <Recognition />

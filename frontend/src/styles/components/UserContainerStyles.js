@@ -32,5 +32,12 @@ export const UserContainerStyles = makeStyles(() => ({
     left: '0',
     height: '70%', 
     background: 'linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)',
-  }
+  },
+  headers: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    height: '10%',
+    width: '100%'
+  },
+  
 }));

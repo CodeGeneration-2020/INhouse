@@ -82,9 +82,7 @@ const Recognition = () => {
       </div>
       {questionMutation.isLoading && <CircularProgress className={classes.recognition_spinner} />}
       <div className={classes.recognition_rows}>
-        {recognitionRows.map((recognitionRow, index) =>
-          <RecognitionRow key={index} recognitionRow={recognitionRow} />
-        )}
+        {recognitionRows.map((recognitionRow, index) => <RecognitionRow key={index} recognitionRow={recognitionRow} />)}
       </div>
     </div>
   );
