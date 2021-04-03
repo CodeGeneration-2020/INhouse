@@ -1,15 +1,12 @@
 import { PdfReader } from 'pdfreader';
 
-import { cloneBuffer, createDeferred } from '../../shared/helpers';
+import { cloneBuffer, createDeferred } from 'src/shared/helpers';
+
+import { Article } from './article.types';
 
 interface Line {
   text: string;
   fontSize: number;
-}
-
-export interface Article {
-  title: string;
-  content: string;
 }
 
 const skipHeaderY = 1.577;

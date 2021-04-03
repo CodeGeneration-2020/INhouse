@@ -1,6 +1,10 @@
 import { IsString, IsNotEmpty } from 'class-validator';
 
-export class GetAnswerDto {
+export class FindOneDto {
+  @IsString()
+  @IsNotEmpty()
+  relatedTo: string;
+
   @IsString()
   @IsNotEmpty()
   question: string;
