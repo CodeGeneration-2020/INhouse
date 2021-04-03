@@ -11,7 +11,7 @@ const Select = ({ state, selectHandler }) => {
       <NativeSelect
         value={state}
         onChange={selectHandler}
-        inputProps={{ name: 'Username', id: 'user' }}
+        inputProps={{ name: 'userId', id: 'user' }}
       >
         <option value={false}>None</option>
         <option value={10}>elon</option>
