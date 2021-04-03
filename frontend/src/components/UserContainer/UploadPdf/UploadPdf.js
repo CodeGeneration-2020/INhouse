@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCell, TableHead, TableRow, CircularProgress } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { BUTTONS } from "../../../helpers/constants/constants";
 import userService from "../../../services/userService";
@@ -10,21 +10,20 @@ import Select from "../Select";
 const UploadPdf = () => {
   const classes = UploadPdfStyles()
 
-  const [userId, setUserId] = useState(false);
+  const [userId, setUserId] = useState('');
 
-  const pdfMutation = useMutation(file => userService.uploadPdf(file));
+  const pdfMutation = useMutation(values => userService.uploadPdf(values));
 
   const selectHandler = e => setUserId(e.target.value)
-  const uploadHandler = e => pdfMutation.mutate(e.target.files[0])
+  const uploadHandler = e => pdfMutation.mutate({file: e.target.files[0], userId})
 
   return (
     <>
       <div className={classes.upload_wrapper}>
-        <GreenButton className={classes.upload_btn} component="label">
+        <GreenButton className={classes.upload_btn} component="label" disabled={!userId}>
           {BUTTONS.uploadPdf}
           <input type="file" hidden onChange={uploadHandler} />
         </GreenButton>
-    
         <Select state={userId} selectHandler={selectHandler} />
       </div>
       <div className={classes.warning}>If you'll send an encypted pdf, it can take a long time*</div>

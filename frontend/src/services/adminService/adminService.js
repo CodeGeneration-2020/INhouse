@@ -20,7 +20,7 @@ class AdminService extends HttpService {
 
   getUsers(params) {
     const route = routes[this.getUsers.name]
-    if (params.queryKey[1]) {
+    if (params?.queryKey[1]) {
       return this.post(route, {
         search: {
           username: params.queryKey[1]

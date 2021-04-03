@@ -55,7 +55,7 @@ const Sales = () => {
           name="context"
           onChange={setField}
         />
-        <Select className={classes.input_sales} state={formValues} selectHandler={setField} />
+        <Select className={classes.input_sales} state={formValues.userId} selectHandler={setField} />
         <GreenButton
           disabled={buttonDisabled}
           className={classes.add_sales_button}
