@@ -20,28 +20,28 @@ const Recognition = () => {
   const answerMutation = useMutation(question => userService.getAnswer(question), {
     onSuccess: res => setRecognitionRows([...recognitionRows, res])
   });
-  
+
   const questionMutation = useMutation((blob) => userService.questionRecognition(blob), {
     onSuccess: res => answerMutation.mutate({ question: res.text, relatedTo: userId })
   });
-  
+
   const startRecording = () => {
     setAutoRecord(false);
     setRecord(true);
   };
-  
+
   const stopRecording = () => {
     setAutoRecord(false);
     setRecord(false);
   };
-  
+
   const startAutoRecord = () => {
     setRecord(true);
     setAutoRecord(true);
   };
 
   const onStop = recordedBlob => questionMutation.mutate(recordedBlob.blob);
-  
+
   useEffect(() => {
     if (!autoRecord) return;
     const sendRecordInterval = setInterval(() => {
@@ -51,21 +51,24 @@ const Recognition = () => {
 
     return () => clearInterval(sendRecordInterval);
   }, [autoRecord]);
-  
+
   useEffect(() => {
-    if (keyword && userId) {
-      answerMutation.mutate({ question: keyword, relatedTo: userId })
-    }
+    if (userId) answerMutation.mutate({ question: keyword, relatedTo: userId })
+    // eslint-disable-next-line
   }, [keyword, userId])
 
   const selectHandler = e => setUserId(e.target.value)
   const keyWordHandler = e => setKeyword(e.target.value)
-  
+
   return (
     <div className={classes.record}>
       <div className={classes.record_wrapper}>
         <Select state={userId} selectHandler={selectHandler} />
-        <Input className={classes.input_keyword} placeholder='keyword' onChange={debounce(keyWordHandler, 1000)}/>
+        <Input
+          className={classes.input_keyword}
+          placeholder='keyword'
+          disabled={!userId}
+          onChange={debounce(keyWordHandler, 1000)} />
         <GreenButton onClick={startRecording} variant="contained" disabled={!userId}>
           {BUTTONS.start}
         </GreenButton>
