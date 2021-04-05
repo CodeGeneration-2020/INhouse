@@ -18,17 +18,11 @@ const Recognition = () => {
   const [keyword, setKeyword] = useState('')
 
   const answerMutation = useMutation(question => userService.getAnswer(question), {
-    onSuccess: res => {
-      console.log(res);
-      setRecognitionRows([...recognitionRows, res])
-    },
+    onSuccess: res => setRecognitionRows([...recognitionRows, res])
   });
   
   const questionMutation = useMutation((blob) => userService.questionRecognition(blob), {
-    onSuccess: res => {
-      console.log(res.text);
-      answerMutation.mutate({ question: res.text, relatedTo: userId })
-    },
+    onSuccess: res => answerMutation.mutate({ question: res.text, relatedTo: userId })
   });
   
   const startRecording = () => {
