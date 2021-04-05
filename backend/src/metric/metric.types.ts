@@ -1,6 +1,10 @@
 import { ApiService } from './types';
 
-export interface TracApiOptions {
+import { PaginateOptions } from 'src/shared/dto/paginate.dto';
+
+import { GetAllRecognizedSearchOptions } from './dto/get-all-recognized.dto';
+
+export interface TrackApiOptions {
   service: ApiService;
   method: string;
 }
@@ -26,11 +30,6 @@ export interface TrackRecognizeOptions {
 }
 
 export interface GetAllRecognizedOptions {
-  search?: {
-    username: string;
-  };
-  paginate?: {
-    limit: number;
-    offset: number;
-  };
+  search?: GetAllRecognizedSearchOptions;
+  paginate?: PaginateOptions;
 }

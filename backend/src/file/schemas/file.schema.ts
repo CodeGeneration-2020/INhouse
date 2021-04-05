@@ -11,6 +11,8 @@ export abstract class File {
 
   uploadDate: Date;
 
+  readonly createdAt: Date;
+
   md5: string;
 
   filename: string;
@@ -20,12 +22,6 @@ export abstract class File {
   metadata: any;
 
   aliases: string[];
-
-  // Issue: https://github.com/microsoft/TypeScript/issues/34516
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  static findByIdAndDelete(id: any): FileDocument {
-    return {} as FileDocument;
-  }
 
   abstract getUploadStream(): Writable;
 
