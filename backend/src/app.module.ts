@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { DialogModule } from './dialog/dialog.module';
 import { MetricModule } from './metric/metric.module';
+import { ParserModule } from './parser/parser.module';
 import { HumanticAiModule } from './humantic-ai/humantic-ai.module';
 import { SpeechRecognitionModule } from './speech-recognition/speech-recognition.module';
 
@@ -31,6 +32,7 @@ import { SpeechRecognitionModule } from './speech-recognition/speech-recognition
     UserModule,
     DialogModule,
     MetricModule,
+    ParserModule,
     HumanticAiModule,
     SpeechRecognitionModule,
   ],

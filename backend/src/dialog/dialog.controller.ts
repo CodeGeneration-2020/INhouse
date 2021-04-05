@@ -1,73 +1,119 @@
 import {
   Body,
   Post,
-  HttpCode,
+  Query,
   UseGuards,
-  HttpStatus,
   Controller,
   UseInterceptors,
 } from '@nestjs/common';
 
+import { ParserService } from 'src/parser/parser.service';
+import { TextAnalyzerService } from 'src/text-analyzer/text-analyzer.service';
+
+import { MultipartFile } from 'src/shared/types';
+import { File } from 'src/shared/decorators/file.decorator';
+import { JwtAuthGuard } from 'src/shared/guards/jwt-auth.guard';
+import { MultipartGuard } from 'src/shared/guards/multipart.guard';
+import { FilesInterceptor } from 'src/shared/interceptors/files.interceptor';
+
 import { Dialog } from './types';
-import { parseArticles } from './utils/pdf-parser.util';
 
-import { DialogService } from './dialog/dialog.service';
-import { TextAnalyzerService } from './text-analyzer/text-analyzer.service';
+import { DialogService } from './dialog.service';
 
-import { GetAnswerDto } from './dto/get-answer.dto';
-import { GetAllDto } from './dto/get-all.dto';
-
-import { File } from '../shared/decorators/file.decorator';
-import { JwtAuthGuard } from '../shared/guards/jwt-auth.guard';
-import { MultipartFile } from '../shared/types';
-import { MultipartGuard } from '../shared/guards/multipart.guard';
-import { FilesInterceptor } from '../shared/interceptors/files.interceptor';
+import { CreateOneDto } from './dto/create-one.dto';
+import { CreateManyDto } from './dto/create-many.dto';
+import { FindOneDto } from './dto/find-one.dto';
+import { FindManyDto } from './dto/find-many.dto';
+import { CreateManyWithTextDto } from './dto/create-many-with-text.dto';
+import { CreateManyWithPdfDto } from './dto/create-many-with-pdf.dto';
 
 @Controller('dialog')
 export class DialogController {
   constructor(
     private dialogService: DialogService,
+    private parserService: ParserService,
     private textAnalyzerService: TextAnalyzerService,
   ) {}
 
-  @Post('get')
-  @HttpCode(HttpStatus.OK)
+  @Post('create-one')
   @UseGuards(JwtAuthGuard)
-  getAnswer(@Body() getAnswerDto: GetAnswerDto) {
-    return this.dialogService.get(getAnswerDto);
+  createOne(@Body() { dialog }: CreateOneDto) {
+    return this.dialogService.createOne(dialog);
   }
 
-  @Post('get-all')
-  @HttpCode(HttpStatus.OK)
+  @Post('create-many')
   @UseGuards(JwtAuthGuard)
-  getAll(@Body() body: GetAllDto) {
-    return this.dialogService.getAll(body);
+  createMany(@Body() { dialogs }: CreateManyDto) {
+    return this.dialogService.createMany(dialogs);
   }
 
-  @Post('upload-with-pdf')
-  @HttpCode(HttpStatus.OK)
+  @Post('find-one')
   @UseGuards(JwtAuthGuard)
-  @UseGuards(MultipartGuard)
+  findOne(@Body() body: FindOneDto) {
+    return this.dialogService.findOne(body);
+  }
+
+  @Post('find-many')
+  @UseGuards(JwtAuthGuard)
+  findMany(@Body() body: FindManyDto) {
+    return this.dialogService.findMany(body);
+  }
+
+  @Post('create-many-with-text')
+  @UseGuards(JwtAuthGuard)
+  async createManyWithText(
+    @Body()
+    { relatedTo, text }: CreateManyWithTextDto,
+  ) {
+    const dialogs: Dialog[] = [];
+
+    const alanyzedDialogs = await this.textAnalyzerService.analyze(text);
+
+    // TODO: move to mapper
+    for (const analyzedDialog of alanyzedDialogs) {
+      const dialog: Dialog = {
+        relatedTo,
+
+        ...analyzedDialog,
+      };
+
+      dialogs.push(dialog);
+    }
+
+    return this.dialogService.createMany(dialogs);
+  }
+
+  @Post('create-many-with-pdf')
+  @UseGuards(JwtAuthGuard, MultipartGuard)
   @UseInterceptors(FilesInterceptor)
-  async uploadWithPdf(@File('input') input: MultipartFile) {
-    const pdfBuffer = await input.toBuffer();
+  async createManyWithPdf(
+    @Query()
+    { relatedTo }: CreateManyWithPdfDto,
 
-    const articles = await parseArticles(pdfBuffer);
+    @File('file')
+    file: MultipartFile,
+  ) {
+    const buffer = await file.toBuffer();
+
+    const articles = await this.parserService.parseArticles(buffer);
 
     const dialogs: Dialog[] = [];
 
-    for (const article of articles) {
-      const newDialogs = await this.textAnalyzerService.analyze({
-        text: article.content,
-      });
+    for (const { content } of articles) {
+      const alanyzedDialogs = await this.textAnalyzerService.analyze(content);
 
-      dialogs.push(...newDialogs);
+      // TODO: move to mapper
+      for (const analyzedDialog of alanyzedDialogs) {
+        const dialog: Dialog = {
+          relatedTo,
+
+          ...analyzedDialog,
+        };
+
+        dialogs.push(dialog);
+      }
     }
 
-    if (dialogs.length === 0) {
-      return [];
-    }
-
-    return this.dialogService.upload({ dialogs });
+    return this.dialogService.createMany(dialogs);
   }
 }

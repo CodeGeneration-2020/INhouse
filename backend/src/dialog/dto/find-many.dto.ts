@@ -27,7 +27,7 @@ class PaginateDto {
   offset: number;
 }
 
-export class GetAllDto {
+export class FindManyDto {
   @Type(() => SearchDto)
   @IsOptional()
   @ValidateNested()
