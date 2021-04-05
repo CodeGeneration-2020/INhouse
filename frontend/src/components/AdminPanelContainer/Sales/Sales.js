@@ -7,6 +7,8 @@ import Search from "../Search";
 import Select from "../../UserContainer/Select";
 import { useForm } from '../../../helpers/Hooks/UseForm';
 import { GreenButton } from "../../../styles/buttons";
+import userService from "../../../services/userService";
+import { BUTTONS } from "../../../helpers/constants/constants";
 
 const Sales = () => {
   const classes = SalesStyles()
@@ -39,6 +41,9 @@ const Sales = () => {
   }, [formValues])
 
   const createSalesHandler = () => createSales.mutate(formValues)
+  
+  const pdfMutation = useMutation(values => userService.uploadPdf(values));
+  const uploadHandler = e => pdfMutation.mutate({ file: e.target.files[0], userId: formValues.relatedTo })
 
   return (
     <>
@@ -74,6 +79,10 @@ const Sales = () => {
           Add
         </GreenButton>
       </div>
+      <GreenButton className={classes.upload_btn} variant='contained' component="label" disabled={!formValues.relatedTo}>
+        {BUTTONS.uploadPdf}
+        <input type="file" hidden onChange={uploadHandler} />
+      </GreenButton>
       <h1>Sales questions and answers</h1>
       <Search inputEl={inputEl} searchHandler={searchHandler} clearSearchHandler={clearSearchHandler} />
       {allSales.isLoading ?
