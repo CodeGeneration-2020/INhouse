@@ -25,6 +25,9 @@ export const GeneralStyles = makeStyles(() => ({
     overflowY: 'auto',
     backgroundColor: 'white',
     padding: '20px',
+    '& div': {
+      paddingBottom: '150px',
+    }
   },
   add_user: {
     marginLeft: 'auto',

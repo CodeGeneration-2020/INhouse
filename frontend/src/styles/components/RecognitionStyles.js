@@ -28,7 +28,9 @@ export const RecognitionStyles = makeStyles(() => ({
   },
 
   recognition_spinner: {
-    margin: '50px auto'
+    top: 20,
+    right: 20,
+    position: 'absolute'
   },
   recognition_rows: {
     display: 'flex',
