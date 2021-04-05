@@ -1,26 +1,21 @@
-import { Module, HttpModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 
-import { MetricModule } from '../metric/metric.module';
+import { MetricModule } from 'src/metric/metric.module';
+import { ParserModule } from 'src/parser/parser.module';
+import { TextAnalyzerModule } from 'src/text-analyzer/text-analyzer.module';
 
 import { DialogController } from './dialog.controller';
 
-import { DialogService } from './dialog/dialog.service';
-import { AlgoliaDialogService } from './dialog/algolia-dialog.service';
-
-import { TextAnalyzerService } from './text-analyzer/text-analyzer.service';
-import { AITextAnalyzerService } from './text-analyzer/ai-text-analyzer.service';
+import { DialogService } from './dialog.service';
+import { AlgoliaDialogService } from './algolia-dialog.service';
 
 @Module({
-  imports: [HttpModule, MetricModule],
+  imports: [MetricModule, ParserModule, TextAnalyzerModule],
   controllers: [DialogController],
   providers: [
     {
       provide: DialogService,
       useClass: AlgoliaDialogService,
-    },
-    {
-      provide: TextAnalyzerService,
-      useClass: AITextAnalyzerService,
     },
   ],
 })
