@@ -6,7 +6,7 @@ export const HumanticStyles = makeStyles(() => ({
     marginLeft: '20px',
     flexDirection: 'column-reverse',
     alignItems: 'center',
-    height: '80vh',
+    height: '83%',
     width: '33.3%',
   },
   button: {

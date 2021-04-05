@@ -36,7 +36,7 @@ export const UserContainerStyles = makeStyles(() => ({
   headers: {
     display: 'flex',
     justifyContent: 'space-around',
-    height: '10%',
+    height: '7%',
     width: '100%'
   },
   
