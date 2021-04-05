@@ -14,15 +14,16 @@ class UserService extends HttpService {
     return this.post(route, form)
   }
 
-  getAnswer(question) {
+  getAnswer(answerValues) {
     const route = routes[this.getAnswer.name]
-    return this.post(route, { question })
+    return this.post(route, answerValues)
   }
 
-  uploadPdf(file) {
-    const route = routes[this.uploadPdf.name]
+  uploadPdf(values) {
+    const { file, userId } = values
+    const route = `${routes[this.uploadPdf.name]}${userId}`
     const form = new FormData()
-    form.append('input', file)
+    form.append('file', file)
     return this.post(route, form)
   }
 }

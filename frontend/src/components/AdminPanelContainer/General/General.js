@@ -46,8 +46,6 @@ const General = () => {
     setSearchValue(inputEl.current.value)
   }
 
-  if (analyzes.data) console.log(analyzes.data);
-
   return (
     <>
       <GreenButton className={classes.add_user} variant="contained" onClick={() => history.push("/add_user")}>

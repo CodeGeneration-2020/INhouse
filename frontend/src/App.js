@@ -1,7 +1,7 @@
 import './App.scss';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Auth from './components/Auth/Auth';
-import UserContainer from './components/UserContainer/User.Container';
+import UserContainer from './components/UserContainer/UserContainer';
 import PreProtectedRoute from './helpers/ProtectedRoutes/PreProtectedRoute';
 import AdminProtectedRoute from './helpers/ProtectedRoutes/AdminProtectedRoute';
 import { QueryClient, QueryClientProvider } from 'react-query';

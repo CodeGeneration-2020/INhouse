@@ -20,7 +20,7 @@ class AdminService extends HttpService {
 
   getUsers(params) {
     const route = routes[this.getUsers.name]
-    if (params.queryKey[1]) {
+    if (params?.queryKey[1]) {
       return this.post(route, {
         search: {
           username: params.queryKey[1]
@@ -57,6 +57,12 @@ class AdminService extends HttpService {
       })
     }
     return this.post(route, {})
+  }
+
+  createSales(salesValues) {
+    // const { relatedTo, context, question, answer } = salesValues
+    const route = routes[this.createSales.name]
+    return this.post(route, { dialog: salesValues } )
   }
 
   downloadAudio(id) {

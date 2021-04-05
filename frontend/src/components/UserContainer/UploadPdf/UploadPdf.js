@@ -1,40 +1,35 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  CircularProgress,
-} from "@material-ui/core";
-import React from "react";
+import { Table, TableBody, TableCell, TableHead, TableRow, CircularProgress } from "@material-ui/core";
+import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { BUTTONS } from "../../../helpers/constants/constants";
 import userService from "../../../services/userService";
 import { GreenButton } from "../../../styles/buttons";
 import { UploadPdfStyles } from "../../../styles/components/UploadPdfStyles";
+import Select from "../Select";
 
 const UploadPdf = () => {
   const classes = UploadPdfStyles()
-  const pdfMutation = useMutation((file) => userService.uploadPdf(file));
+
+  const [userId, setUserId] = useState('');
+
+  const pdfMutation = useMutation(values => userService.uploadPdf(values));
+
+  const selectHandler = e => setUserId(e.target.value)
+  const uploadHandler = e => pdfMutation.mutate({ file: e.target.files[0], userId })
 
   return (
     <>
-      <GreenButton
-        className={classes.pdf}
-        variant="contained"
-        component="label"
-      >
-        {BUTTONS.uploadPdf}
-        <input
-          type="file"
-          hidden
-          onChange={(e) => pdfMutation.mutate(e.target.files[0])}
-        />
-      </GreenButton>
+      <div className={classes.upload_wrapper}>
+        <GreenButton className={classes.upload_btn} variant='contained' component="label" disabled={!userId}>
+          {BUTTONS.uploadPdf}
+          <input type="file" hidden onChange={uploadHandler} />
+        </GreenButton>
+        <Select state={userId} selectHandler={selectHandler} />
+      </div>
       <div className={classes.warning}>If you'll send an encypted pdf, it can take a long time*</div>
-      {pdfMutation.isLoading ? (
+      {pdfMutation.isLoading ?
         <CircularProgress className={classes.pdf_spinner} />
-      ) : (
+        :
         <>
           {pdfMutation.isError ?
             <h2 className={classes.danger}>Can not parse: Your pdf is encrypted</h2>
@@ -59,10 +54,9 @@ const UploadPdf = () => {
                   </TableBody>
                 </Table>
               </>
-
             )}
         </>
-      )}
+      }
     </>
   );
 };
