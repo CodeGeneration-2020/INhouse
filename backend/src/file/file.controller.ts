@@ -1,28 +1,19 @@
-import {
-  Res,
-  Post,
-  Body,
-  HttpCode,
-  UseGuards,
-  Controller,
-  HttpStatus,
-} from '@nestjs/common';
+import { Res, Get, Query, UseGuards, Controller } from '@nestjs/common';
+
+import { Response } from 'src/shared/types';
+import { JwtAuthGuard } from 'src/shared/guards/jwt-auth.guard';
 
 import { FileService } from './file.service';
 
 import { DownloadDto } from './dto/download.dto';
 
-import { Response } from '../shared/types';
-import { JwtAuthGuard } from '../shared/guards/jwt-auth.guard';
-
 @Controller('file')
 export class FileController {
   constructor(private fileService: FileService) {}
 
-  @Post('download')
-  @HttpCode(HttpStatus.OK)
+  @Get('download')
   @UseGuards(JwtAuthGuard)
-  async download(@Res() res: Response, @Body() { id }: DownloadDto) {
+  async download(@Query() { id }: DownloadDto, @Res() res: Response) {
     const { file, stream } = await this.fileService.download({ id });
 
     res.type(file.contentType).send(stream);
