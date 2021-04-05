@@ -51,8 +51,7 @@ export class UserController {
   }
 
   @Post('get-all')
-  @Roles([Role.ADMIN])
-  @UseGuards(JwtAuthGuard, RoleGuard)
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(new SerializeInterceptor(User))
   getAll(@Body() body: GetAllDto) {
     return this.userService.getAll(body);
