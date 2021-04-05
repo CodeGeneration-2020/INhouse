@@ -20,6 +20,10 @@ const HumanticResponse = ({ linkedinInfo }) => {
         <b>{HUMANTIC.response.avoid} </b>
         {`${linkedinInfo.persona?.hiring?.communication_advice.what_to_avoid.join('. ') ?? 'not found'}.`}
       </p>
+      <p>
+        <b>{HUMANTIC.response.say}: </b>
+        {`${linkedinInfo.persona?.hiring?.communication_advice.what_to_say.join('. ') ?? 'not found'}.`}
+      </p>
     </div>
   )
 }
