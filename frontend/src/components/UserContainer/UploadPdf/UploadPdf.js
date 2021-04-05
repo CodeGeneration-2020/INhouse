@@ -20,7 +20,7 @@ const UploadPdf = () => {
   return (
     <>
       <div className={classes.upload_wrapper}>
-        <GreenButton className={classes.upload_btn} component="label" disabled={!userId}>
+        <GreenButton className={classes.upload_btn} variant='contained' component="label" disabled={!userId}>
           {BUTTONS.uploadPdf}
           <input type="file" hidden onChange={uploadHandler} />
         </GreenButton>
