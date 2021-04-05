@@ -19,6 +19,7 @@ export const HumanticStyles = makeStyles(() => ({
   },
   humantic_spinner: {
     marginTop: '40px',
+    marginRight: '125px',
   },
   analyzes_wrapper: {
     display: 'flex',
@@ -28,6 +29,7 @@ export const HumanticStyles = makeStyles(() => ({
   danger: {
     marginTop: '50px',
     color: 'red',
+    marginRight: '130px',
   },
   humantic_content: {
     marginBottom: 'auto',

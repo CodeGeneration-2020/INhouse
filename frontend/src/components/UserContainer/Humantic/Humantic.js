@@ -7,24 +7,15 @@ import HumanticResponse from './HumanticResponse/HumanticResponse';
 import userService from '../../../services/userService';
 import { GreenButton } from '../../../styles/buttons';
 import { HumanticStyles } from '../../../styles/components/HumanticStyles';
-import { v4 as uuidv4 } from 'uuid';
 
 const Humantic = () => {
   const classes = HumanticStyles()
   const [inputValue, setField, reset] = useForm({ linkedInUrl: '' })
-  const [analyzes, setAnalyzes] = useState([])
+  const [analysis, setAnalysis] = useState(false)
   const [alert, setAlert] = useState(false)
 
   const mutationHumantic = useMutation(() => userService.createHumantic(inputValue.linkedInUrl), {
-    onSuccess: res => {
-      if (res === null) {
-        setAlert(true)
-      } else {
-        setAlert(false)
-        setAnalyzes([...analyzes, res])
-      }
-      reset()
-    }
+    onSuccess: res => reset()
   })
 
   return (
@@ -41,9 +32,9 @@ const Humantic = () => {
       </div>
       <div className={classes.humantic_content}>
         {mutationHumantic.isLoading && <CircularProgress className={classes.humantic_spinner} />}
-        {alert && <div className={classes.danger}>Profile not found!</div>}
         <div className={classes.analyzes_wrapper}>
-          {analyzes.map(analysis => <HumanticResponse key={uuidv4()} linkedinInfo={analysis} />)}
+          {mutationHumantic?.data && <HumanticResponse linkedinInfo={mutationHumantic.data} />}
+          {mutationHumantic?.data === null && <div className={classes.danger}>Profile not found!</div>}
         </div>
       </div>
     </div>
