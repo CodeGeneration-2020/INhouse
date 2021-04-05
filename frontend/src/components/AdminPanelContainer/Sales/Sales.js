@@ -37,12 +37,15 @@ const Sales = () => {
 
   useEffect(() => {
     const { question, answer, context, relatedTo } = formValues
-    !question || !answer || !context || !relatedTo ? setButtonDisabled(true) : setButtonDisabled(false)
+    setButtonDisabled(!question || !answer || !context || !relatedTo)
   }, [formValues])
 
   const createSalesHandler = () => createSales.mutate(formValues)
   
-  const pdfMutation = useMutation(values => userService.uploadPdf(values));
+  const pdfMutation = useMutation(values => userService.uploadPdf(values), {
+    onSuccess: () => queryClient.invalidateQueries('all-sales')
+  });
+
   const uploadHandler = e => pdfMutation.mutate({ file: e.target.files[0], userId: formValues.relatedTo })
 
   return (
@@ -83,6 +86,7 @@ const Sales = () => {
         {BUTTONS.uploadPdf}
         <input type="file" hidden onChange={uploadHandler} />
       </GreenButton>
+      {pdfMutation.isLoading && <CircularProgress className={classes.pdf_spinner} />}
       <h1>Sales questions and answers</h1>
       <Search inputEl={inputEl} searchHandler={searchHandler} clearSearchHandler={clearSearchHandler} />
       {allSales.isLoading ?

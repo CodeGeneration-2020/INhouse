@@ -21,5 +21,8 @@ export const SalesStyles = makeStyles(() => ({
   add_sales_button: {
     marginLeft: '10px',
     minWidth: '100px',
+  },
+  pdf_spinner: {
+    marginTop: '15px'
   }
 }));
