@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Input } from "@material-ui/core";
+import { Button, CircularProgress, debounce, Input } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { ReactMic } from "react-mic";
 import { useMutation } from "react-query";
@@ -59,12 +59,13 @@ const Recognition = () => {
   }, [keyword, userId])
 
   const selectHandler = e => setUserId(e.target.value)
+  const keyWordHandler = e => setKeyword(e.target.value)
   
   return (
     <div className={classes.record}>
       <div className={classes.record_wrapper}>
         <Select state={userId} selectHandler={selectHandler} />
-        <Input className={classes.input_keyword} placeholder='keyword' onChange={e => setKeyword(e.target.value)}/>
+        <Input className={classes.input_keyword} placeholder='keyword' onChange={debounce(keyWordHandler, 1000)}/>
         <GreenButton onClick={startRecording} variant="contained" disabled={!userId}>
           {BUTTONS.start}
         </GreenButton>
