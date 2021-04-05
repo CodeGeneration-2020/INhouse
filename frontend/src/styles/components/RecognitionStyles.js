@@ -4,16 +4,15 @@ export const RecognitionStyles = makeStyles(() => ({
   record: {
     display: 'flex',
     flexDirection: 'column-reverse',
-    width: '66.6%',
+    maxWidth: '66.6%',
     height: '83%',
     justifyContent: 'space-between',
-    minWidth: '1000px',
     '& button': {
       display: 'block',
       marginRight: '10px',
     },
     '& canvas': {
-      maxWidth: '300px',
+      width: '300px',
       margin: '10px 10px 0px 10px'
     },
   },
