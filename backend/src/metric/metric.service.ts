@@ -66,20 +66,20 @@ export class MetricService {
     userId = this.request.user.id,
     profileAnalysisId,
   }: TrackHumanticRequestOptions) {
-    // TODO: use findOneAndUpdate with { insert: true } option
-    let request = await this.humanticRequestMetricModel.findOne({
-      userId,
-      profileAnalysisId,
-    });
-
-    if (!request) {
-      request = await this.humanticRequestMetricModel.create({
+    return this.humanticRequestMetricModel.findOneAndUpdate(
+      {
         userId,
         profileAnalysisId,
-      });
-    }
-
-    return request;
+      },
+      {
+        userId,
+        profileAnalysisId,
+      },
+      {
+        new: true,
+        upsert: true,
+      },
+    );
   }
 
   getHumanticRequests({ userId }: GetHumanticRequestsOptions) {

@@ -32,7 +32,7 @@ export class HumanticAiService {
 
     @InjectModel(ProfileAnalysis.name)
     private profileAnalysisModel: Model<ProfileAnalysisDocument>,
-  ) { }
+  ) {}
 
   private async createAnalysis({ userId }: CreateAnalysisOptions) {
     const url = `${baseUrl}/user-profile/create`;
