@@ -53,7 +53,7 @@ const Recognition = () => {
   }, [autoRecord]);
 
   useEffect(() => {
-    if (userId) answerMutation.mutate({ question: keyword, relatedTo: userId })
+    if (keyword) answerMutation.mutate({ question: keyword, relatedTo: userId })
     // eslint-disable-next-line
   }, [keyword, userId])
 
