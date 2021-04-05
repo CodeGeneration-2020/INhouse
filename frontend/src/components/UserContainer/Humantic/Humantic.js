@@ -1,5 +1,5 @@
 import { CircularProgress, Input } from '@material-ui/core';
-import React, { useState } from 'react'
+import React from 'react'
 import { useMutation } from 'react-query';
 import { useForm } from '../../../helpers/Hooks/UseForm';
 import { BUTTONS } from '../../../helpers/constants/constants';
@@ -11,11 +11,9 @@ import { HumanticStyles } from '../../../styles/components/HumanticStyles';
 const Humantic = () => {
   const classes = HumanticStyles()
   const [inputValue, setField, reset] = useForm({ linkedInUrl: '' })
-  const [analysis, setAnalysis] = useState(false)
-  const [alert, setAlert] = useState(false)
 
   const mutationHumantic = useMutation(() => userService.createHumantic(inputValue.linkedInUrl), {
-    onSuccess: res => reset()
+    onSuccess: () => reset()
   })
 
   return (

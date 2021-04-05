@@ -13,7 +13,6 @@ const Recognition = () => {
   const classes = RecognitionStyles()
   const [record, setRecord] = useState(false);
   const [autoRecord, setAutoRecord] = useState(false);
-  const [audio, setAudio] = useState(new Blob([" "], { type: "text/plain" }));
   const [recognitionRows, setRecognitionRows] = useState([]);
   const [userId, setUserId] = useState('')
 
@@ -42,10 +41,7 @@ const Recognition = () => {
     setAutoRecord(true);
   };
 
-  const onStop = (recordedBlob) => {
-    questionMutation.mutate(recordedBlob.blob);
-    setAudio(recordedBlob.blob);
-  };
+  const onStop = recordedBlob => questionMutation.mutate(recordedBlob.blob);
 
   useEffect(() => {
     if (!autoRecord) return;
@@ -78,7 +74,6 @@ const Recognition = () => {
         <Button onClick={startAutoRecord} variant="contained" color="primary" disabled={!userId}>
           {BUTTONS.autoRecord}
         </Button>
-        <audio controls src={URL.createObjectURL(audio)} />
       </div>
       {questionMutation.isLoading && <CircularProgress className={classes.recognition_spinner} />}
       <div className={classes.recognition_rows}>
