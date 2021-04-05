@@ -1,4 +1,4 @@
-import { Button, CircularProgress } from "@material-ui/core";
+import { Button, CircularProgress, Input } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { ReactMic } from "react-mic";
 import { useMutation } from "react-query";
@@ -15,34 +15,39 @@ const Recognition = () => {
   const [autoRecord, setAutoRecord] = useState(false);
   const [recognitionRows, setRecognitionRows] = useState([]);
   const [userId, setUserId] = useState('')
+  const [keyword, setKeyword] = useState('')
 
   const answerMutation = useMutation(question => userService.getAnswer(question), {
-    onSuccess: res => setRecognitionRows([...recognitionRows, res]),
-  });
-
-  const questionMutation = useMutation((blob) => userService.questionRecognition(blob), {
     onSuccess: res => {
-      answerMutation.mutate({ question: res.text || 'not recognized', relatedTo: userId })
+      console.log(res);
+      setRecognitionRows([...recognitionRows, res])
     },
   });
-
+  
+  const questionMutation = useMutation((blob) => userService.questionRecognition(blob), {
+    onSuccess: res => {
+      console.log(res.text);
+      answerMutation.mutate({ question: res.text, relatedTo: userId })
+    },
+  });
+  
   const startRecording = () => {
     setAutoRecord(false);
     setRecord(true);
   };
-
+  
   const stopRecording = () => {
     setAutoRecord(false);
     setRecord(false);
   };
-
+  
   const startAutoRecord = () => {
     setRecord(true);
     setAutoRecord(true);
   };
 
   const onStop = recordedBlob => questionMutation.mutate(recordedBlob.blob);
-
+  
   useEffect(() => {
     if (!autoRecord) return;
     const sendRecordInterval = setInterval(() => {
@@ -52,19 +57,20 @@ const Recognition = () => {
 
     return () => clearInterval(sendRecordInterval);
   }, [autoRecord]);
+  
+  useEffect(() => {
+    if (keyword && userId) {
+      answerMutation.mutate({ question: keyword, relatedTo: userId })
+    }
+  }, [keyword, userId])
 
   const selectHandler = e => setUserId(e.target.value)
-
+  
   return (
     <div className={classes.record}>
       <div className={classes.record_wrapper}>
         <Select state={userId} selectHandler={selectHandler} />
-        <ReactMic
-          backgroundColor="white"
-          strokeColor="#000000"
-          record={record}
-          onStop={onStop}
-        />
+        <Input className={classes.input_keyword} placeholder='keyword' onChange={e => setKeyword(e.target.value)}/>
         <GreenButton onClick={startRecording} variant="contained" disabled={!userId}>
           {BUTTONS.start}
         </GreenButton>
@@ -74,6 +80,12 @@ const Recognition = () => {
         <Button onClick={startAutoRecord} variant="contained" color="primary" disabled={!userId}>
           {BUTTONS.autoRecord}
         </Button>
+        <ReactMic
+          backgroundColor="white"
+          strokeColor="#000000"
+          record={record}
+          onStop={onStop}
+        />
       </div>
       {questionMutation.isLoading && <CircularProgress className={classes.recognition_spinner} />}
       <div className={classes.recognition_rows}>

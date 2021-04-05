@@ -36,4 +36,7 @@ export const RecognitionStyles = makeStyles(() => ({
     flexDirection: 'column-reverse',
     marginBottom: 'auto'
   },
+  input_keyword: {
+    margin: '5.5px 10px 0px 10px',
+  }
 }));
