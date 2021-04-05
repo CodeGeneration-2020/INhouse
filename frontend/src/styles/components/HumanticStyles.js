@@ -6,27 +6,18 @@ export const HumanticStyles = makeStyles(() => ({
     marginLeft: '20px',
     flexDirection: 'column-reverse',
     alignItems: 'center',
-    height: '83%',
+    minHeight: '83%',
     width: '33.3%',
   },
   button: {
     marginLeft: '20px',
   },
   url: {
-    position: 'absolute',
-    zIndex: '3',
-    marginBottom: '10px',
+    marginBottom: '170px',
   },
   humantic_spinner: {
     marginTop: '40px',
     marginRight: '125px',
-  },
-  analyzes_wrapper: {
-    display: 'flex',
-    width: '100%',
-    overflowY: 'scroll',
-    maxHeight: '93%',
-    flexDirection: 'column-reverse',
   },
   danger: {
     marginTop: '50px',

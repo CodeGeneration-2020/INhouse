@@ -36,6 +36,6 @@ export const RecognitionStyles = makeStyles(() => ({
     marginBottom: 'auto'
   },
   input_keyword: {
-    margin: '5.5px 10px 0px 10px',
+    margin: '4px 10px 0px 10px',
   }
 }));

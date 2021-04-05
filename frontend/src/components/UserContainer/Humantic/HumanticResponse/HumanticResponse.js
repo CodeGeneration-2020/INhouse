@@ -4,11 +4,10 @@ import { HUMANTIC } from '../../constants/constants'
 
 const HumanticResponse = ({ linkedinInfo }) => {
   const classes = HumanticResponseStyles()
-  if (linkedinInfo) console.log(linkedinInfo.persona.sales.communication_advice.key_traits)
 
   return (
     <div className={classes.linkedinInfo}>
-      <h3>{linkedinInfo.display_name}</h3>
+      <h3>{linkedinInfo?.display_name}</h3>
       <p className={classes.safe_text}>
         <b>{HUMANTIC.response.adjectives} </b>
         {`${linkedinInfo.persona?.sales?.communication_advice.adjectives.join(', ') ?? 'not found'}.`}

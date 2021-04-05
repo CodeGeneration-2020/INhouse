@@ -30,10 +30,8 @@ const Humantic = () => {
       </div>
       <div className={classes.humantic_content}>
         {mutationHumantic.isLoading && <CircularProgress className={classes.humantic_spinner} />}
-        <div className={classes.analyzes_wrapper}>
-          {mutationHumantic?.data && <HumanticResponse linkedinInfo={mutationHumantic.data} />}
-          {mutationHumantic?.data === null && <div className={classes.danger}>Profile not found!</div>}
-        </div>
+        {mutationHumantic?.data && <HumanticResponse linkedinInfo={mutationHumantic.data} />}
+        {mutationHumantic?.data === null && <div className={classes.danger}>Profile not found!</div>}
       </div>
     </div>
   )
