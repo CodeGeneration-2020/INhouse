@@ -24,6 +24,8 @@ export const HumanticStyles = makeStyles(() => ({
   analyzes_wrapper: {
     display: 'flex',
     width: '100%',
+    overflowY: 'scroll',
+    maxHeight: '93%',
     flexDirection: 'column-reverse',
   },
   danger: {

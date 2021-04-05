@@ -8,7 +8,6 @@ export const HumanticResponseStyles = makeStyles(() => ({
     color: 'blue',
   },
   linkedinInfo: {
-    marginTop: '12px',
     alignSelf: 'flex-start',
     marginRight: '70px',
     fontSize: '20px',
