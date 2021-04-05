@@ -26,6 +26,7 @@ export const HumanticStyles = makeStyles(() => ({
   },
   humantic_content: {
     marginBottom: 'auto',
+    overflowY: 'scroll',
   }
 }));
 
