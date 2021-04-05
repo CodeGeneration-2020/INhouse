@@ -38,9 +38,9 @@ export class AlgoliaDialogService extends DialogService {
 
   private setSettings(
     index: SearchIndex,
-    settings: Parameters<SearchIndex['setSettings']>[0],
+    ...args: Parameters<SearchIndex['setSettings']>
   ) {
-    return index.setSettings(settings).wait();
+    return index.setSettings(...args).wait();
   }
 
   async createOne(dialog: CreateOneDialog) {

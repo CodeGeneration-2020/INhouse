@@ -4,14 +4,16 @@ import { Inject, Injectable, Scope } from '@nestjs/common';
 
 import { Model, FilterQuery, PopulateOptions } from 'mongoose';
 
+import { Request } from 'src/shared/types';
+
 import {
-  TracApiOptions,
+  TrackApiOptions,
   GetCountApiCallsOptions,
   TrackHumanticRequestOptions,
   GetHumanticRequestsOptions,
   TrackRecognizeOptions,
   GetAllRecognizedOptions,
-} from './metric.service.types';
+} from './metric.types';
 
 import {
   ApiCallMetric,
@@ -27,8 +29,6 @@ import {
   RecognizeMetric,
   RecognizeMetricDocument,
 } from './schemas/recognize-metric.schema';
-
-import { Request } from '../shared/types';
 
 @Injectable({
   scope: Scope.REQUEST,
@@ -48,7 +48,7 @@ export class MetricService {
     private recognizeMetricModel: Model<RecognizeMetricDocument>,
   ) {}
 
-  trackApiCall({ service, method }: TracApiOptions) {
+  trackApiCall({ service, method }: TrackApiOptions) {
     return this.apiCallMetricModel.create({ service, method });
   }
 

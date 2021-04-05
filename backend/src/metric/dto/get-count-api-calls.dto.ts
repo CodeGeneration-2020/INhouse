@@ -1,14 +1,13 @@
-import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsString, IsDefined, IsOptional } from 'class-validator';
 
 import { ApiService } from '../types';
 
 export class GetCountApiCallsDto {
   @IsEnum(ApiService)
-  @IsNotEmpty()
+  @IsDefined()
   service: ApiService;
 
   @IsString()
   @IsOptional()
-  @IsNotEmpty()
   method?: string;
 }

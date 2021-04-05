@@ -1,4 +1,8 @@
+import { PaginateOptions } from 'src/shared/dto/paginate.dto';
+
 import { Dialog, SavedDialog } from './types';
+
+import { FindManySearchOptions } from './dto/find-many.dto';
 
 export type CreateOneDialog = Dialog;
 
@@ -10,13 +14,8 @@ export interface FindOneOptions {
 }
 
 export interface FindManyOptions {
-  search?: {
-    text: string;
-  };
-  paginate?: {
-    limit: number;
-    offset: number;
-  };
+  search?: FindManySearchOptions;
+  paginate?: PaginateOptions;
 }
 
 export type CreateOneResult = SavedDialog;
