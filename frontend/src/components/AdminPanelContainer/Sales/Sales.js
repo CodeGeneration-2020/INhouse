@@ -14,13 +14,16 @@ const Sales = () => {
   const inputEl = useRef()
   const queryClient = useQueryClient();
 
-  const [formValues, setField] = useForm({ relatedTo: '', context: '', answer: '', question: '' })
+  const [formValues, setField, reset] = useForm({ relatedTo: '', context: '', answer: '', question: '' })
   const [searchValue, setSearchValue] = useState('')
   const [buttonDisabled, setButtonDisabled] = useState(true)
 
   const allSales = useQuery(["all-sales", searchValue], searchValue => adminService.getAllSales(searchValue));
   const createSales = useMutation(salesValues => adminService.createSales(salesValues), {
-    onSuccess: () => queryClient.invalidateQueries('all-sales'),
+    onSuccess: () => {
+      queryClient.invalidateQueries('all-sales')
+      reset()
+    },
   })
 
   const searchHandler = () => setSearchValue(inputEl.current.value)
