@@ -7,5 +7,4 @@ export const routes = {
   getAllRecognized: '/metric/get-all-recognized',
   getAllSales: '/dialog/find-many',
   createSales: '/dialog/create-one',
-  downloadAudio: '/file/download',
 }
