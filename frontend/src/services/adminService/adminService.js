@@ -1,6 +1,5 @@
 import { HttpService } from "../httpService";
 import { routes } from "./adminRoutes";
-import fileDownload from 'js-file-download';
 
 class AdminService extends HttpService {
   getMetrics(service) {
@@ -60,16 +59,8 @@ class AdminService extends HttpService {
   }
 
   createSales(salesValues) {
-    // const { relatedTo, context, question, answer } = salesValues
     const route = routes[this.createSales.name]
     return this.post(route, { dialog: salesValues } )
-  }
-
-  downloadAudio(id) {
-    const route = routes[this.downloadAudio.name]
-    this
-      .post(route, { id }, { responseType: 'blob' })
-      .then(res => fileDownload(res, 'audio.wav'))
   }
 }
 
