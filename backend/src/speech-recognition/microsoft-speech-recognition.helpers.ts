@@ -8,7 +8,7 @@ import {
   SpeechRecognitionResult,
 } from 'microsoft-cognitiveservices-speech-sdk';
 
-import { createDeferred, cloneReadableStream } from '../shared/helpers';
+import { createDeferred } from 'src/shared/helpers';
 
 const ffmpegArgs = [
   '-i',
@@ -27,7 +27,17 @@ const ffmpegArgs = [
 export const formatToWav = (stream: Readable): Readable => {
   const ffmpeg = spawn('ffmpeg', ffmpegArgs);
 
-  cloneReadableStream(stream).pipe(ffmpeg.stdin);
+  stream.on('data', (chunk: Buffer) => {
+    ffmpeg.stdin.write(chunk);
+  });
+
+  stream.on('error', (error: Error) => {
+    ffmpeg.stdin.emit('error', error);
+  });
+
+  stream.on('end', () => {
+    ffmpeg.stdin.end();
+  });
 
   return ffmpeg.stdout;
 };

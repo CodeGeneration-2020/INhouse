@@ -1,19 +1,12 @@
-import {
-  Post,
-  HttpCode,
-  UseGuards,
-  Controller,
-  HttpStatus,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Post, UseGuards, Controller, UseInterceptors } from '@nestjs/common';
 
 import { SpeechRecognitionService } from './speech-recognition.service';
 
-import { File } from '../shared/decorators/file.decorator';
-import { JwtAuthGuard } from '../shared/guards/jwt-auth.guard';
-import { MultipartFile } from '../shared/types';
-import { MultipartGuard } from '../shared/guards/multipart.guard';
-import { FilesInterceptor } from '../shared/interceptors/files.interceptor';
+import { MultipartFile } from 'src/shared/types';
+import { File } from 'src/shared/decorators/file.decorator';
+import { JwtAuthGuard } from 'src/shared/guards/jwt-auth.guard';
+import { MultipartGuard } from 'src/shared/guards/multipart.guard';
+import { FilesInterceptor } from 'src/shared/interceptors/files.interceptor';
 
 @Controller('speech-recognition')
 export class SpeechRecognitionController {
@@ -22,13 +15,9 @@ export class SpeechRecognitionController {
   ) {}
 
   @Post('recognize')
-  @HttpCode(HttpStatus.OK)
-  @UseGuards(JwtAuthGuard)
-  @UseGuards(MultipartGuard)
+  @UseGuards(JwtAuthGuard, MultipartGuard)
   @UseInterceptors(FilesInterceptor)
   async recognize(@File('input') { file }: MultipartFile) {
-    const text = await this.speechRecognitionService.recognize(file);
-
-    return { text };
+    return this.speechRecognitionService.recognize(file);
   }
 }

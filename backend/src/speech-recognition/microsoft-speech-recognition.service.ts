@@ -10,20 +10,21 @@ import {
   SpeechRecognizer,
 } from 'microsoft-cognitiveservices-speech-sdk';
 
-import { FileService } from '../file/file.service';
-import { MetricService } from '../metric/metric.service';
+import { FileService } from 'src/file/file.service';
+import { MetricService } from 'src/metric/metric.service';
+import { ParserService } from 'src/parser/parser.service';
 
-import { RecognizeInput } from './types';
+import { cloneReadableStream } from 'src/shared/helpers';
 
 import { SpeechRecognitionService } from './speech-recognition.service';
+
+import { RecognizeInput } from './speech-recognition.types';
 
 import {
   formatToWav,
   recognizeOnceAsync,
   convertToPushStream,
 } from './microsoft-speech-recognition.helpers';
-
-import { cloneReadableStream } from '../shared/helpers';
 
 Recognizer.enableTelemetry(false);
 
@@ -33,6 +34,7 @@ export class MicrosoftSpeechRecognitionService extends SpeechRecognitionService 
     private fileService: FileService,
     private configService: ConfigService,
     private metricService: MetricService,
+    private parserService: ParserService,
   ) {
     super();
   }
@@ -60,18 +62,25 @@ export class MicrosoftSpeechRecognitionService extends SpeechRecognitionService 
 
     const { text } = await recognizeOnceAsync(recognizer);
 
-    if (text !== undefined) {
-      setImmediate(async () => {
-        const { id: fileId } = await this.fileService.upload({
-          filename: `${v4()}.wav`,
-          stream: clonedStream,
-          contentType: 'audio/wav',
-        });
-
-        await this.metricService.trackRecognize({ fileId, text });
-      });
+    if (!text) {
+      return {
+        text: null,
+        questions: [],
+      };
     }
 
-    return text;
+    setImmediate(async () => {
+      const { id: fileId } = await this.fileService.upload({
+        filename: `${v4()}.wav`,
+        contentType: 'audio/wav',
+        stream: clonedStream,
+      });
+
+      await this.metricService.trackRecognize({ fileId, text });
+    });
+
+    const questions = this.parserService.parseQuestions(text);
+
+    return { text, questions };
   }
 }
