@@ -16,6 +16,13 @@ export class FileController {
   async download(@Query() { id }: DownloadDto, @Res() res: Response) {
     const { file, stream } = await this.fileService.download({ id });
 
-    res.type(file.contentType).send(stream);
+    res.type(file.contentType);
+
+    res.header(
+      'Content-Disposition',
+      `attachment; filename="${file.filename}"`,
+    );
+
+    res.send(stream);
   }
 }
