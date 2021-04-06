@@ -24,6 +24,7 @@ import { SpeechRecognitionModule } from './speech-recognition/speech-recognition
           uri: databaseUri,
           useCreateIndex: true,
           useNewUrlParser: true,
+          useFindAndModify: true,
           useUnifiedTopology: true,
         };
       },

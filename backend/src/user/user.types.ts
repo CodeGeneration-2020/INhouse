@@ -1,4 +1,7 @@
 import { Role } from 'src/shared/role.enum';
+import { PaginateOptions } from 'src/shared/dto/paginate.dto';
+
+import { GetAllSearchOptions } from './dto/get-all.dto';
 
 export interface CreateOptions {
   username: string;
@@ -11,13 +14,8 @@ export interface GetOptions {
 }
 
 export interface GetAllOptions {
-  search?: {
-    username?: string;
-  };
-  paginate?: {
-    limit?: number;
-    offset?: number;
-  };
+  search?: GetAllSearchOptions;
+  paginate?: PaginateOptions;
 }
 
 export interface EditOptions {

@@ -4,29 +4,28 @@ export const HumanticStyles = makeStyles(() => ({
   humantic: {
     display: 'flex',
     marginLeft: '20px',
-    textOverflow: 'hidden',
-    textDecoration: 'none',
-    flexDirection: 'column',
+    flexDirection: 'column-reverse',
     alignItems: 'center',
+    minHeight: '83%',
     width: '33.3%',
-    justifyContent: 'flex-start',
-    backgroundColor: 'white',
   },
   button: {
-    marginTop: '10px',
     marginLeft: '20px',
+  },
+  url: {
+    marginBottom: '170px',
   },
   humantic_spinner: {
     marginTop: '40px',
-  },
-  analyzes_wrapper: {
-    display: 'flex',
-    width: '100%',
-    flexDirection: 'column-reverse',
+    marginRight: '125px',
   },
   danger: {
     marginTop: '50px',
     color: 'red',
+    marginRight: '130px',
+  },
+  humantic_content: {
+    marginBottom: 'auto',
   }
 }));
 

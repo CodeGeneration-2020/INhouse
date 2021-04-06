@@ -13,5 +13,16 @@ export const SalesStyles = makeStyles(() => ({
     justifyContent: 'center',
     minHeight: '700px',
     width: '100%',
+  },
+  input_sales: {
+    marginTop: '16.5px',
+    marginRight: '20px',
+  },
+  add_sales_button: {
+    marginLeft: '10px',
+    minWidth: '100px',
+  },
+  pdf_spinner: {
+    marginTop: '15px'
   }
 }));

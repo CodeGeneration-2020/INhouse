@@ -1,30 +1,22 @@
 import { Type } from 'class-transformer';
 
+import { PaginateDto } from 'src/shared/dto/paginate.dto';
+
 import {
-  IsNumber,
   IsString,
-  IsDefined,
   IsOptional,
   IsNotEmpty,
   ValidateNested,
 } from 'class-validator';
 
-class SearchDto {
-  @IsString()
-  @IsDefined()
-  @IsNotEmpty()
+export interface GetAllSearchOptions {
   username: string;
 }
 
-// TODO: move to shared
-class PaginateDto {
-  @IsNumber()
-  @IsDefined()
-  limit: number;
-
-  @IsNumber()
-  @IsDefined()
-  offset: number;
+class SearchDto implements GetAllSearchOptions {
+  @IsString()
+  @IsNotEmpty()
+  username: string;
 }
 
 export class GetAllDto {
