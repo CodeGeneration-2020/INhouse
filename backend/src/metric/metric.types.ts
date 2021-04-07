@@ -1,5 +1,8 @@
 import { ApiService } from './types';
 
+import { User } from 'src/user/schemas/user.schema';
+import { ProfileAnalysis } from 'src/humantic-ai/schemas/profile-analysis.schema';
+
 import { PaginateOptions } from 'src/shared/dto/paginate.dto';
 
 import { GetAllRecognizedSearchOptions } from './dto/get-all-recognized.dto';
@@ -15,8 +18,8 @@ export interface GetCountApiCallsOptions {
 }
 
 export interface TrackHumanticRequestOptions {
-  userId?: string;
-  profileAnalysisId: string;
+  user?: User;
+  profileAnalysis: ProfileAnalysis;
 }
 
 export interface GetHumanticRequestsOptions {

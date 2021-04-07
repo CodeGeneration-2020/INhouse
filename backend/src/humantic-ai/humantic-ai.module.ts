@@ -1,10 +1,10 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Module, HttpModule } from '@nestjs/common';
 
+import { MetricModule } from 'src/metric/metric.module';
+
 import { HumanticAiService } from './humantic-ai.service';
 import { HumanticAiController } from './humantic-ai.controller';
-
-import { MetricModule } from '../metric/metric.module';
 
 import {
   ProfileAnalysis,
@@ -24,6 +24,5 @@ import {
   ],
   controllers: [HumanticAiController],
   providers: [HumanticAiService],
-  exports: [HumanticAiService],
 })
 export class HumanticAiModule {}

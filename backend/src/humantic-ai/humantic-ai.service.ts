@@ -4,8 +4,8 @@ import { Injectable, HttpService } from '@nestjs/common';
 
 import { Model } from 'mongoose';
 
-import { ApiService } from '../metric/types';
-import { MetricService } from '../metric/metric.service';
+import { MetricService } from 'src/metric/metric.service';
+import { ApiService } from 'src/metric/types';
 
 import {
   ProfileAnalysis,
@@ -56,7 +56,7 @@ export class HumanticAiService {
     return data;
   }
 
-  private async fetchAnalysis({ userId, persona }: FetchAnalysisOptions) {
+  private async fetchAnalysis({ userId }: FetchAnalysisOptions) {
     const url = `${baseUrl}/user-profile`;
 
     const apiKey = this.configService.get<string>('HUMANTIC_AI_API_KEY');
@@ -66,7 +66,6 @@ export class HumanticAiService {
         params: {
           apikey: apiKey,
           userid: userId,
-          persona,
         },
       })
       .toPromise();
@@ -110,9 +109,7 @@ export class HumanticAiService {
       });
     }
 
-    this.metricService.trackHumanticRequest({
-      profileAnalysisId: profileAnalysis.id,
-    });
+    this.metricService.trackHumanticRequest({ profileAnalysis });
 
     return profileAnalysis.analysis;
   }
@@ -126,10 +123,6 @@ export class HumanticAiService {
   }: GetAnalysisRequestedByUserOptions) {
     const requests = await this.metricService.getHumanticRequests({ userId });
 
-    return this.profileAnalysisModel.find({
-      _id: {
-        $in: requests.map(({ profileAnalysisId }) => profileAnalysisId),
-      },
-    });
+    return requests.map(({ profileAnalysis }) => profileAnalysis);
   }
 }
