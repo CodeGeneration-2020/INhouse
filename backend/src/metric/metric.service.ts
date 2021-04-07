@@ -63,27 +63,38 @@ export class MetricService {
   }
 
   async trackHumanticRequest({
-    userId = this.request.user.id,
-    profileAnalysisId,
+    user = this.request.user,
+    profileAnalysis,
   }: TrackHumanticRequestOptions) {
-    return this.humanticRequestMetricModel.findOneAndUpdate(
-      {
-        userId,
-        profileAnalysisId,
-      },
-      {
-        userId,
-        profileAnalysisId,
-      },
-      {
-        new: true,
-        upsert: true,
-      },
-    );
+    const query = this.humanticRequestMetricModel.findOne({
+      user,
+      profileAnalysis,
+    });
+
+    query.populate('user');
+    query.populate('profileAnalysis');
+
+    let doc = await query.exec();
+
+    if (!doc) {
+      doc = await this.humanticRequestMetricModel.create({
+        user,
+        profileAnalysis,
+      });
+    }
+
+    return doc;
   }
 
   getHumanticRequests({ userId }: GetHumanticRequestsOptions) {
-    return this.humanticRequestMetricModel.find({ userId });
+    const query = this.humanticRequestMetricModel.find({
+      user: userId as any,
+    });
+
+    query.populate('user');
+    query.populate('profileAnalysis');
+
+    return query;
   }
 
   trackRecognize(options: TrackRecognizeOptions) {
