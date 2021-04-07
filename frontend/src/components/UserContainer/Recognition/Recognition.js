@@ -22,7 +22,7 @@ const Recognition = () => {
   });
 
   const questionMutation = useMutation((blob) => userService.questionRecognition(blob), {
-    onSuccess: async res => answerMutation.mutate({ questions: res.questions, userId })
+    onSuccess: res => answerMutation.mutate({ questions: res.questions, userId })
   });
 
 
