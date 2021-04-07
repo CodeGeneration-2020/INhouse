@@ -30,7 +30,8 @@ export class HumanticAiController {
   }
 
   @Get('get-count-analysis')
-  @UseGuards(JwtAuthGuard)
+  @Roles([Role.ADMIN])
+  @UseGuards(JwtAuthGuard, RoleGuard)
   getAnalysisCount() {
     return this.humanticAiService.getCountAnalysis();
   }
