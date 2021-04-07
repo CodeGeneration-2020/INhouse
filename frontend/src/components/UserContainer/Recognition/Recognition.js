@@ -18,12 +18,13 @@ const Recognition = () => {
   const [keyword, setKeyword] = useState('')
 
   const answerMutation = useMutation(question => userService.getAnswer(question), {
-    onSuccess: res => setRecognitionRows([...recognitionRows, res])
+    onSuccess: res => setRecognitionRows([...recognitionRows, ...res])
   });
 
   const questionMutation = useMutation((blob) => userService.questionRecognition(blob), {
-    onSuccess: res => answerMutation.mutate({ question: res.text, relatedTo: userId })
+    onSuccess: async res => answerMutation.mutate({ questions: res.questions, userId })
   });
+
 
   const startRecording = () => {
     setAutoRecord(false);
@@ -55,7 +56,7 @@ const Recognition = () => {
   useEffect(() => {
     if (userId) answerMutation.mutate({ question: keyword, relatedTo: userId })
     // eslint-disable-next-line
-  }, [keyword, userId])
+  }, [keyword])
 
   const selectHandler = e => setUserId(e.target.value)
   const keyWordHandler = e => setKeyword(e.target.value)
