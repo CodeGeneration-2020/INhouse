@@ -1,9 +1,7 @@
 import {
   Body,
   Post,
-  HttpCode,
   UseGuards,
-  HttpStatus,
   Controller,
   UseInterceptors,
 } from '@nestjs/common';
@@ -26,7 +24,6 @@ export class MetricController {
 
   @Post('get-count-api-calls')
   @Roles([Role.ADMIN])
-  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RoleGuard)
   getCountApiCalls(@Body() body: GetCountApiCallsDto) {
     return this.metricService.getCountApiCalls(body);
