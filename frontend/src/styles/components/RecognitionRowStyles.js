@@ -3,34 +3,29 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const RecognitionRowStyles = makeStyles(() => ({
-  recognizedQuestion: {
-    width: '400px',
-    maxWidth: '400px',
+  question: {
     display: 'flex',
-  },
-  recognizedAnswer: {
-    width: '370px',
-    maxWidth: '370px',
-    display: 'flex',
-  },
-  recognizedTranscript: {
-    display: 'flex',
-    maxWidth: '300px',
-  },
-  question_answer: {
-    flex: 1,
-    marginTop: '30px',
-    display: 'flex',
-    justifyContent: 'flex-start',
+    width: '430px',
     '& div': {
-      fontSize: '30px',
-      marginTop: '5px',
-      minHeight: '100px',
-      wordWrap: 'break-word',
+      maxWidth: '300px',
+      marginTop: '8px',
     },
     '& button': {
-      marginLeft: '20px',
       marginBottom: 'auto',
     }
+  },
+  answer: {
+    display: 'flex',
+    width: '400px',
+    '& div': {
+      maxWidth: '300px',
+      marginTop: '8px',
+    },
+    '& button': {
+      marginBottom: 'auto',
+    }
+  },
+  content: {
+    display: 'flex',
   },
 }));

@@ -1,15 +1,15 @@
 import { IconButton } from "@material-ui/core";
+import ClearIcon from '@material-ui/icons/Clear';
 import React, { useState } from "react";
 import { RecognitionRowStyles } from "../../../../styles/components/RecognitionRowStyles";
-import ClearIcon from '@material-ui/icons/Clear';
 
 const RecognitionRow = ({ recognitionRow }) => {
   const classes = RecognitionRowStyles()
-  const [display, setDisplay] = useState({ question: true, answer: true, transcript: true })
+  const [display, setDisplay] = useState({ question: true, answer: true })
 
   return (
-    <div className={classes.question_answer}>
-      <div className={classes.recognizedQuestion}>
+    <div className={classes.content}>
+      <div className={classes.question}>
         {display.question &&
           <>
             <div>{recognitionRow?.question || 'Not found'}</div>
@@ -17,20 +17,12 @@ const RecognitionRow = ({ recognitionRow }) => {
           </>
         }
       </div>
-      <div className={classes.recognizedAnswer}>
+      <div className={classes.answer}>
         {display.answer &&
           <>
             <div>{recognitionRow?.answer || 'Not found'}</div>
             <IconButton onClick={() => setDisplay({ ...display, answer: false })}><ClearIcon /></IconButton>
           </>
-        }
-      </div>
-      <div className={classes.recognizedTranscript}>
-        {display.transcript &&
-          <>
-            <div>{recognitionRow?.transcript || 'Not found'}</div>
-            <IconButton onClick={() => setDisplay({ ...display, transcript: false })}><ClearIcon /></IconButton>
-          </> 
         }
       </div>
     </div>

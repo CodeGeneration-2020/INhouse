@@ -16,26 +16,40 @@ export const RecognitionStyles = makeStyles(() => ({
       margin: '10px 10px 0px 10px'
     },
   },
-  audio: {
-    paddingRight: '30px',
-    outline: 'none',
-  },
   record_wrapper: {
     display: 'flex',
     alignItems: 'center',
     position: 'absolute',
     zIndex: '3',
   },
-
   recognition_spinner: {
     margin: '50px auto'
   },
-  recognition_rows: {
-    display: 'flex',
-    flexDirection: 'column-reverse',
-    marginBottom: 'auto'
-  },
   input_keyword: {
     margin: '4px 10px 0px 10px',
+  },
+  transcript_wrapper: {
+    width: '26.5%',
+  },
+  recognition_wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '73.5%',
+  },
+  recognition_content: {
+    display: 'flex',
+    flexDirection: 'column-reverse',
+  },
+  transcript_content: {
+    display: 'flex',
+    flexDirection: 'column-reverse',
+  },
+  content: {
+    fontSize: '25px',
+    display: 'flex',
+    overflowY: 'hidden',
+    width: '1070px',
+    maxHeight: '100%',
+    flexDirection: 'row',
   }
 }));
