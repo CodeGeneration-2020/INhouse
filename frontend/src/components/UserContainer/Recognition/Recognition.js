@@ -8,23 +8,34 @@ import RecognitionRow from "./RecognitionRow/RecognitionRow";
 import { GreenButton } from "../../../styles/buttons";
 import { RecognitionStyles } from '../../../styles/components/RecognitionStyles';
 import Select from "../Select";
+import Transcript from "./Transcript/Transcript";
 
-const Recognition = () => {
+const Recognition = ({ mutationHumantic }) => {
   const classes = RecognitionStyles()
   const [record, setRecord] = useState(false);
   const [autoRecord, setAutoRecord] = useState(false);
   const [recognitionRows, setRecognitionRows] = useState([]);
+  const [transcripts, setTranscripts] = useState([])
   const [userId, setUserId] = useState('')
   const [keyword, setKeyword] = useState('')
+
+  useEffect(() => {
+    if (mutationHumantic.data) {
+      const whatToSay = `${mutationHumantic.data.persona.sales.communication_advice.what_to_say.join(' ')}`
+      setRecognitionRows(rows => [...rows, { whatToSay, answer: '', }])
+    }
+  }, [mutationHumantic.data])
 
   const answerMutation = useMutation(question => userService.getAnswer(question), {
     onSuccess: res => setRecognitionRows([...recognitionRows, ...res])
   });
 
   const questionMutation = useMutation((blob) => userService.questionRecognition(blob), {
-    onSuccess: res => answerMutation.mutate({ questions: res.questions, userId })
+    onSuccess: res => {
+      setTranscripts([...transcripts, res.text])
+      answerMutation.mutate({ questions: res.questions, userId })
+    }
   });
-
 
   const startRecording = () => {
     setAutoRecord(false);
@@ -87,8 +98,17 @@ const Recognition = () => {
         />
       </div>
       {questionMutation.isLoading && <CircularProgress className={classes.recognition_spinner} />}
-      <div className={classes.recognition_rows}>
-        {recognitionRows.map((recognitionRow, index) => <RecognitionRow key={index} recognitionRow={recognitionRow} />)}
+      <div className={classes.content}>
+        <div className={classes.recognition_wrapper}>
+          <div className={classes.recognition_content}>
+            {recognitionRows.map((recognitionRow, index) => <RecognitionRow key={index} recognitionRow={recognitionRow} />)}
+          </div>
+        </div>
+        <div className={classes.transcript_wrapper}>
+          <div className={classes.transcript_content}>
+            {transcripts.map((transcript, index) => <Transcript key={index} transcript={transcript} />)}
+          </div>
+        </div>
       </div>
     </div>
   );

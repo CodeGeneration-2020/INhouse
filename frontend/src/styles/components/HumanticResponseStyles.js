@@ -8,12 +8,12 @@ export const HumanticResponseStyles = makeStyles(() => ({
     color: 'blue',
   },
   linkedinInfo: {
-    alignSelf: 'flex-start',
-    marginRight: '70px',
-    maxHeight: '700px',
-    overflowY: 'scroll',
     fontSize: '20px',
-    maxWidth: '500px',
     wordWrap: 'break-word',
+  },
+  animation: {
+    visibility: 'hidden',
+    opacity: 0,
+    transition: 'visibility 0s, opacity 0.5s linear',
   }
 }));
