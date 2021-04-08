@@ -5,7 +5,7 @@ export const RecognitionStyles = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'column-reverse',
     maxWidth: '66.6%',
-    height: '83%',
+    height: '100%',
     justifyContent: 'space-between',
     '& button': {
       display: 'block',

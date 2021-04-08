@@ -13,7 +13,10 @@ const Recognition = () => {
   const classes = RecognitionStyles()
   const [record, setRecord] = useState(false);
   const [autoRecord, setAutoRecord] = useState(false);
-  const [recognitionRows, setRecognitionRows] = useState([]);
+  const [recognitionRows, setRecognitionRows] = useState([{ question: 'What is the end?', answer: 'end' },
+  { question: 'Hello', answer: 'hi' },
+  { question: 'Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello ', answer: ' hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi ' }
+  ]);
   const [userId, setUserId] = useState('')
   const [keyword, setKeyword] = useState('')
 

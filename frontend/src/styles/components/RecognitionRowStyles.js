@@ -4,13 +4,13 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const RecognitionRowStyles = makeStyles(() => ({
   recognizedQuestion: {
-    width: '445px',
-    maxWidth: '445px',
+    width: '400px',
+    maxWidth: '400px',
     display: 'flex',
   },
   recognizedAnswer: {
-    maxWidth: '435px',
-    width: '435px',
+    width: '370px',
+    maxWidth: '370px',
     display: 'flex',
   },
   recognizedTranscript: {
@@ -18,8 +18,8 @@ export const RecognitionRowStyles = makeStyles(() => ({
     maxWidth: '300px',
   },
   question_answer: {
+    flex: 1,
     marginTop: '30px',
-    marginLeft: '40px',
     display: 'flex',
     justifyContent: 'flex-start',
     '& div': {

@@ -4,14 +4,14 @@ export const UserContainerStyles = makeStyles(() => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100vh',
+    minHeight: '100vh',
     minWidth: '992px',
     width: '100%'
   },
   content: {
     display: 'flex',
     overflowY: 'auto',
-    height: '100vh',
+    height: '84.5vh',
     width: '100%',
     background: 'white',
   },
@@ -30,8 +30,8 @@ export const UserContainerStyles = makeStyles(() => ({
     right: '0',
     bottom: '0',
     left: '100',
-    width: '70%',
-    height: '70%', 
+    width: '65%',
+    height: '60%', 
     background: 'linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)',
   },
   headers: {

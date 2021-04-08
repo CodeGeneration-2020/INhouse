@@ -28,11 +28,11 @@ const Humantic = () => {
           {BUTTONS.send}
         </GreenButton>
       </div>
-      <div className={classes.humantic_content}>
-        {mutationHumantic.isLoading && <CircularProgress className={classes.humantic_spinner} />}
+      {mutationHumantic.isLoading && <CircularProgress className={classes.humantic_spinner} />}
+      <div className={classes.response_wrapper}>
         {mutationHumantic?.data && <HumanticResponse linkedinInfo={mutationHumantic.data} />}
-        {mutationHumantic?.data === null && <div className={classes.danger}>Profile not found!</div>}
       </div>
+      {mutationHumantic?.data === null && <div className={classes.danger}>Profile not found!</div>}
     </div>
   )
 }

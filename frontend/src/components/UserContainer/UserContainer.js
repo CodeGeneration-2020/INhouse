@@ -21,7 +21,7 @@ const UserContainer = () => {
 
   return (
     <Card className={classes.root}>
-      <div className={classes.header_wrapper}>
+      <div>
         <FormControlLabel
           className={classes.checkbox}
           label="Im a customer"
@@ -44,11 +44,11 @@ const UserContainer = () => {
         :
         <div className={classes.container}>
           <div className={classes.headers}>
-              <h1 className={classes.prospect}>Prospect info</h1>
-              <h1 className={classes.question}>Question</h1>
-              <h1 className={classes.answer}>Answer</h1>
-              <h1 className={classes.transcript}>Transcript</h1>
-            </div>
+            <h1 className={classes.prospect}>Prospect info</h1>
+            <h1 className={classes.question}>Question</h1>
+            <h1 className={classes.answer}>Answer</h1>
+            <h1 className={classes.transcript}>Transcript</h1>
+          </div>
           <div className={classes.content}>
             <Humantic />
             <Recognition />
