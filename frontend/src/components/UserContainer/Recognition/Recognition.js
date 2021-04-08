@@ -10,7 +10,7 @@ import { RecognitionStyles } from '../../../styles/components/RecognitionStyles'
 import Select from "../Select";
 import Transcript from "./Transcript/Transcript";
 
-const Recognition = () => {
+const Recognition = ({ mutationHumantic }) => {
   const classes = RecognitionStyles()
   const [record, setRecord] = useState(false);
   const [autoRecord, setAutoRecord] = useState(false);
@@ -18,6 +18,13 @@ const Recognition = () => {
   const [transcripts, setTranscripts] = useState([])
   const [userId, setUserId] = useState('')
   const [keyword, setKeyword] = useState('')
+
+  useEffect(() => {
+    if (mutationHumantic.data) {
+      const whatToSay = `${mutationHumantic.data.persona.sales.communication_advice.what_to_say.join(' ')}`
+      setRecognitionRows(rows => [...rows, { whatToSay, answer: '', }])
+    }
+  }, [mutationHumantic.data])
 
   const answerMutation = useMutation(question => userService.getAnswer(question), {
     onSuccess: res => setRecognitionRows([...recognitionRows, ...res])

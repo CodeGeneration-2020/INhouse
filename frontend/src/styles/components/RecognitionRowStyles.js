@@ -9,6 +9,7 @@ export const RecognitionRowStyles = makeStyles(() => ({
     '& div': {
       maxWidth: '300px',
       marginTop: '8px',
+      wordWrap: 'break-word'
     },
     '& button': {
       marginBottom: 'auto',
@@ -20,6 +21,7 @@ export const RecognitionRowStyles = makeStyles(() => ({
     '& div': {
       maxWidth: '300px',
       marginTop: '8px',
+      wordWrap: 'break-word'
     },
     '& button': {
       marginBottom: 'auto',

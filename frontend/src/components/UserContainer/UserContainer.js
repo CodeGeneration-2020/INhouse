@@ -6,18 +6,21 @@ import { useState } from 'react';
 import UploadPdf from './UploadPdf/UploadPdf';
 import { UserContainerStyles } from '../../styles/components/UserContainerStyles';
 import { GreenButton } from '../../styles/buttons';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import authService from '../../services/authService';
 import { pageSpinnerStyles } from '../../styles/pageSpinnerStyles';
+import userService from '../../services/userService';
 
 const UserContainer = () => {
   const spinnerClasses = pageSpinnerStyles()
   const classes = UserContainerStyles()
   const [checked, setChecked] = useState(false)
   const history = useHistory()
-
+  const mutationHumantic = useMutation(linkedInUrl => userService.createHumantic(linkedInUrl))
+  
   const { data, isLoading } = useQuery('role', () => authService.roleCheck())
   if (isLoading) return <CircularProgress className={spinnerClasses.route_spinner} />
+
 
   return (
     <Card className={classes.root}>
@@ -50,8 +53,8 @@ const UserContainer = () => {
             <h1 className={classes.transcript}>Transcript</h1>
           </div>
           <div className={classes.content}>
-            <Humantic />
-            <Recognition />
+            <Humantic mutationHumantic={mutationHumantic} />
+            <Recognition mutationHumantic={mutationHumantic} />
           </div>
           <div className={classes.gradient}></div>
         </div>

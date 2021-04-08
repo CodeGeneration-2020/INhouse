@@ -1,20 +1,14 @@
 import { CircularProgress, Input } from '@material-ui/core';
 import React from 'react'
-import { useMutation } from 'react-query';
 import { useForm } from '../../../helpers/Hooks/UseForm';
 import { BUTTONS } from '../../../helpers/constants/constants';
 import HumanticResponse from './HumanticResponse/HumanticResponse';
-import userService from '../../../services/userService';
 import { GreenButton } from '../../../styles/buttons';
 import { HumanticStyles } from '../../../styles/components/HumanticStyles';
 
-const Humantic = () => {
+const Humantic = ({ mutationHumantic }) => {
   const classes = HumanticStyles()
-  const [inputValue, setField, reset] = useForm({ linkedInUrl: '' })
-
-  const mutationHumantic = useMutation(() => userService.createHumantic(inputValue.linkedInUrl), {
-    onSuccess: () => reset()
-  })
+  const [inputValue, setField] = useForm({ linkedInUrl: '' })
 
   return (
     <div className={classes.humantic}>
@@ -24,7 +18,11 @@ const Humantic = () => {
           name="linkedInUrl"
           value={inputValue.linkedInUrl}
           onChange={setField} />
-        <GreenButton variant="contained" color="primary" className={classes.button} onClick={() => mutationHumantic.mutate()}>
+        <GreenButton 
+          variant="contained" 
+          color="primary" 
+          className={classes.button} 
+          onClick={() => mutationHumantic.mutate(inputValue.linkedInUrl)}>
           {BUTTONS.send}
         </GreenButton>
       </div>

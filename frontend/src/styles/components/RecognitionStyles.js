@@ -49,7 +49,7 @@ export const RecognitionStyles = makeStyles(() => ({
     display: 'flex',
     overflowY: 'hidden',
     width: '1070px',
-    maxHeight: '100%',
+    height: '100%',
     flexDirection: 'row',
   }
 }));
