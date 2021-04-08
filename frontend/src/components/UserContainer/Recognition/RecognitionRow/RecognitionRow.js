@@ -13,7 +13,7 @@ const RecognitionRow = ({ recognitionRow }) => {
       <div className={classes.question}>
         {display.question &&
           <>
-            {recognitionRow.whatToSay ?
+            {recognitionRow?.whatToSay ?
               <div>
                 <b>{HUMANTIC.response.say}: </b>
                 {recognitionRow.whatToSay}
@@ -28,7 +28,7 @@ const RecognitionRow = ({ recognitionRow }) => {
       <div className={classes.answer}>
         {display.answer &&
           <>
-            {!recognitionRow.whatToSay && (
+            {!recognitionRow?.whatToSay && (
               <>
                 <div>{recognitionRow?.answer || 'Not found'}</div>
                 <IconButton onClick={() => setDisplay({ ...display, answer: false })}><ClearIcon /></IconButton>

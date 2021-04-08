@@ -33,7 +33,7 @@ export const HumanticStyles = makeStyles(() => ({
   response_wrapper: {
     maxHeight: '700px',
     alignSelf: 'flex-start',
-    marginBottom: '35px',
+    marginBottom: 'auto',
     maxWidth: '550px',
   }
 }));

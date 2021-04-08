@@ -10,6 +10,10 @@ export const HumanticResponseStyles = makeStyles(() => ({
   linkedinInfo: {
     fontSize: '20px',
     wordWrap: 'break-word',
-    
+  },
+  animation: {
+    visibility: 'hidden',
+    opacity: 0,
+    transition: 'visibility 0s, opacity 0.5s linear',
   }
 }));
