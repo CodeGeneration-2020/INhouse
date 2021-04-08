@@ -16,8 +16,13 @@ class UserService extends HttpService {
 
   async getAnswer(values) {
     const route = routes[this.getAnswer.name]
-    const res = values.questions.map(question => this.post(route, { question, relatedTo: values.userId }))
-    return Promise.all(res);
+    const answers = values.questions.map(async question => {
+      const response = await this.post(route, { question, relatedTo: values.userId })
+      const result = { ...response, transcript: question }
+      console.log(result)
+      return result
+    })
+    return Promise.all(answers);
   }
 
   uploadPdf(values) {

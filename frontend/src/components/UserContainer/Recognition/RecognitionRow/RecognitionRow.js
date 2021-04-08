@@ -28,9 +28,9 @@ const RecognitionRow = ({ recognitionRow }) => {
       <div className={classes.recognizedTranscript}>
         {display.transcript &&
           <>
-            <div>{recognitionRow?.question || 'Not found'}</div>
+            <div>{recognitionRow?.transcript || 'Not found'}</div>
             <IconButton onClick={() => setDisplay({ ...display, transcript: false })}><ClearIcon /></IconButton>
-          </>
+          </> 
         }
       </div>
     </div>
