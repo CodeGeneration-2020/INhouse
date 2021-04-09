@@ -14,15 +14,15 @@ export const RecognitionStyles = makeStyles(() => ({
     }
   },
   question_header: {
-    width: '35%',
+    width: '32.5%',
     textAlign: 'start',
   },
   answer_header: {
-    width: '35%',
+    width: '32.5%',
     textAlign: 'start',
   },
   transcript_header: {
-    width: '30%',
+    width: '35%',
     textAlign: 'start',
   },
   record_wrapper: {
@@ -56,13 +56,13 @@ export const RecognitionStyles = makeStyles(() => ({
   qa: {
     display: 'flex',
     flexDirection: 'column',
-    width: '70%',
+    width: '65%',
     overflowY: 'hidden',
   },
   transcript: {
     display: 'flex',
     flexDirection: 'column',
-    width: '30%',
+    width: '35%',
     overflowY: 'hidden',
   }
 }));

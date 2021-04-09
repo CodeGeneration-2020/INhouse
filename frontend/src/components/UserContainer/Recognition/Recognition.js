@@ -22,17 +22,17 @@ const Recognition = ({ mutationHumantic }) => {
   useEffect(() => {
     if (mutationHumantic.data) {
       const whatToSay = `${mutationHumantic.data.persona.sales.communication_advice.what_to_say.join(' ')}`
-      setRecognitionRows(rows => [...rows, { whatToSay, answer: '', }])
+      setRecognitionRows(rows => [{ whatToSay, answer: '', }, ...rows])
     }
   }, [mutationHumantic.data])
 
   const answerMutation = useMutation(question => userService.getAnswer(question), {
-    onSuccess: res => setRecognitionRows([...recognitionRows, ...res])
+    onSuccess: res => setRecognitionRows([...res, ...recognitionRows])
   });
 
   const questionMutation = useMutation((blob) => userService.questionRecognition(blob), {
     onSuccess: res => {
-      if (res.text) setTranscripts([...transcripts, res.text])
+      if (res.text) setTranscripts([res.text, ...transcripts])
       answerMutation.mutate({ questions: res.questions, userId })
     }
   });
@@ -81,12 +81,12 @@ const Recognition = ({ mutationHumantic }) => {
       </div>
       <div className={classes.recognition_content}>
         <div className={classes.qa}>
-          {recognitionRows.reverse().map((recognitionRow, index) =>
+          {recognitionRows.map((recognitionRow, index) =>
             <RecognitionRow key={index} recognitionRow={recognitionRow} />
           )}
         </div>
         <div className={classes.transcript}>
-          {transcripts.reverse().map((transcript, index) => <Transcript key={index} transcript={transcript} />)}
+          {transcripts.map((transcript, index) => <Transcript key={index} transcript={transcript} />)}
         </div>
       </div>
       <div className={classes.record_wrapper}>

@@ -10,7 +10,7 @@ const HumanticResponse = ({ linkedinInfo }) => {
   useEffect(() => {
     setTimeout(() => {
       setDisplay(true)
-    }, 0);
+    }, 20000);
   }, [linkedinInfo])
 
   return (
