@@ -6,7 +6,7 @@ import algoliasearch, { SearchClient, SearchIndex } from 'algoliasearch';
 import { MetricService } from 'src/metric/metric.service';
 import { ApiService } from 'src/metric/types';
 
-import { Dialog } from './types';
+import { Dialog, SavedDialog } from './types';
 
 import { DialogService } from './dialog.service';
 
@@ -34,13 +34,6 @@ export class AlgoliaDialogService extends DialogService {
     this.client = algoliasearch(appId, apiKey);
 
     this.metricService = metricService;
-  }
-
-  private setSettings(
-    index: SearchIndex,
-    ...args: Parameters<SearchIndex['setSettings']>
-  ) {
-    return index.setSettings(...args).wait();
   }
 
   async createOne(dialog: CreateOneDialog) {
@@ -71,19 +64,17 @@ export class AlgoliaDialogService extends DialogService {
   async findOne({ relatedTo, question }: FindOneOptions) {
     const index = this.client.initIndex('dialogs');
 
-    await this.setSettings(index, {
-      searchableAttributes: ['question'],
-      attributesForFaceting: ['relatedTo'],
-    });
-
-    const { hits } = await index.search<Dialog>(question, {
-      filters: `relatedTo:"${relatedTo}"`,
-      hitsPerPage: 1,
+    const { hits } = await index.findAnswers<Dialog>(question, ['en'], {
+      attributesForPrediction: ['question'],
+      searchParameters: {
+        filters: `relatedTo:"${relatedTo}"`,
+      },
+      nbHits: 1,
     });
 
     this.metricService.trackApiCall({
       service: ApiService.ALGOLIA,
-      method: 'search',
+      method: 'find-answers',
     });
 
     const dialog = hits[0];
@@ -95,33 +86,40 @@ export class AlgoliaDialogService extends DialogService {
     return toSavedDialog(dialog);
   }
 
+  // TODO: create paginate
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async findMany({ search, paginate }: FindManyOptions) {
     const index = this.client.initIndex('dialogs');
 
-    const searchArgs: Parameters<typeof index.search> = [undefined, undefined];
+    const args: Parameters<SearchIndex['findAnswers']> = [
+      undefined,
+      ['en'],
+      {
+        attributesForPrediction: ['question', 'answer'],
+      },
+    ];
 
     if (search) {
-      searchArgs[0] = search.text;
+      args[0] = search.text;
     }
 
-    if (paginate) {
-      searchArgs[1] = {
-        length: paginate.limit,
-        offset: paginate.offset,
-      };
-    }
-
-    await this.setSettings(index, {
-      searchableAttributes: ['question', 'answer'],
-    });
-
-    const { hits } = await index.search<Dialog>(...searchArgs);
+    const { hits } = await index.findAnswers<Dialog>(...args);
 
     this.metricService.trackApiCall({
       service: ApiService.ALGOLIA,
-      method: 'search',
+      method: 'find-answers',
     });
 
-    return hits.map(toSavedDialog);
+    const dialogs = new Map<string, SavedDialog>();
+
+    for (const hit of hits) {
+      if (dialogs.has(hit.objectID)) {
+        continue;
+      }
+
+      dialogs.set(hit.objectID, toSavedDialog(hit));
+    }
+
+    return [...dialogs.values()];
   }
 }
