@@ -32,7 +32,7 @@ const Recognition = ({ mutationHumantic }) => {
 
   const questionMutation = useMutation((blob) => userService.questionRecognition(blob), {
     onSuccess: res => {
-      setTranscripts([...transcripts, res.text])
+      if (res.text) setTranscripts([...transcripts, res.text])
       answerMutation.mutate({ questions: res.questions, userId })
     }
   });
@@ -59,7 +59,7 @@ const Recognition = ({ mutationHumantic }) => {
     const sendRecordInterval = setInterval(() => {
       setRecord(false);
       setRecord(true);
-    }, 15000);
+    }, 3000);
 
     return () => clearInterval(sendRecordInterval);
   }, [autoRecord]);
