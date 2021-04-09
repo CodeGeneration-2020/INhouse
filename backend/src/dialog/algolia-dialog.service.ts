@@ -74,7 +74,7 @@ export class AlgoliaDialogService extends DialogService {
 
     this.metricService.trackApiCall({
       service: ApiService.ALGOLIA,
-      method: 'find-answers',
+      method: 'search',
     });
 
     const dialog = hits[0];
@@ -86,28 +86,38 @@ export class AlgoliaDialogService extends DialogService {
     return toSavedDialog(dialog);
   }
 
-  // TODO: create paginate
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async findMany({ search, paginate }: FindManyOptions) {
     const index = this.client.initIndex('dialogs');
 
-    const args: Parameters<SearchIndex['findAnswers']> = [
-      undefined,
-      ['en'],
-      {
-        attributesForPrediction: ['question', 'answer'],
-      },
-    ];
+    if (!search) {
+      let searchOptions: Parameters<SearchIndex['search']>[1];
 
-    if (search) {
-      args[0] = search.text;
+      if (paginate) {
+        searchOptions = {
+          length: paginate.limit,
+          offset: paginate.offset,
+        };
+      }
+
+      const { hits } = await index.search<Dialog>(undefined, searchOptions);
+
+      this.metricService.trackApiCall({
+        service: ApiService.ALGOLIA,
+        method: 'search',
+      });
+
+      return hits.map(toSavedDialog);
     }
 
-    const { hits } = await index.findAnswers<Dialog>(...args);
+    // TODO: create paginate
+    const { hits } = await index.findAnswers<Dialog>(search.text, ['en'], {
+      attributesForPrediction: ['question', 'answer'],
+    });
 
     this.metricService.trackApiCall({
       service: ApiService.ALGOLIA,
-      method: 'find-answers',
+      method: 'search',
     });
 
     const dialogs = new Map<string, SavedDialog>();
