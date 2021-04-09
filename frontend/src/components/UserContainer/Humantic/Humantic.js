@@ -1,5 +1,5 @@
 import { CircularProgress, Input } from '@material-ui/core';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from '../../../helpers/Hooks/UseForm';
 import { BUTTONS } from '../../../helpers/constants/constants';
 import HumanticResponse from './HumanticResponse/HumanticResponse';
@@ -8,7 +8,12 @@ import { HumanticStyles } from '../../../styles/components/HumanticStyles';
 
 const Humantic = ({ mutationHumantic }) => {
   const classes = HumanticStyles()
-  const [inputValue, setField] = useForm({ linkedInUrl: '' })
+  const [inputValue, setField, reset] = useForm({ linkedInUrl: '' })
+
+  useEffect(() => {
+    if (mutationHumantic.isSuccess) reset()
+    // eslint-disable-next-line
+  }, [mutationHumantic])
 
   return (
     <div className={classes.humantic}>
