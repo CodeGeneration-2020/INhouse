@@ -6,7 +6,6 @@ export const RecognitionRowStyles = makeStyles(() => ({
   question: {
     display: 'flex',
     width: '50%',
-    justifyContent: 'center',
     justifyContent: 'flex-start',
     '& div': {
       maxWidth: '300px',

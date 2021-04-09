@@ -25,12 +25,12 @@ export const HumanticStyles = makeStyles(() => ({
   },
   humantic_spinner: {
     marginTop: '50px',
-    marginBottom: 'auto',
-    marginRight: '150px',
+    marginLeft: '230px',
   },
   danger: {
     color: 'red',
-    marginRight: '150px',
+    marginTop: '50px',
+    marginLeft: '180px',
   },
   response_wrapper: {
     minHeight: '88%',

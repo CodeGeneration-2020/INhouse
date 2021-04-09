@@ -43,7 +43,9 @@ export const RecognitionStyles = makeStyles(() => ({
     },
   },
   recognition_spinner: {
-    margin: '50px auto'
+    position: 'absolute',
+    top: 0,
+    right: 30
   },
   input_keyword: {
     margin: '4px 10px 0px 10px',

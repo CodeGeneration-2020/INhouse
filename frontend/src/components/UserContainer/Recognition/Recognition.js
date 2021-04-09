@@ -77,8 +77,11 @@ const Recognition = ({ mutationHumantic }) => {
       <div className={classes.headers}>
         <h1 className={classes.question_header}>Questions</h1>
         <h1 className={classes.answer_header}>Answer</h1>
-        <h1 className={classes.transcript_header}>Transcript</h1>
+        <h1 className={classes.transcript_header}>Transcript </h1>
       </div>
+      {(answerMutation.isLoading || questionMutation.isLoading) &&
+        <CircularProgress className={classes.recognition_spinner} />
+      }
       <div className={classes.recognition_content}>
         <div className={classes.qa}>
           {recognitionRows.map((recognitionRow, index) =>

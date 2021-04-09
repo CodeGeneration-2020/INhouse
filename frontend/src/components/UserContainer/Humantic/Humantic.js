@@ -18,11 +18,11 @@ const Humantic = ({ mutationHumantic }) => {
   return (
     <div className={classes.humantic}>
       <h1 className={classes.header}>Prospect Info</h1>
-      {mutationHumantic.isLoading && <CircularProgress className={classes.humantic_spinner} />}
       <div className={classes.response_wrapper}>
+        {mutationHumantic?.data === null && <div className={classes.danger}>Profile not found!</div>}
+        {mutationHumantic.isLoading && <CircularProgress className={classes.humantic_spinner} />}
         {mutationHumantic?.data && <HumanticResponse linkedinInfo={mutationHumantic.data} />}
       </div>
-      {mutationHumantic?.data === null && <div className={classes.danger}>Profile not found!</div>}
       <div className={classes.url}>
         <Input
           placeholder='linkedIn URL'
