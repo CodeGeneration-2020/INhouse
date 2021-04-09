@@ -28,7 +28,7 @@ const HumanticResponse = ({ linkedinInfo }) => {
         <b>{HUMANTIC.response.avoid} </b>
         {`${linkedinInfo.persona?.sales?.communication_advice.what_to_avoid.join(' ') ?? 'not found'}`}
       </p>
-      <Fade timeout={4000} in={display} >
+      <Fade timeout={4000} in={display}>
         <div>
           <p>
             <b>Speed: </b>
