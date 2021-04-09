@@ -20,11 +20,7 @@ class AdminService extends HttpService {
   getUsers(params) {
     const route = routes[this.getUsers.name]
     if (params?.queryKey[1]) {
-      return this.post(route, {
-        search: {
-          username: params.queryKey[1]
-        }
-      })
+      return this.post(route, { search: { username: params.queryKey[1] } })
     }
     return this.post(route, {})
   }
@@ -37,11 +33,7 @@ class AdminService extends HttpService {
   getAllRecognized(params) {
     const route = routes[this.getAllRecognized.name]
     if (params.queryKey[1]) {
-      return this.post(route, {
-        search: {
-          username: params.queryKey[1]
-        }
-      })
+      return this.post(route, { search: { username: params.queryKey[1] } })
     }
     return this.post(route, {});
   }
@@ -49,18 +41,14 @@ class AdminService extends HttpService {
   getAllSales(params) {
     const route = routes[this.getAllSales.name]
     if (params.queryKey[1]) {
-      return this.post(route, {
-        search: {
-          text: params.queryKey[1]
-        }
-      })
+      return this.post(route, { search: { text: params.queryKey[1] } })
     }
-    return this.post(route, {})
+    return this.post(route, { paginate: { limit: 1000, offset: 0 } })
   }
 
   createSales(salesValues) {
     const route = routes[this.createSales.name]
-    return this.post(route, { dialog: salesValues } )
+    return this.post(route, { dialog: salesValues })
   }
 }
 

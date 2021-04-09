@@ -22,17 +22,17 @@ const Recognition = ({ mutationHumantic }) => {
   useEffect(() => {
     if (mutationHumantic.data) {
       const whatToSay = `${mutationHumantic.data.persona.sales.communication_advice.what_to_say.join(' ')}`
-      setRecognitionRows(rows => [...rows, { whatToSay, answer: '', }])
+      setRecognitionRows(rows => [{ whatToSay, answer: '', }, ...rows])
     }
   }, [mutationHumantic.data])
 
   const answerMutation = useMutation(question => userService.getAnswer(question), {
-    onSuccess: res => setRecognitionRows([...recognitionRows, ...res])
+    onSuccess: res => setRecognitionRows([...res, ...recognitionRows])
   });
 
   const questionMutation = useMutation((blob) => userService.questionRecognition(blob), {
     onSuccess: res => {
-      if (res.text) setTranscripts([...transcripts, res.text])
+      if (res.text) setTranscripts([res.text, ...transcripts])
       answerMutation.mutate({ questions: res.questions, userId })
     }
   });
@@ -74,6 +74,24 @@ const Recognition = ({ mutationHumantic }) => {
 
   return (
     <div className={classes.record}>
+      <div className={classes.headers}>
+        <h1 className={classes.question_header}>Questions</h1>
+        <h1 className={classes.answer_header}>Answer</h1>
+        <h1 className={classes.transcript_header}>Transcript </h1>
+      </div>
+      {(answerMutation.isLoading || questionMutation.isLoading) &&
+        <CircularProgress className={classes.recognition_spinner} />
+      }
+      <div className={classes.recognition_content}>
+        <div className={classes.qa}>
+          {recognitionRows.map((recognitionRow, index) =>
+            <RecognitionRow key={index} recognitionRow={recognitionRow} />
+          )}
+        </div>
+        <div className={classes.transcript}>
+          {transcripts.map((transcript, index) => <Transcript key={index} transcript={transcript} />)}
+        </div>
+      </div>
       <div className={classes.record_wrapper}>
         <Select state={userId} selectHandler={selectHandler} />
         <Input
@@ -96,19 +114,6 @@ const Recognition = ({ mutationHumantic }) => {
           record={record}
           onStop={onStop}
         />
-      </div>
-      {questionMutation.isLoading && <CircularProgress className={classes.recognition_spinner} />}
-      <div className={classes.content}>
-        <div className={classes.recognition_wrapper}>
-          <div className={classes.recognition_content}>
-            {recognitionRows.map((recognitionRow, index) => <RecognitionRow key={index} recognitionRow={recognitionRow} />)}
-          </div>
-        </div>
-        <div className={classes.transcript_wrapper}>
-          <div className={classes.transcript_content}>
-            {transcripts.map((transcript, index) => <Transcript key={index} transcript={transcript} />)}
-          </div>
-        </div>
       </div>
     </div>
   );

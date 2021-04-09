@@ -5,7 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 export const RecognitionRowStyles = makeStyles(() => ({
   question: {
     display: 'flex',
-    width: '430px',
+    width: '50%',
+    justifyContent: 'flex-start',
     '& div': {
       maxWidth: '300px',
       marginTop: '8px',
@@ -17,7 +18,8 @@ export const RecognitionRowStyles = makeStyles(() => ({
   },
   answer: {
     display: 'flex',
-    width: '400px',
+    width: '50%',
+    justifyContent: 'flex-start',
     '& div': {
       maxWidth: '300px',
       marginTop: '8px',
@@ -27,7 +29,8 @@ export const RecognitionRowStyles = makeStyles(() => ({
       marginBottom: 'auto',
     }
   },
-  content: {
+  wrapper: {
     display: 'flex',
-  },
+    width: '100%',
+  }
 }));

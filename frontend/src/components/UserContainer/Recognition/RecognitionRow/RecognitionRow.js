@@ -9,7 +9,7 @@ const RecognitionRow = ({ recognitionRow }) => {
   const [display, setDisplay] = useState({ question: true, answer: true })
 
   return (
-    <div className={classes.content}>
+    <div className={classes.wrapper}>
       <div className={classes.question}>
         {display.question &&
           <>
