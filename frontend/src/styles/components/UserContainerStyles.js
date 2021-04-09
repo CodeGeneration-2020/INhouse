@@ -4,16 +4,19 @@ export const UserContainerStyles = makeStyles(() => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100vh',
+    height: '100vh',
     minWidth: '992px',
     width: '100%'
   },
   content: {
     display: 'flex',
     overflowY: 'auto',
-    height: '84.5vh',
     width: '100%',
     background: 'white',
+    height: '100%',
+  },
+  switch: {
+    height: '7%',
   },
   checkbox: {
     marginLeft: '30px',
@@ -23,6 +26,9 @@ export const UserContainerStyles = makeStyles(() => ({
   },
   container: {
     position: 'relative',
+    height: '93%',
+    width: '100%',
+    minWidth: '1024px',
   },
   gradient: {
     position: 'absolute',
@@ -30,15 +36,8 @@ export const UserContainerStyles = makeStyles(() => ({
     right: '0',
     bottom: '0',
     left: '100',
-    width: '65%',
+    width: '71%',
     height: '60%', 
     background: 'linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)',
-  },
-  headers: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    height: '7%',
-    width: '100%'
-  },
-  
+  },  
 }));

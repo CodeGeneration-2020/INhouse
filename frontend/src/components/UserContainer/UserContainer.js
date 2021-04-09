@@ -21,10 +21,9 @@ const UserContainer = () => {
   const { data, isLoading } = useQuery('role', () => authService.roleCheck())
   if (isLoading) return <CircularProgress className={spinnerClasses.route_spinner} />
 
-
   return (
     <Card className={classes.root}>
-      <div>
+      <div className={classes.switch}>
         <FormControlLabel
           className={classes.checkbox}
           label="Im a customer"
@@ -46,12 +45,6 @@ const UserContainer = () => {
         <UploadPdf />
         :
         <div className={classes.container}>
-          <div className={classes.headers}>
-            <h1 className={classes.prospect}>Prospect info</h1>
-            <h1 className={classes.question}>Question</h1>
-            <h1 className={classes.answer}>Answer</h1>
-            <h1 className={classes.transcript}>Transcript</h1>
-          </div>
           <div className={classes.content}>
             <Humantic mutationHumantic={mutationHumantic} />
             <Recognition mutationHumantic={mutationHumantic} />

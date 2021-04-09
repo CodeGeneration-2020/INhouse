@@ -17,25 +17,26 @@ const Humantic = ({ mutationHumantic }) => {
 
   return (
     <div className={classes.humantic}>
+      <h1 className={classes.header}>Prospect Info</h1>
+      {mutationHumantic.isLoading && <CircularProgress className={classes.humantic_spinner} />}
+      <div className={classes.response_wrapper}>
+        {mutationHumantic?.data && <HumanticResponse linkedinInfo={mutationHumantic.data} />}
+      </div>
+      {mutationHumantic?.data === null && <div className={classes.danger}>Profile not found!</div>}
       <div className={classes.url}>
         <Input
           placeholder='linkedIn URL'
           name="linkedInUrl"
           value={inputValue.linkedInUrl}
           onChange={setField} />
-        <GreenButton 
-          variant="contained" 
-          color="primary" 
-          className={classes.button} 
+        <GreenButton
+          variant="contained"
+          color="primary"
+          className={classes.button}
           onClick={() => mutationHumantic.mutate(inputValue.linkedInUrl)}>
           {BUTTONS.send}
         </GreenButton>
       </div>
-      {mutationHumantic.isLoading && <CircularProgress className={classes.humantic_spinner} />}
-      <div className={classes.response_wrapper}>
-        {mutationHumantic?.data && <HumanticResponse linkedinInfo={mutationHumantic.data} />}
-      </div>
-      {mutationHumantic?.data === null && <div className={classes.danger}>Profile not found!</div>}
     </div>
   )
 }

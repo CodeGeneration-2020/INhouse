@@ -74,6 +74,21 @@ const Recognition = ({ mutationHumantic }) => {
 
   return (
     <div className={classes.record}>
+      <div className={classes.headers}>
+        <h1 className={classes.question_header}>Questions</h1>
+        <h1 className={classes.answer_header}>Answer</h1>
+        <h1 className={classes.transcript_header}>Transcript</h1>
+      </div>
+      <div className={classes.recognition_content}>
+        <div className={classes.qa}>
+          {recognitionRows.reverse().map((recognitionRow, index) =>
+            <RecognitionRow key={index} recognitionRow={recognitionRow} />
+          )}
+        </div>
+        <div className={classes.transcript}>
+          {transcripts.reverse().map((transcript, index) => <Transcript key={index} transcript={transcript} />)}
+        </div>
+      </div>
       <div className={classes.record_wrapper}>
         <Select state={userId} selectHandler={selectHandler} />
         <Input
@@ -96,19 +111,6 @@ const Recognition = ({ mutationHumantic }) => {
           record={record}
           onStop={onStop}
         />
-      </div>
-      {questionMutation.isLoading && <CircularProgress className={classes.recognition_spinner} />}
-      <div className={classes.content}>
-        <div className={classes.recognition_wrapper}>
-          <div className={classes.recognition_content}>
-            {recognitionRows.map((recognitionRow, index) => <RecognitionRow key={index} recognitionRow={recognitionRow} />)}
-          </div>
-        </div>
-        <div className={classes.transcript_wrapper}>
-          <div className={classes.transcript_content}>
-            {transcripts.map((transcript, index) => <Transcript key={index} transcript={transcript} />)}
-          </div>
-        </div>
       </div>
     </div>
   );
