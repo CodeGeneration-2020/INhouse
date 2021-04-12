@@ -1,6 +1,8 @@
 import { spawn } from 'child_process';
 import { Readable } from 'stream';
 
+import * as ffmpegPath from 'ffmpeg-static';
+
 import {
   AudioInputStream,
   SpeechRecognizer,
@@ -25,7 +27,7 @@ const ffmpegArgs = [
 ];
 
 export const formatToWav = (stream: Readable): Readable => {
-  const ffmpeg = spawn('ffmpeg', ffmpegArgs);
+  const ffmpeg = spawn(ffmpegPath, ffmpegArgs);
 
   stream.on('data', (chunk: Buffer) => {
     ffmpeg.stdin.write(chunk);
