@@ -1,4 +1,3 @@
-import { Fade } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { HumanticResponseStyles } from '../../../../styles/components/HumanticResponseStyles'
 import { HUMANTIC } from '../../constants/constants'
@@ -28,8 +27,8 @@ const HumanticResponse = ({ linkedinInfo }) => {
         <b>{HUMANTIC.response.avoid} </b>
         {`${linkedinInfo.persona?.sales?.communication_advice.what_to_avoid.join(' ') ?? 'not found'}`}
       </p>
-      <Fade timeout={4000} in={display}>
-        <div>
+      {display &&
+        <div className={classes.fadein}>
           <p>
             <b>Speed: </b>
             {`${linkedinInfo.persona?.sales?.communication_advice.key_traits.Speed ?? 'not found'}`}
@@ -47,7 +46,7 @@ const HumanticResponse = ({ linkedinInfo }) => {
             {`${linkedinInfo.persona?.sales?.communication_advice.key_traits['Risk Appetite'] ?? 'not found'}`}
           </p>
         </div>
-      </Fade>
+      }
     </div>
   )
 }

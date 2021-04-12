@@ -11,4 +11,21 @@ export const HumanticResponseStyles = makeStyles(() => ({
     fontSize: '20px',
     wordWrap: 'break-word',
   },
+  "@global": {
+    "@keyframes fadeInOpacity": {
+      "0%": {
+        opacity: 0,
+      },
+      "100%": {
+        opacity: 1,
+      }
+    }
+  },
+  fadein: {
+    opacity: 1,
+    animationName: 'fadeInOpacity',
+    animationIterationCount: 1,
+    animationTimingFunction: 'ease-in',
+    animationDuration: '4s',
+  },
 }));
