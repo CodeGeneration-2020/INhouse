@@ -3,52 +3,64 @@ import { routes } from "./adminRoutes";
 
 class AdminService extends HttpService {
   getMetrics(service) {
-    const route = routes[this.getMetrics.name];
-    return this.post(route, service)
+    return this.post(routes.getMetrics, service)
   }
 
   getUserRequestedAnalysis(userId) {
-    const route = routes[this.getUserRequestedAnalysis.name]
-    return this.post(route, { userId })
+    return this.post(routes.getUserRequestedAnalysis, { userId })
   }
 
   getLinkedinCount() {
-    const route = routes[this.getLinkedinCount.name]
-    return this.post(route)
+    return this.post(routes.getLinkedinCount)
   }
 
   getUsers(params) {
-    const route = routes[this.getUsers.name]
+    const body = {};
+
     if (params?.queryKey[1]) {
-      return this.post(route, { search: { username: params.queryKey[1] } })
+      body.search = {
+        username: params.queryKey[1]
+      };
     }
-    return this.post(route, {})
+
+    return this.post(routes.getUsers, body)
   }
 
   deleteUser(id) {
-    const route = routes[this.deleteUser.name]
-    return this.post(route, { id })
+    return this.post(routes.deleteUser, { id })
   }
 
   getAllRecognized(params) {
-    const route = routes[this.getAllRecognized.name]
+    const body = {};
+
     if (params.queryKey[1]) {
-      return this.post(route, { search: { username: params.queryKey[1] } })
+      body.search = {
+        username: params.queryKey[1]
+      };
     }
-    return this.post(route, {});
+
+    return this.post(routes.getAllRecognized, body);
   }
 
   getAllSales(params) {
-    const route = routes[this.getAllSales.name]
+    const body = {
+      paginate: {
+        limit: 1000,
+        offset: 0
+      }
+    };
+
     if (params.queryKey[1]) {
-      return this.post(route, { search: { text: params.queryKey[1] } })
+      body.search = {
+        text: params.queryKey[1]
+      };
     }
-    return this.post(route, { paginate: { limit: 1000, offset: 0 } })
+
+    return this.post(routes.getAllSales, body)
   }
 
   createSales(salesValues) {
-    const route = routes[this.createSales.name]
-    return this.post(route, { dialog: salesValues })
+    return this.post(routes.createSales, { dialog: salesValues })
   }
 }
 
