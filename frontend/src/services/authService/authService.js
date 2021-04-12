@@ -11,8 +11,7 @@ class AuthService extends HttpService {
     }
   }
   roleCheck() {
-    const route = routes[this.roleCheck.name]
-    return this.post(route, {})
+    return this.post(routes.roleCheck, {})
   }
 }
 
