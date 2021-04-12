@@ -1,20 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { IconButton } from "@material-ui/core";
 import ClearIcon from '@material-ui/icons/Clear';
 import { TranscriptStyles } from '../../../../styles/components/TranscriptStyles';
 
-const Transcript = ({ transcript }) => {
+const Transcript = ({ text, deleteEntity, id }) => {
   const classes = TranscriptStyles()
-  const [display, setDisplay] = useState(true)
 
   return (
     <div className={classes.transcript}>
-      {display &&
-        <>
-          <div>{transcript}</div>
-          <IconButton onClick={() => setDisplay(false)}><ClearIcon /></IconButton>
-        </>
-      }
+      <div>{text}</div>
+      <IconButton onClick={() => deleteEntity(id)}><ClearIcon /></IconButton>
     </div>
   )
 }

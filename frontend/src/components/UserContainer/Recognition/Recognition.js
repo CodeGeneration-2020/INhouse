@@ -8,6 +8,7 @@ import RecognitionRow from "./RecognitionRow/RecognitionRow";
 import { GreenButton } from "../../../styles/buttons";
 import { RecognitionStyles } from '../../../styles/components/RecognitionStyles';
 import Select from "../Select";
+import { v4 as uuidv4 } from 'uuid';
 import Transcript from "./Transcript/Transcript";
 
 const Recognition = ({ mutationHumantic }) => {
@@ -32,7 +33,7 @@ const Recognition = ({ mutationHumantic }) => {
 
   const questionMutation = useMutation((blob) => userService.questionRecognition(blob), {
     onSuccess: res => {
-      if (res.text) setTranscripts([res.text, ...transcripts])
+      if (res.text) setTranscripts([{ text: res.text, id: uuidv4() }, ...transcripts])
       answerMutation.mutate({ questions: res.questions, userId })
     }
   });
@@ -71,6 +72,10 @@ const Recognition = ({ mutationHumantic }) => {
 
   const selectHandler = e => setUserId(e.target.value)
   const keyWordHandler = e => setKeyword(e.target.value)
+  const deleteEntity = id => {
+    const newEntities = transcripts.filter(item => item.id !== id)
+    setTranscripts(newEntities)
+  }
 
   return (
     <div className={classes.record}>
@@ -84,12 +89,14 @@ const Recognition = ({ mutationHumantic }) => {
       }
       <div className={classes.recognition_content}>
         <div className={classes.qa}>
-          {recognitionRows.map((recognitionRow, index) =>
-            <RecognitionRow key={index} recognitionRow={recognitionRow} />
+          {recognitionRows.map(recognitionRow =>
+            <RecognitionRow key={uuidv4()} recognitionRow={recognitionRow} />
           )}
         </div>
         <div className={classes.transcript}>
-          {transcripts.map((transcript, index) => <Transcript key={index} transcript={transcript} />)}
+          {transcripts.map(transcript =>
+            <Transcript key={uuidv4()} id={transcript.id} deleteEntity={deleteEntity} text={transcript.text} />
+          )}
         </div>
       </div>
       <div className={classes.record_wrapper}>
