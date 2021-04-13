@@ -102,7 +102,9 @@ const General = () => {
               {analyzes.data?.length === 0 ?
                 <h3 className={classes.empty_modal}>This user has not searched for linkedin profiles yet.</h3>
                 :
-                analyzes.data?.map((analysis) => <HumanticResponse key={analysis._id} linkedinInfo={analysis.analysis} />)
+                analyzes.data?.map((analysis) =>
+                  <HumanticResponse key={analysis._id} linkedinInfo={analysis.analysis} admin={true} />
+                )
               }
             </>
           }
