@@ -1,32 +1,27 @@
 # build app
 FROM node:14.13-alpine AS build
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package.json package-lock.json ./
 
 RUN npm ci
 
-COPY ./src ./src
-COPY ./public ./public
+COPY src ./src
+COPY public ./public
 
-ARG REACT_APP_ADDRESS
-ENV REACT_APP_ADDRESS $REACT_APP_ADDRESS
+ARG API_URL
+ENV REACT_APP_ADDRESS=$API_URL
 
 RUN npm run build
 
-# serve build
-FROM node:14.13-alpine AS serve
+# run static server for app
+FROM node:14.13-alpine AS run
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY --from=build /usr/src/app/build ./build
+COPY --from=build /app/build ./build
 
 RUN npm install --global --unsafe-perm serve
-
-ARG PORT=8000
-ENV PORT $PORT
-
-EXPOSE $PORT
 
 CMD ["serve", "--no-clipboard", "build"]
