@@ -2,15 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { HumanticResponseStyles } from '../../../../styles/components/HumanticResponseStyles'
 import { HUMANTIC } from '../../constants/constants'
 
-const HumanticResponse = ({ linkedinInfo }) => {
+const HumanticResponse = ({ linkedinInfo, admin }) => {
   const classes = HumanticResponseStyles()
   const [display, setDisplay] = useState(false)
 
   useEffect(() => {
+    if (admin) {
+      setDisplay(true)
+      return;
+    }
     setTimeout(() => {
       setDisplay(true)
     }, 20000);
-  }, [linkedinInfo])
+  }, [linkedinInfo, admin])
 
   return (
     <div className={classes.linkedinInfo}>
@@ -28,7 +32,7 @@ const HumanticResponse = ({ linkedinInfo }) => {
         {`${linkedinInfo.persona?.sales?.communication_advice.what_to_avoid.join(' ') ?? 'not found'}`}
       </p>
       {display &&
-        <div className={classes.fadein}>
+        <div className={admin ? null : classes.fadein}>
           <p>
             <b>Speed: </b>
             {`${linkedinInfo.persona?.sales?.communication_advice.key_traits.Speed ?? 'not found'}`}
