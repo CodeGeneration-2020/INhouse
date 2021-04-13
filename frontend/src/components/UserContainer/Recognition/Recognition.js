@@ -1,5 +1,5 @@
 import { Button, CircularProgress, debounce, Input } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ReactMic } from "react-mic";
 import { useMutation } from "react-query";
 import { BUTTONS } from "../../../helpers/constants/constants";
@@ -23,12 +23,15 @@ const Recognition = ({ mutationHumantic }) => {
   useEffect(() => {
     if (mutationHumantic.data) {
       const whatToSay = `${mutationHumantic.data.persona.sales.communication_advice.what_to_say.join(' ')}`
-      setRecognitionRows(rows => [{ whatToSay, answer: '', }, ...rows])
+      setRecognitionRows(rows => [{ whatToSay }, ...rows])
     }
   }, [mutationHumantic.data])
 
   const answerMutation = useMutation(question => userService.getAnswer(question), {
-    onSuccess: res => setRecognitionRows([...res, ...recognitionRows])
+    onSuccess: res => {
+      res.forEach(row => row.id = uuidv4())
+      setRecognitionRows([...res, ...recognitionRows])
+    }
   });
 
   const questionMutation = useMutation((blob) => userService.questionRecognition(blob), {
@@ -89,13 +92,13 @@ const Recognition = ({ mutationHumantic }) => {
       }
       <div className={classes.recognition_content}>
         <div className={classes.qa}>
-          {recognitionRows.map(recognitionRow =>
-            <RecognitionRow key={uuidv4()} recognitionRow={recognitionRow} />
+          {recognitionRows.map((recognitionRow, index) =>
+            <RecognitionRow key={recognitionRow.id} recognitionRow={recognitionRow} />
           )}
         </div>
         <div className={classes.transcript}>
           {transcripts.map(transcript =>
-            <Transcript key={uuidv4()} id={transcript.id} deleteEntity={deleteEntity} text={transcript.text} />
+            <Transcript key={transcript.id} id={transcript.id} deleteEntity={deleteEntity} text={transcript.text} />
           )}
         </div>
       </div>

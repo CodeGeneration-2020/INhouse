@@ -19,7 +19,7 @@ const RecognitionRow = ({ recognitionRow }) => {
                 {recognitionRow.whatToSay}
               </div>
               :
-              <div>{recognitionRow?.question || 'Not found'}</div>
+              <div>{recognitionRow === null ? 'Not found' : recognitionRow.question}</div>
             }
             <IconButton onClick={() => setDisplay({ ...display, question: false })}><ClearIcon /></IconButton>
           </>
@@ -30,7 +30,7 @@ const RecognitionRow = ({ recognitionRow }) => {
           <>
             {!recognitionRow?.whatToSay && (
               <>
-                <div>{recognitionRow?.answer || 'Not found'}</div>
+                <div>{recognitionRow === null ? 'Not found' : recognitionRow.answer}</div>
                 <IconButton onClick={() => setDisplay({ ...display, answer: false })}><ClearIcon /></IconButton>
               </>
             )}
@@ -41,4 +41,4 @@ const RecognitionRow = ({ recognitionRow }) => {
   );
 };
 
-export default RecognitionRow;
+export default React.memo(RecognitionRow);
