@@ -63,7 +63,7 @@ const Recognition = ({ mutationHumantic }) => {
     const sendRecordInterval = setInterval(() => {
       setRecord(false);
       setRecord(true);
-    }, 3000);
+    }, 15000);
 
     return () => clearInterval(sendRecordInterval);
   }, [autoRecord]);
