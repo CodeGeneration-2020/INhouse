@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { v4 } from 'uuid';
 
 import {
+  PropertyId,
   Recognizer,
   AudioConfig,
   SpeechConfig,
@@ -22,7 +23,7 @@ import { RecognizeInput } from './speech-recognition.types';
 
 import {
   formatToWav,
-  recognizeOnceAsync,
+  runRecognizer,
   convertToPushStream,
 } from './microsoft-speech-recognition.helpers';
 
@@ -50,6 +51,11 @@ export class MicrosoftSpeechRecognitionService extends SpeechRecognitionService 
 
     speechConfig.speechRecognitionLanguage = 'en-US';
 
+    speechConfig.setProperty(
+      PropertyId[PropertyId.SpeechServiceConnection_InitialSilenceTimeoutMs],
+      '3000',
+    );
+
     const stream = formatToWav(input);
 
     const clonedStream = cloneReadableStream(stream);
@@ -60,7 +66,13 @@ export class MicrosoftSpeechRecognitionService extends SpeechRecognitionService 
 
     const recognizer = new SpeechRecognizer(speechConfig, audioConfig);
 
-    const { text } = await recognizeOnceAsync(recognizer);
+    let text: string;
+
+    try {
+      text = await runRecognizer(recognizer);
+    } catch (error) {
+      // just ignore error...
+    }
 
     if (!text) {
       return {
