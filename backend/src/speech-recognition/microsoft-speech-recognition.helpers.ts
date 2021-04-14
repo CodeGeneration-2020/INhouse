@@ -4,10 +4,11 @@ import { Readable } from 'stream';
 import * as ffmpegPath from 'ffmpeg-static';
 
 import {
+  ResultReason,
   AudioInputStream,
   SpeechRecognizer,
+  CancellationReason,
   PushAudioInputStream,
-  SpeechRecognitionResult,
 } from 'microsoft-cognitiveservices-speech-sdk';
 
 import { createDeferred } from 'src/shared/helpers';
@@ -58,27 +59,34 @@ export const convertToPushStream = (stream: Readable): PushAudioInputStream => {
   return pushStream;
 };
 
-export const recognizeOnceAsync = (
+export const runRecognizer = (
   recognizer: SpeechRecognizer,
-): Promise<SpeechRecognitionResult> => {
-  const deferred = createDeferred<SpeechRecognitionResult>();
+): Promise<string> => {
+  const deferred = createDeferred<string>();
 
-  const clean = () => {
-    recognizer.close();
+  const messages: string[] = [];
+
+  recognizer.recognized = (sender, event) => {
+    if (event.result.reason !== ResultReason.RecognizedSpeech) {
+      return;
+    }
+
+    messages.push(event.result.text);
   };
 
-  recognizer.recognizeOnceAsync(
-    (response) => {
-      deferred.resolve(response);
+  recognizer.canceled = (sender, event) => {
+    if (event.reason === CancellationReason.Error) {
+      const error = new Error(`${event.errorCode}: ${event.errorDetails}`);
 
-      clean();
-    },
-    (error) => {
       deferred.reject(error);
 
-      clean();
-    },
-  );
+      return;
+    }
+
+    deferred.resolve(messages.join(' '));
+  };
+
+  recognizer.startContinuousRecognitionAsync();
 
   return deferred.promise;
 };
