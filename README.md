@@ -65,4 +65,4 @@ Users and the rest of the app's information is being stored into our DB - [Mongo
 - server sends a response that contains content for **Question** / **Answer** / **Transcript**
 - **Transcript** is a pure speech without any kind of transpiling
 - **Questions / Answers** are dedicated types of content (columns) that get generated from our AlgoliaDB (on the basis of previously parsed PDF docs)
-
+- the operation can be interrupted, by pressing `Stop` button
