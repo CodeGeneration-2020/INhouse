@@ -4,11 +4,11 @@
 - [AUTH flow](#Auth)
 - [Dialog](#Dialog)
 - [Files](#Files)
-- [HumanticAPI](#Humantic API)
+- [HumanticAPI](#HumanticAPI)
 - [Metrics](#Metrics)
 - [Parser](#Parser)
-- [SpeechRecognition](#Speech Recognition)
-- [TextAnalyzer](#Text Analyzer)
+- [SpeechRecognition](#SpeechRecognition)
+- [TextAnalyzer](#TextAnalyzer)
 - [User](#User)
 
 ## Auth
