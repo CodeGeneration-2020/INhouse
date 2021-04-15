@@ -54,6 +54,15 @@ Users and the rest of the app's information is being stored into our DB - [Mongo
 - voice-recognition starts working and records users's speech
 - user presses `Stop` button
 - front-end sends the speech to the server
-- server sends a response that contains content for Question / Answer / Transcript
-- Transcript is a pure speech without any kind of transpiling
-- Questions / Answers are dedicated types of content (columns) that get generated from our AlgoliaDB (on the basis of previously parsed PDF docs)
+- server sends a response that contains content for **Question** / **Answer** / **Transcript**
+- **Transcript** is a pure speech without any kind of transpiling
+- **Questions / Answers** are dedicated types of content (columns) that get generated from our AlgoliaDB (on the basis of previously parsed PDF docs)
+
+### Uncontrolled audi-record
+- user presses `Auto record` button
+- voice-recognition starts working and records users's speech
+- after every 15-seconds interval front-end sends the speech to the server
+- server sends a response that contains content for **Question** / **Answer** / **Transcript**
+- **Transcript** is a pure speech without any kind of transpiling
+- **Questions / Answers** are dedicated types of content (columns) that get generated from our AlgoliaDB (on the basis of previously parsed PDF docs)
+
