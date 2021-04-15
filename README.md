@@ -66,3 +66,9 @@ Users and the rest of the app's information is being stored into our DB - [Mongo
 - **Transcript** is a pure speech without any kind of transpiling
 - **Questions / Answers** are dedicated types of content (columns) that get generated from our AlgoliaDB (on the basis of previously parsed PDF docs)
 - the operation can be interrupted, by pressing `Stop` button
+
+### Parsing documents (PDF)
+- user presses `I am a customer` checkbox to enable customer's view
+- user starts uploading his own PDF (front-end sends a payload => to the back-end => back-end sends payload to **Python AI**)
+- Python AI parses the entire PDF and generates Questions / Answers sets on the basis of this document
+- these sets get automatically displayed on the view
