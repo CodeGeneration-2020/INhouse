@@ -11,6 +11,7 @@
 - [TextAnalyzer](#TextAnalyzer)
 - [User](#User)
 - [Visualisation](#Visualisation)
+- [Admin Panel](#admin-panel)
 
 ## Auth
 AUTH procedures are made via [JWT](https://jwt.io/).
@@ -50,6 +51,7 @@ Users and the rest of the app's information is being stored into our DB - [Mongo
 - user receives all the parsed information about a person gradually. The first portion comes instantly, the second one comes after 20 seconds interval
 
 ### Controlled audio-record
+- user (admin) selectes another related user
 - user presses `Start` button
 - voice-recognition starts working and records users's speech
 - user presses `Stop` button
@@ -59,6 +61,7 @@ Users and the rest of the app's information is being stored into our DB - [Mongo
 - **Questions / Answers** are dedicated types of content (columns) that get generated from our AlgoliaDB (on the basis of previously parsed PDF docs)
 
 ### Uncontrolled audi-record
+- user (admin) selectes another related user
 - user presses `Auto record` button
 - voice-recognition starts working and records users's speech
 - after every 15-seconds interval front-end sends the speech to the server
@@ -71,9 +74,13 @@ Users and the rest of the app's information is being stored into our DB - [Mongo
 - user is able to manipulate every piece of text, by removing them
 
 ### Parsing documents (PDF)
+- user (admin) selectes another related user, this info will be related to
 - user presses `I am a customer` checkbox to enable customer's view
 - user starts uploading his own PDF (front-end sends a payload => to the back-end => back-end sends payload to **Python AI**)
 - **Python AI** parses the entire PDF and generates Questions / Answers sets on the basis of this document
 - **Python AI** sends response to the server => server stores the data in the **AlgoliaDB** & sends the response to the front-end
 - these sets get automatically displayed on the view
 - these sets come in handy when a user records an audio file
+
+## Admin Panel
+### Parsing Linkedin profiles
