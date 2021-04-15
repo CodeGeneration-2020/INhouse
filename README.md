@@ -1,5 +1,17 @@
 # INHouse
 
+## App
+- [Visualisation](#Visualisation)
+    - [Parsing Linkedin profiles](#Parsing-Linkedin-profiles)
+    - [Controlled audio-record](#Controlled-audio-record)
+    - [Uncontrolled audio-record](#Uncontrolled-audio-record)
+    - [Additional functionality](#Additional-functionality)
+    - [Parsing documents (PDF)](#Parsing-documents-(PDF))
+- [Admin Panel](#admin-panel)
+    - [User section](#User-section)
+    - [Manual adding sales Questions / Answers](#Manual-adding-sales-Questions-/-Answers)
+    - [Sales Questions / Answers](#Sales-Questions-/-Answers)
+
 ## Backend
 - [AUTH flow](#Auth)
 - [Dialog](#Dialog)
@@ -10,40 +22,8 @@
 - [SpeechRecognition](#SpeechRecognition)
 - [TextAnalyzer](#TextAnalyzer)
 - [User](#User)
-- [Visualisation](#Visualisation)
-- [Admin Panel](#admin-panel)
 
-## Auth
-AUTH procedures are made via [JWT](https://jwt.io/).
-
-## Dialog
-For storing Questions/Answers we use [Algolia](https://www.algolia.com/), for search - [Algolia Answers](https://www.algolia.com/doc/guides/algolia-ai/answers/)
-
-## Files
-For storing files we use [GridFS](https://docs.mongodb.com/manual/core/gridfs/).
-
-## HumanticAPI
-For getting information about a person through Linkedin profile - we use [HumanticAPI](https://humantic.ai/)
-
-## Metrics
-We use metrics for:
-- tracking usage of external API's: [Algolia](#Dialog) and [HumanticAPI](#HumanticAPI)
-- tracking usage of [HumanticAPI](#HumanticAPI), that a user does
-- tracking recorded messages, that were received through [SpeechRecognition](#SpeechRecognition) 
-
-## Parser
-We use Parser for:
-- parsing PDF files
-- parsing questions from recognized message 
-
-## SpeechRecognition
-For speech recognition we use [Microsof Cognitive Services Speech](https://azure.microsoft.com/ru-ru/services/cognitive-services/speech-services/).
-
-## TextAnalyzer
-For text analyze we use API, that makes questions from received text.
-
-## User
-Users and the rest of the app's information is being stored into our DB - [MongoDB](https://www.mongodb.com/).
+# App
 
 ## Visualisation
 ### Parsing Linkedin profiles
@@ -60,7 +40,7 @@ Users and the rest of the app's information is being stored into our DB - [Mongo
 - **Transcript** is a pure speech without any kind of transpiling
 - **Questions / Answers** are dedicated types of content (columns) that get generated from our AlgoliaDB (on the basis of previously parsed PDF docs)
 
-### Uncontrolled audi-record
+### Uncontrolled audio-record
 - user (admin) selectes another related user
 - user presses `Auto record` button
 - voice-recognition starts working and records users's speech
@@ -100,3 +80,38 @@ Users and the rest of the app's information is being stored into our DB - [Mongo
 
 ## Sales Questions / Answers
 - a user is able to see total amount of all the available **Questions / Answers** and their owners
+
+# Backend
+
+## Auth
+AUTH procedures are made via [JWT](https://jwt.io/).
+
+## Dialog
+For storing Questions/Answers we use [Algolia](https://www.algolia.com/), for search - [Algolia Answers](https://www.algolia.com/doc/guides/algolia-ai/answers/)
+
+## Files
+For storing files we use [GridFS](https://docs.mongodb.com/manual/core/gridfs/).
+
+## HumanticAPI
+For getting information about a person through Linkedin profile - we use [HumanticAPI](https://humantic.ai/)
+
+## Metrics
+We use metrics for:
+- tracking usage of external API's: [Algolia](#Dialog) and [HumanticAPI](#HumanticAPI)
+- tracking usage of [HumanticAPI](#HumanticAPI), that a user does
+- tracking recorded messages, that were received through [SpeechRecognition](#SpeechRecognition) 
+
+## Parser
+We use Parser for:
+- parsing PDF files
+- parsing questions from recognized message 
+
+## SpeechRecognition
+For speech recognition we use [Microsof Cognitive Services Speech](https://azure.microsoft.com/ru-ru/services/cognitive-services/speech-services/).
+
+## TextAnalyzer
+For text analyze we use API, that makes questions from received text.
+
+## User
+Users and the rest of the app's information is being stored into our DB - [MongoDB](https://www.mongodb.com/).
+
