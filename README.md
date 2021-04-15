@@ -1,44 +1,44 @@
 # INHouse
 
 ## Backend
-- [Auth](#Auth)
+- [AUTH flow](#Auth)
 - [Dialog](#Dialog)
-- [File](#File)
-- [HumanticAi](#HumanticAi)
-- [Metric](#Metric)
+- [Files](#Files)
+- [Humantic API](#Humantic API)
+- [Metrics](#Metrics)
 - [Parser](#Parser)
-- [SpeechRecognition](#SpeechRecognition)
-- [TextAnalyzer](#TextAnalyzer)
+- [Speech Recognition](#Speech Recognition)
+- [Text Analyzer](#Text Analyzer)
 - [User](#User)
 
 ## Auth
-Авторизация реализована с помощью [JWT](https://jwt.io/).
+AUTH procedures are made via [JWT](https://jwt.io/).
 
 ## Dialog
-Для хранения вопросов/ответов используется [Algolia](https://www.algolia.com/), для поиска - [Algolia Answers](https://www.algolia.com/doc/guides/algolia-ai/answers/)
+For storing Questions/Answers we use [Algolia](https://www.algolia.com/), for search - [Algolia Answers](https://www.algolia.com/doc/guides/algolia-ai/answers/)
 
-## File
-Для хранения файлов используется [GridFS](https://docs.mongodb.com/manual/core/gridfs/)
+## Files
+For storing files we use [GridFS](https://docs.mongodb.com/manual/core/gridfs/).
 
-## HumanticAi
-Для получения информации о человеке по LinkedIn профилю используется [Humantic AI](https://humantic.ai/)
+## Humantic API
+For getting information about a person through Linkedin profile - we use [Humantic API](https://humantic.ai/)
 
-## Metric
-Метрика используется для:
-- Отслеживания вызовов сторонних API: [Algolia](#Dialog) и [HumanticAi](#HumanticAi)
-- Отслеживания вызовов [HumanticAi](#HumanticAi), которые совершил пользователь
-- Отслеживания записанных сообщений, которые были получены через [SpeechRecognition](#SpeechRecognition)
+## Metrics
+We use metrics for:
+- tracking usage of external API's: [Algolia](#Dialog) and [Humantic API](#Humantic API)
+- tracking usage of [Humantic API](#Humantic API), that a user does
+- tracking recorded messages, that were received through [SpeechRecognition](#SpeechRecognition) 
 
 ## Parser
-Используется для:
-- Парсинга PDF файлов
-- Парсинга вопросов из распознанного сообщения 
+We use Parser for:
+- parsing PDF files
+- parsing questions from recognized message 
 
-## SpeechRecognition
-Для распознавания речи используется [Microsof Cognitive Services Speech](https://azure.microsoft.com/ru-ru/services/cognitive-services/speech-services/)
+## Speech Recognition
+For speech recognition we use [Microsof Cognitive Services Speech](https://azure.microsoft.com/ru-ru/services/cognitive-services/speech-services/).
 
-## TextAnalyzer
-Для анализа используется API, которое создаёт вопросы из полученного текста
+## Text Analyzer
+For text analyze we use API, that makes questions from received text.
 
 ## User
-Пользователи и вся прочая информация хранится в базе данных [MongoDB](https://www.mongodb.com/)
+Users and the rest of the app's information is being stored into our DB - [MongoDB](https://www.mongodb.com/).
