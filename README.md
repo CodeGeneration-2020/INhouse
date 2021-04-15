@@ -73,6 +73,7 @@ Users and the rest of the app's information is being stored into our DB - [Mongo
 ### Parsing documents (PDF)
 - user presses `I am a customer` checkbox to enable customer's view
 - user starts uploading his own PDF (front-end sends a payload => to the back-end => back-end sends payload to **Python AI**)
-- Python AI parses the entire PDF and generates Questions / Answers sets on the basis of this document
-- these sets get automatically displayed on the view as well as stored in the AlgoliaDB
+- **Python AI** parses the entire PDF and generates Questions / Answers sets on the basis of this document
+- **Python AI** sends response to the server => server stores the data in the **AlgoliaDB** & sends the response to the front-end
+- these sets get automatically displayed on the view
 - these sets come in handy when a user records an audio file
