@@ -10,6 +10,7 @@
 - [SpeechRecognition](#SpeechRecognition)
 - [TextAnalyzer](#TextAnalyzer)
 - [User](#User)
+- [Visualisation](#Visualisation)
 
 ## Auth
 AUTH procedures are made via [JWT](https://jwt.io/).
@@ -42,3 +43,17 @@ For text analyze we use API, that makes questions from received text.
 
 ## User
 Users and the rest of the app's information is being stored into our DB - [MongoDB](https://www.mongodb.com/).
+
+## Visualisation
+### Parsing Linkedin profiles
+- user puts a person's Linkedin profile into dedicated input
+- user receives all the parsed information about a person gradually. The first portion comes instantly, the second one comes after 20 seconds interval
+
+### Controlled audio-record
+- user presses `Start` button
+- voice-recognition starts working and records users's speech
+- user presses `Stop` button
+- front-end sends the speech to the server
+- server sends a response that contains content for Question / Answer / Transcript
+- Transcript is a pure speech without any kind of transpiling
+- Questions / Answers are dedicated types of content (columns) that get generated from our AlgoliaDB (on the basis of previously parsed PDF docs)
