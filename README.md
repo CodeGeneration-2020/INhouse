@@ -21,12 +21,12 @@ For storing Questions/Answers we use [Algolia](https://www.algolia.com/), for se
 For storing files we use [GridFS](https://docs.mongodb.com/manual/core/gridfs/).
 
 ## HumanticAPI
-For getting information about a person through Linkedin profile - we use [Humantic API](https://humantic.ai/)
+For getting information about a person through Linkedin profile - we use [HumanticAPI](https://humantic.ai/)
 
 ## Metrics
 We use metrics for:
-- tracking usage of external API's: [Algolia](#Dialog) and [Humantic API](#Humantic API)
-- tracking usage of [Humantic API](#Humantic API), that a user does
+- tracking usage of external API's: [Algolia](#Dialog) and [HumanticAPI](#HumanticAPI)
+- tracking usage of [HumanticAPI](#HumanticAPI), that a user does
 - tracking recorded messages, that were received through [SpeechRecognition](#SpeechRecognition) 
 
 ## Parser
