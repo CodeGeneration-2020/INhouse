@@ -83,4 +83,20 @@ Users and the rest of the app's information is being stored into our DB - [Mongo
 - these sets come in handy when a user records an audio file
 
 ## Admin Panel
-### Parsing Linkedin profiles
+### User section
+- a user (admin) is able to search for another users
+- a user is able to remove users
+- a user is able to see related **Humantic API** data by clicking on a particular user
+- a user is able to see total amount of **Algolia** metrics
+- a user is able to see total amount of **Humantic API** metrics
+- a user is able to see total amount of parsed Linkedin profiles
+
+### PRE section
+- a user is able to see total amount of users recored text / their owners / date
+- a user is able to download each recorded text
+
+## Manual adding sales Questions / Answers
+- a user is able to manually generate required **Questions / Answers** with related user and context
+
+## Sales Questions / Answers
+- a user is able to see total amount of all the available **Questions / Answers** and their owners
