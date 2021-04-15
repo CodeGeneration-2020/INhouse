@@ -20,7 +20,7 @@ For storing Questions/Answers we use [Algolia](https://www.algolia.com/), for se
 ## Files
 For storing files we use [GridFS](https://docs.mongodb.com/manual/core/gridfs/).
 
-## Humantic API
+## HumanticAPI
 For getting information about a person through Linkedin profile - we use [Humantic API](https://humantic.ai/)
 
 ## Metrics
@@ -34,10 +34,10 @@ We use Parser for:
 - parsing PDF files
 - parsing questions from recognized message 
 
-## Speech Recognition
+## SpeechRecognition
 For speech recognition we use [Microsof Cognitive Services Speech](https://azure.microsoft.com/ru-ru/services/cognitive-services/speech-services/).
 
-## Text Analyzer
+## TextAnalyzer
 For text analyze we use API, that makes questions from received text.
 
 ## User
