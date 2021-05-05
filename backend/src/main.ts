@@ -36,7 +36,7 @@ const run = async () => {
   const port = configService.get<string>('PORT');
   const address = configService.get<string>('ADDRESS');
 
-  await app.listen(port, address);
+  await app.listenAsync(port, address);
 };
 
 run().catch((error) => {
